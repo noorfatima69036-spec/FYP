@@ -22,24 +22,54 @@ const Home = () => {
     }, [selectedCategory]);
 
     const categories = [
-        { id: 'appetizers', name: 'Appetizers', img: 'pasta.jpeg', count: '5 Items Available' },
+        { id: 'appetizers', name: 'Appetizers', img: 'appet.jpeg', count: '5 Items Available' },
         { id: 'maincourse', name: 'Main Course', img: 'maincourse.jpeg', count: 'Karahi & Handi & more' },
-        { id: 'bbq', name: 'BBQ Specials', img: 'bbq.jpg', count: 'Hot & Spicy Tikka' },
-        { id: 'rice', name: 'Rice & Biryani', img: 'biryani.jpeg', count: 'Long Grain Basmati' },
-        { id: 'karahi', name: 'Special Karahi', img: 'karahi.jpg', count: 'Desi Butter Taste' },
-        { id: 'drinks', name: 'Cold Drinks', img: 'drink.jpg', count: 'Fresh & Chilled' },
-        { id: 'tandoor', name: 'Tandoor', img: 'roti.jpg', count: 'Fresh Naan & Roti' },
+        { id: 'bfm', name: 'Breakfast Menu', img: 'bfm.jpeg', count: 'Fresh & Healthy Morning' },
+        { id: 'rice', name: 'Rice & Biryani', img: 'menubiryani.jpeg', count: 'Long Grain Basmati' },
+        { id: 'deals', name: 'Deals', img: 'deals.jpeg', count: 'Exclusive Bundles for You' },
+        { id: 'drinks', name: 'Drinks', img: 'drink.jpeg', count: 'Fresh & Chilled' },
+        { id: 'extra', name: 'Extras', img: 'extras.jpeg', count: 'Raita, Salad & More' },
         { id: 'desserts', name: 'Desserts', img: 'dessert.jpeg', count: 'Sweet Endings' }
     ];
 
     const categoryDetails = {
         'appetizers': [
-            { id: 1, name: 'Samosa Chat', price: 300, img: 'pasta.jpeg' },
-            { id: 2, name: 'Spring Rolls', price: 370, img: 'pasta.jpeg' },
-            { id: 3, name: 'French Fries', price: 440, img: 'pasta.jpeg' },
-            { id: 4, name: 'Chicken Wings', price: 510, img: 'pasta.jpeg' },
-            { id: 5, name: 'Garlic Bread', price: 580, img: 'pasta.jpeg' },
-        ],
+        { 
+            id: 1, 
+            name: 'Chicken Nuggets', 
+            price: 650, 
+            description: 'Crispy golden bites of tender chicken.', 
+            img: 'nuggets.jpeg' 
+        },
+        { 
+            id: 2, 
+            name: 'Chicken Pakora', 
+            price: 399, 
+            description: 'Juicy chicken pieces coated in spiced gram flour.', 
+            img: 'chikenpkora.jpeg' 
+        },
+        { 
+            id: 3, 
+            name: 'Vegetable Pakora', 
+            price: 299, 
+            description: 'Mixed vegetables dipped in seasoned batter and fried to perfection.', 
+            img: 'vegpakora.jpeg' 
+        },
+        { 
+            id: 4, 
+            name: 'Chicken Spring Rolls', 
+            price: 350, 
+            description: 'Crunchy rolls filled with flavorful chicken and fresh vegetables.', 
+            img: 'roll.jpeg' 
+        },
+        { 
+            id: 5, 
+            name: 'Vegetable Spring Rolls', 
+            price: 300, 
+            description: 'Light and crispy rolls stuffed with seasoned vegetables.', 
+            img: 'vegroll.jpeg' 
+        },
+    ],
         'maincourse': [
             { id: 6, name: 'Chicken Karahi', price: 1200, img: 'maincourse.jpeg' },
             { id: 7, name: 'Mutton Handi', price: 1800, img: 'maincourse.jpeg' },
@@ -47,61 +77,48 @@ const Home = () => {
             { id: 9, name: 'Mix Veg', price: 550, img: 'maincourse.jpeg' },
             { id: 10, name: 'Palak Paneer', price: 700, img: 'maincourse.jpeg' },
         ],
-        'bbq': [
-            { id: 11, name: 'Chicken Tikka', price: 450, img: 'bbq.jpg' },
-            { id: 12, name: 'Seekh Kabab', price: 600, img: 'bbq.jpg' },
-            { id: 13, name: 'Malai Boti', price: 850, img: 'bbq.jpg' },
-            { id: 14, name: 'Reshmi Kabab', price: 900, img: 'bbq.jpg' },
-            { id: 15, name: 'BBQ Platter', price: 2500, img: 'bbq.jpg' },
-        ],
-        'maincourse': [
-            { id: 6, name: 'Chicken Karahi', price: 1200, img: 'maincourse.jpeg' },
-            { id: 7, name: 'Mutton Handi', price: 1800, img: 'maincourse.jpeg' },
-            { id: 8, name: 'Daal Makhni', price: 600, img: 'maincourse.jpeg' },
-            { id: 9, name: 'Mix Veg', price: 550, img: 'maincourse.jpeg' },
-            { id: 10, name: 'Paneer Reshmi', price: 850, img: 'maincourse.jpeg' },
-        ],
-        'bbq': [
-            { id: 11, name: 'Chicken Tikka', price: 450, img: 'bbq.jpg' },
-            { id: 12, name: 'Seekh Kabab', price: 600, img: 'bbq.jpg' },
-            { id: 13, name: 'Malai Boti', price: 800, img: 'bbq.jpg' },
-            { id: 14, name: 'Behari Kabab', price: 900, img: 'bbq.jpg' },
-            { id: 15, name: 'Fish BBQ', price: 1100, img: 'bbq.jpg' },
+        'bfm': [
+            { id: 11, name: 'Paya', price: 500, img: 'paya.jpeg', description:'Traditional slow-cooked trotters with naan' },
+            { id: 12, name: 'Aloo Paratha ', price: 200, img: 'aloparatha.jpeg', description:'Paratha served with Raita' },
+            { id: 13, name: 'Plain Paratha', price: 120, img: 'plainparatha.jpeg',description:'----'},
+            { id: 14, name: 'Anda Paratha ', price: 180, img: 'andaparatha.jpeg', description:'Paratha with omelette' },
+            { id: 15, name: 'Channy Kofty', price: 250, img: 'kofty.jpeg', description:'Traditionally cooked served along meat balls for classic taste' },
         ],
         'rice': [
-            { id: 16, name: 'Chicken Biryani', price: 400, img: 'biryani.jpeg' },
-            { id: 17, name: 'Egg Fried Rice', price: 550, img: 'biryani.jpeg' },
-            { id: 18, name: 'Pulao Kabab', price: 500, img: 'biryani.jpeg' },
-            { id: 19, name: 'Singaporean Rice', price: 850, img: 'biryani.jpeg' },
-            { id: 20, name: 'Masala Rice', price: 350, img: 'biryani.jpeg' },
+            { id: 16, name: 'Chicken Biryani', price: 500, img: 'biryani.jpeg',description: 'A rich and flavorful spiced chicken and layered basmati rice.'},
+            { id: 17, name: 'Egg Fried Rice', price: 550, img: 'eggrice.jpeg',description: 'Basmati rice with scrambled eggs, vegetables, and seasonings.' },
+            { id: 18, name: 'Beef Pulao', price: 500, img: 'beefpulao.jpeg',description: 'Tender beef with aromatic spices and basmati rice for a traditional taste.' },
+            { id: 19, name: 'Mutton Pulao', price: 500, img: 'muttonpulao.jpeg',description: 'Mutton cooked with fragrant rice in mild spices.' },
+            { id: 20, name: 'Chicken Pulao', price: 400, img: 'chikenpulao.jpeg',description: 'Lightly spiced rice cooked with tender chicken.' },
         ],
-        'karahi': [
-            { id: 21, name: 'White Karahi', price: 1400, img: 'karahi.jpg' },
-            { id: 22, name: 'Shinwari Karahi', price: 1500, img: 'karahi.jpg' },
-            { id: 23, name: 'Butter Karahi', price: 1600, img: 'karahi.jpg' },
-            { id: 24, name: 'Desi Murgh', price: 2200, img: 'karahi.jpg' },
-            { id: 25, name: 'Peshawari Karahi', price: 1350, img: 'karahi.jpg' },
+        'deals': [
+            { id: 21, name: 'Single Value Deal', price: 400, img: 'karahi.jpg' ,description:'Chicken Biryani + Raita + Salad + Soft Drink'},
+            { id: 22, name: 'Family Deal', price: 0.00, img: 'karahi.jpg',description:'Chicken Karahi  + Beef Pulao (2 plates) + 4 Naan + Salad + 1.5L Drink' },
+            { id: 23, name: 'Friends Combo', price: 0.00, img: 'karahi.jpg',description:'Chicken Biryani (2 plates) + Chicken Handi (Half) + 3 Naan + Raita' },
+            { id: 24, name: 'Biryani Lover', price: 1100, img: 'karahi.jpg',description:'Chicken Biryani (2 plates) + Raita + Salad + 2 Drinks' },
+            { id: 25, name: 'Economy Deal', price: 500, img: 'karahi.jpg',description:'Chicken Pulao (1 plate) + Raita + Drink(1L)' },
+            { id: 26, name: 'Student Deal', price: 350, img: 'milkshake.jpeg',description:'Egg Fried Rice (Half plate)+ Drink' },
+            { id: 27, name: 'Mini Family Deal', price: 1999, img: 'milkshake.jpeg',description:'Chicken Karahi (Half) + Chicken Biryani (2 plates) + 3 Naan + 1.5L Drink' },
+            { id: 28, name: 'Desi Combo', price: 1299, img: 'milkshake.jpeg',description:'Chicken Qorma + Zeera Rice + 2 Naan + Salad+Raita+1L Drink' },
         ],
         'drinks': [
-            { id: 26, name: 'Pepsi 1.5L', price: 250, img: 'drinks.jpg' },
-            { id: 27, name: 'Fresh Lime', price: 150, img: 'drinks.jpg' },
-            { id: 28, name: 'Mineral Water', price: 80, img: 'drinks.jpg' },
-            { id: 29, name: 'Mint Margarita', price: 350, img: 'drinks.jpg' },
-            { id: 30, name: 'Mango Shake', price: 300, img: 'drinks.jpg' },
+            { id: 29, name: 'Lassi', price: 150, img: 'lassi.jpeg', description: 'Sweet / Salted'},
+            { id: 30, name: 'Cold Drink', price: '70/130/160', img: 'colddrink.jpeg',description:'----'},
+            { id: 31, name: 'Mineral Water', price: '60/120', img: 'water.jpeg',description:'----'},
+            { id: 32, name: 'Tea', price: 200, img: 'tea.jpeg',description:'----'},
+            
         ],
-        'tandoor': [
-            { id: 31, name: 'Rogni Naan', price: 60, img: 'roti.jpg' },
-            { id: 32, name: 'Garlic Naan', price: 100, img: 'roti.jpg' },
-            { id: 33, name: 'Plain Roti', price: 25, img: 'roti.jpg' },
-            { id: 34, name: 'Kulcha', price: 50, img: 'roti.jpg' },
-            { id: 35, name: 'Aloo Naan', price: 150, img: 'roti.jpg' },
+        'extra': [
+            { id: 33, name: 'Tndoori Naan', price: 30, img: 'naan.jpeg',description:'----' },
+            { id: 34, name: 'Chapati/Roti', price: 30, img: 'roti.jpeg',description:'----' },
+            { id: 35, name: 'Raita', price: 50, img: 'raita.jpeg',description:'----' },
+            { id: 36, name: 'Salad', price: 60, img: 'salad.jpeg',description:'----' },
+            { id: 37, name: 'Cold Drink', price: '70/130/170', img: 'colddrink.jpeg',description:'----' },
         ],
         'desserts': [
-            { id: 36, name: 'Gulab Jamun', price: 200, img: 'sweet.jpg' },
-            { id: 37, name: 'Kheer', price: 250, img: 'sweet.jpg' },
-            { id: 38, name: 'Ice Cream', price: 300, img: 'sweet.jpg' },
-            { id: 39, name: 'Gajar Halwa', price: 400, img: 'sweet.jpg' },
-            { id: 40, name: 'Custard', price: 220, img: 'sweet.jpg' },
+            { id: 38, name: 'Gulab Jamun', price: 150, img: 'gulabjamun.jpeg',description:'----' },
+            { id: 39, name: 'Kheer', price: 200, img: 'kheer.jpeg',description:'----' },
+            { id: 40, name: 'Zarda Rice', price: 200, img: 'zarda.jpeg',description:'----' },
         ]
     };
 
@@ -178,6 +195,14 @@ const Home = () => {
                                     <img src={item.img} alt={item.name} />
                                     <h4>{item.name}</h4>
                                     <p>Rs. {item.price}</p>
+
+                                    {/* DESCRIPTION LOGIC: Agar khali hai ya ---- hai to hide ho jaye */}
+                                    {item.description && item.description !== '----' && (
+                                        <p className="description" style={{fontSize: '12px', color: '#666', minHeight: '30px'}}>
+                                            {item.description}
+                                        </p>
+                                    )}
+            
                                     <button className="add-cart-btn">Add to Cart</button>
                                 </div>
                             ))}

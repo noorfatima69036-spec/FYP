@@ -1,18 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Style.css';
+import { useCart } from './CartContext';
 
 const FullMenu = () => {
-    // Ye wahi data hai jo Home mein tha, lekin yahan sab categories ek saath dikhengi
+             const { cartItems, totalPrice, addToCart } = useCart();
+    // This is the same data that was on the Home screen, but here all categories will be shown together.
+
     const fullMenuData = [
         {
             category: "Appetizers",
             items: [
-                { id: 1, name: 'Samosa Chat', price: 300, img: 'pasta.jpeg' },
-                { id: 2, name: 'Spring Rolls', price: 370, img: 'pasta.jpeg' },
-                { id: 3, name: 'French Fries', price: 440, img: 'pasta.jpeg' },
-                { id: 4, name: 'Chicken Wings', price: 510, img: 'pasta.jpeg' },
-                { id: 5, name: 'Garlic Bread', price: 580, img: 'pasta.jpeg' },
+                { id: 1, name: 'Chicken Nuggets', price: 650, img: 'nuggets.jpeg'  },
+                { id: 2, name: 'Chicken Pakora', price: 399, img: 'chikenpkora.jpeg' },
+                { id: 3, name: 'Vegetable Pakora', price: 299, img: 'vegpakora.jpeg' },
+                { id: 4, name: 'Chicken Spring Rolls', price: 350, img: 'roll.jpeg' },
+                { id: 5, name: 'Vegetable Spring Rolls', price: 300, img: 'vegroll.jpeg' },
             ]
         },
         {
@@ -21,16 +24,57 @@ const FullMenu = () => {
                 { id: 6, name: 'Chicken Karahi', price: 1200, img: 'maincourse.jpeg' },
                 { id: 7, name: 'Mutton Handi', price: 1800, img: 'maincourse.jpeg' },
                 { id: 8, name: 'Daal Makhni', price: 600, img: 'maincourse.jpeg' },
+                
             ]
         },
         {
             category: "Rice & Biryani",
             items: [
-                { id: 16, name: 'Chicken Biryani', price: 400, img: 'biryani.jpeg' },
-                { id: 17, name: 'Egg Fried Rice', price: 550, img: 'biryani.jpeg' },
+                { id: 9, name: 'Chicken Biryani', price: 500, img: 'biryani.jpeg' },
+                { id: 10, name: 'Egg Fried Rice', price: 550, img: 'eggrice.jpeg'},
+                { id: 11, name: 'Beef Pulao', price: 500, img: 'beefpulao.jpeg'},
+                { id: 12, name: 'Mutton Pulao', price: 500, img: 'muttonpulao.jpeg'},
+                { id: 13, name: 'Chicken Pulao', price: 400, img: 'chikenpulao.jpeg'},
+            ]
+        },
+        {
+            category: "Breakfast Menu",
+            items: [
+                { id: 14, name: 'Aloo Paratha ', price: 200, img: 'aloparatha.jpeg'},
+                { id: 15, name: 'Plain Paratha', price: 120, img: 'plainparatha.jpeg'},
+                { id: 16, name: 'Anda Paratha ', price: 180, img: 'andaparatha.jpeg'},
+                { id: 17, name: 'Channy Kofty', price: 250, img: 'kofty.jpeg' },
+                { id: 18, name: 'Paya', price: 500, img: 'paya.jpeg'},
+            ]
+        },
+        {
+            category: "Drinks",
+            items: [
+                { id: 19, name: 'Lassi', price: 150, img: 'lassi.jpeg'},
+                { id: 20, name: 'Cold Drink', price: '70/130/160', img: 'colddrink.jpeg'},
+                { id: 21, name: 'Mineral Water', price: '60/120', img: 'water.jpeg'},
+                { id: 22, name: 'Tea', price: 200, img: 'tea.jpeg'},
+            ]
+        },
+        {
+            category: "Extras",
+            items: [
+                { id: 23, name: 'Tndoori Naan', price: 30, img: 'naan.jpeg' },
+                { id: 24, name: 'Chapati/Roti', price: 30, img: 'roti.jpeg' },
+                { id: 25, name: 'Raita', price: 50, img: 'raita.jpeg' },
+                { id: 26, name: 'Salad', price: 60, img: 'salad.jpeg' },
+                { id: 27, name: 'Cold Drink', price: '70/130/170', img: 'colddrink.jpeg' },
+            ]
+        },
+        {
+            category: "Desserts",
+            items: [
+            { id: 28, name: 'Gulab Jamun', price: 150, img: 'gulabjamun.jpeg' },
+            { id: 29, name: 'Kheer', price: 200, img: 'kheer.jpeg' },
+            { id: 30, name: 'Zarda Rice', price: 200, img: 'zarda.jpeg' },
             ]
         }
-        // Aap isi tarah baqi categories (BBQ, Drinks etc.) bhi yahan add kar sakti hain
+        // Add extra items here
     ];
 
     return (
@@ -54,7 +98,11 @@ const FullMenu = () => {
                                     <div className="item-details">
                                         <h4>{item.name}</h4>
                                         <p>Rs. {item.price}</p>
-                                        <button className="add-btn-small">Add to Cart</button>
+
+                                        {/* ---For DESCRIPTION--- */}
+                                        <p className="description">{item.description}</p>
+                                        
+                                        <button className="add-btn-small" onClick={() => addToCart(item)}>Add to Cart</button>
                                     </div>
                                 </div>
                             ))}
@@ -65,8 +113,11 @@ const FullMenu = () => {
 
             {/* Sticky Checkout Bar (Optional: same as home) */}
             <div className="sticky-checkout-bar">
-                <div className="checkout-info">🛒 Items in Cart: 0 | Total: Rs. 0</div>
-                <button className="checkout-btn">CHECKOUT NOW</button>
+                <div className="checkout-info">🛒 Items in Cart: {cartItems.length} | Total: Rs. {totalPrice}</div>
+                {/* wrap button like this */}
+             <Link to="/checkout" style={{ textDecoration: 'none' }}>
+                    <button className="checkout-btn">CHECKOUT NOW</button>
+             </Link>
             </div>
         </div>
     );

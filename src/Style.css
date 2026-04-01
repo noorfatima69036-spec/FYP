@@ -66,6 +66,8 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
     background: white; border-radius: 10px; text-align: center;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;
     border: 1px solid #eee; padding-bottom: 10px; cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 .card-img-container { width: 100%; height: 140px; overflow: hidden; }
 .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
@@ -77,12 +79,22 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 .items-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
 .item-card { 
     background: white; width: 190px; padding: 15px; border-radius: 10px; 
-    text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #eee;
+    text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #eee;transition: all 0.3s ease;
+    
+    /*For  change Layout */
+    display: flex;justify-content: space-between; min-height: 350px;
+    flex-direction: column;
 }
-.item-card img { width: 100%; height: 110px; border-radius: 8px; object-fit: cover; }
-.item-card h4 { margin: 10px 0; color: #333; }
-.item-card p { color: var(--red); font-weight: bold; margin-bottom: 10px; }
-.add-cart-btn { background: var(--mustard); border: none; padding: 7px 15px; border-radius: 4px; color: white; cursor: pointer; }
+
+.item-card img {order: 1; width: 100%; height: 110px; border-radius: 8px; object-fit: cover; }
+.item-card h4 {order: 2; margin: 10px 0; color: #333; }
+.item-card .description { order: 3; margin-bottom: 5px;min-height: 40px;display: flex;align-items: center;justify-content: center; font-size: 13px; }
+.item-card p {order: 4; color: var(--red); font-weight: bold; margin-bottom: 10px; }
+.add-cart-btn {order: 5; background: var(--mustard); border: none; padding: 7px 15px; border-radius: 4px; color: white; cursor: pointer;margin-top: auto;/* Button hamesha bottom par chipka rahega */ }
+.add-cart-btn:hover {
+    background-color: #803300; /* Button dark ho jayega */
+    color: white;
+}
 
 .view-all-container { text-align: center; margin-top: 30px; }
 .view-all-btn { padding: 10px 20px; background: none; border: 1px solid #333; cursor: pointer; font-weight: bold; }
@@ -106,6 +118,18 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
     transform: translateY(-8px); /* Card thora upar uthega */
     box-shadow: 0 10px 20px rgba(0,0,0,0.15); /* Shadow gehri ho jayegi */
     border-color: var(--mustard); /* Border ka rang badal jayega */
+}
+
+.item-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    border-color: var(--mustard);
+    border: 1px solid #a04000;
+    
+}
+.item-card:hover img {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 /* Image par bhi halka sa effect */
@@ -140,13 +164,17 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 
 .back-to-home {
     position: absolute;
-    left: 30px;
-    top: 50%;
+    left: 30px;margin-bottom: 10px;
+    top: 50%;display: inline-block;
     transform: translateY(-50%);
     text-decoration: none;
     color: #a04000;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 14px;transition: transform 0.2s ease;
+}
+.back-to-home:hover {
+    transform: translateX(-5px); /* Arrow peeche move karega */
+    color: #803300;
 }
 
 .full-menu-container {
@@ -174,15 +202,26 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: 0.3s;
+    transition: all 0.3s ease-in-out;
     text-align: center;
     padding-bottom: 15px;
+    cursor: pointer;
+    border: 1px solid transparent;
 }
-
+.menu-item-card:hover {
+    transform: translateY(-10px); /* Card thora upar uthega */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Gehri shadow */
+    border: 1px solid #a04000; /* Mustard border */
+}
+/* Image zoom effect jab card par hover ho */
 .menu-item-card img {
-    width: 100%;
+    transition: transform 0.5s ease;
+     width: 100%;
     height: 150px;
     object-fit: cover;
+}
+.menu-item-card:hover img {
+    transform: scale(1.1); /* Image halki si zoom hogi */
 }
 
 .item-details h4 {
@@ -203,7 +242,11 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
     border-radius: 20px;
     cursor: pointer;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: bold;transition: background-color 0.3s ease;
+}
+.add-btn-small:hover {
+    background-color: #803300; /* Darker brown/mustard */
+    color: white;
 }
 .view-all-container {
     text-align: center;
@@ -223,4 +266,297 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 .view-all-btn:hover {
     background-color: #333;
     color: white;
+}
+/* Description Styling for Menu Cards */
+.item-details p.description {
+    color: #666;              /* Halka grey rang */
+    font-size: 13px;          /* Chota size */
+    font-weight: normal;      /* Bold nahi hoga */
+    margin: 5px 10px 10px;    /* Thora gap */
+    line-height: 1.4;         /* Lines ke darmiyan gap */
+    display: -webkit-box;     /* Text ko 2 lines tak mehdood karne ke liye */
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;         /* Zyada bara text chupa dega */
+}
+
+/* Jab card par hover ho to description ka rang thora wazay ho jaye */
+.menu-item-card:hover .description {
+    color: #333;
+    transition: 0.3s;
+}
+/* Taake price red rahay aur description grey */
+.item-details p.description {
+    color: #666 !important; 
+    font-weight: normal !important;
+}
+
+.item-details p.price-tag {
+    display: block !important;
+    color: var(--red);
+    font-weight: bold;
+    order: 3; /* Description ke baad */
+    margin-bottom: 10px;
+}
+/* Checkout Page Styles */
+.checkout-page {
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.checkout-title {
+    text-align: center;
+    color: #a04000;
+    margin-bottom: 30px;
+}
+
+.checkout-container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.checkout-form-section, .order-summary-section {
+    flex: 1;
+    min-width: 300px;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.checkout-form-section {
+    border: 1px solid #eee;
+}
+
+.order-summary-section {
+    background-color: #fdfaf5; /* Light cream background */
+}
+
+.checkout-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+}
+
+.checkout-input.textarea {
+    height: 100px;
+    resize: none;
+}
+
+.confirm-order-btn {
+    width: 100%;
+    background-color: #a04000;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 15px;
+}
+
+.confirm-order-btn:hover {
+    background-color: #803300;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 15px;
+}
+
+/* Success Message Styling */
+.order-success-container {
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.back-home-btn {
+    display: inline-block;
+    margin-top: 20px;
+    color: #a04000;
+    text-decoration: none;
+    font-weight: bold;
+}
+/* --- Contact Page Styles --- */
+.contact-container {
+    padding: 50px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.back-link {
+    color: #a04000;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.contact-title {
+    color: #a04000;
+    font-size: 2.5rem;
+}
+
+.contact-subtitle {
+    color: #666;
+    margin-bottom: 40px;
+}
+
+/* Info Cards ka Layout (Grid) */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.info-card {
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border: 1px solid #f1f1f1;
+}
+
+/* Contact Form Section */
+.contact-form-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fdfaf5; /* Theme matching light color */
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.contact-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.contact-input.textarea {
+    height: 120px;
+    resize: none;
+}
+
+.send-msg-btn {
+    background-color: #a04000;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.send-msg-btn:hover {
+    background-color: #803300;
+    transform: translateY(-2px);
+}
+/* --- Deals Page Grid Layout --- */
+.deals-page-wrapper {
+    padding: 50px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.deals-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.deals-back-btn {
+    float: left;
+    color: #a04000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* 6. Grid Layout Define: Left par text aur right par images */
+.deals-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Do barabar ke columns */
+    gap: 40px;
+    align-items: start; /* Content ko upar se align karne ke liye */
+}
+
+/* Left Section: Deals List */
+.deals-text-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.deal-text-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid #f1f1f1;
+}
+
+.deal-price {
+    font-weight: bold;
+    color: #a04000;
+    display: block;
+    margin-top: 10px;
+}
+
+.add-deal-btn {
+    background-color: #a04000;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-deal-btn:hover {
+    background-color: #803300;
+}
+
+/* 7. Right Section: Circles (Bilkuk Picture Jaisa) */
+.deals-images-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Do columns circles ke liye */
+    grid-template-rows: repeat(2, 1fr); /* Do rows circles ke liye */
+    gap: 30px;
+    margin-top: -30px; /* Circles ko upar kheenchne ke liye taake wo line se match karen */
+}
+
+.deal-circle-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.deal-circle-pic {
+    width: 200px; /* Circles ka size control karne ke liye */
+    height: 200px;
+    border-radius: 50%; /* Image ko circular banane ke liye */
+    object-fit: cover; /* Image ko crop karne ke liye taake wo square ki bajaye circle mein sahi fit ho */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    border: 5px solid #fff; /* White border taake circle mazeed prominent ho */
 }
