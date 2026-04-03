@@ -82,14 +82,14 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
     text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #eee;transition: all 0.3s ease;
     
     /*For  change Layout */
-    display: flex;justify-content: space-between; min-height: 350px;
+    display: flex;justify-content: flex-start; height: 400px;
     flex-direction: column;
 }
 
-.item-card img {order: 1; width: 100%; height: 110px; border-radius: 8px; object-fit: cover; }
-.item-card h4 {order: 2; margin: 10px 0; color: #333; }
-.item-card .description { order: 3; margin-bottom: 5px;min-height: 40px;display: flex;align-items: center;justify-content: center; font-size: 13px; }
-.item-card p {order: 4; color: var(--red); font-weight: bold; margin-bottom: 10px; }
+.item-card img {order: 1;width: 100%;height: 110px; border-radius: 8px; object-fit: cover;flex-shrink: 0; }
+.item-card h4 {order: 2; margin: 10px 0; min-height: 40px; display: flex; align-items: center; justify-content: center; }
+.item-card .description { order: 3; margin-bottom: 5px;min-height: 40px;display: flex;align-items: center;justify-content: center; font-size: 13px;color: #666; }
+.item-card p {order: 4; color: var(--red); font-weight: bold;margin-top: auto; margin-bottom: 10px; }
 .add-cart-btn {order: 5; background: var(--mustard); border: none; padding: 7px 15px; border-radius: 4px; color: white; cursor: pointer;margin-top: auto;/* Button hamesha bottom par chipka rahega */ }
 .add-cart-btn:hover {
     background-color: #803300; /* Button dark ho jayega */
@@ -136,15 +136,6 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 .category-card:hover img {
     transform: scale(1.05); /* Image halki si zoom hogi */
     transition: transform 0.3s ease;
-}
-
-
-/* Sticky Bottom Bar */
-.sticky-checkout-bar {
-    position: fixed; bottom: 0; left: 0; width: 100%;
-    background: #a04000; padding: 15px 60px;
-    display: flex; justify-content: space-between; align-items: center;
-    z-index: 1000; box-sizing: border-box; color: white;
 }
 
 /* Full Menu Page Styling */
@@ -473,90 +464,229 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
     background-color: #803300;
     transform: translateY(-2px);
 }
-/* --- Deals Page Grid Layout --- */
-.deals-page-wrapper {
-    padding: 50px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+/* Main Page Container */
+.deals-page-container {
+    padding: 60px 10%;
+    background-color: #fffaf5;
+    min-height: 100vh;
 }
 
-.deals-header {
+.deals-header-section {
     text-align: center;
+    position: relative;
     margin-bottom: 50px;
 }
 
-.deals-back-btn {
-    float: left;
+.back-home-link {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    text-decoration: none;
     color: #a04000;
     font-weight: bold;
-    text-decoration: none;
 }
 
-/* 6. Grid Layout Define: Left par text aur right par images */
-.deals-grid-layout {
+.deals-main-title {
+    color: #a04000;
+    font-size: 2.2rem;
+    border-bottom: 3px solid #e9c46a; /* Mustard underline */
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+/* Split Layout */
+.deals-split-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Do barabar ke columns */
+    grid-template-columns: 1.2fr 0.8fr; /* Text area thora bara rakha hai */
     gap: 40px;
-    align-items: start; /* Content ko upar se align karne ke liye */
+    align-items: start;
 }
 
-/* Left Section: Deals List */
-.deals-text-section {
+/* Left Column Styling */
+.deals-list-column {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
 }
 
-.deal-text-card {
-    background: #fff;
-    padding: 20px;
+.deal-list-item {
+    background: white;
+    padding: 25px;
+    margin-bottom: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border: 1px solid #f1f1f1;
+    display: flex;
+    flex-direction: column; /* Is se cheezain aik ke niche aik aayengi */
+    align-items: flex-start; /* Sab kuch left side par align rahe */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-left: 6px solid #e9c46a; 
+    transition: 0.3s;
+}
+/* Text content ke darmiyan gaps barhane ke liye */
+
+
+.deal-list-item:hover {
+    transform: scale(1.02);
+    border-left-color: #a04000; /* Hover par red/brown ho jaye */
 }
 
-.deal-price {
-    font-weight: bold;
+.deal-text-content h3 { margin: 0 0 5px 0; color: #333; }
+.deal-text-content p { font-size: 14px; color: #666; margin-bottom: 10px; }
+
+/* Add to Cart Button (Mustard Theme) */
+.home-style-btn {
+    background-color: #e9c46a; /* Mustard */
     color: #a04000;
-    display: block;
-    margin-top: 10px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    white-space: nowrap;
 }
 
-.add-deal-btn {
+.home-style-btn:hover {
     background-color: #a04000;
     color: white;
-    padding: 8px 15px;
+}
+
+.price-tag {
+    display: block;
+    font-weight: bold;
+    color: #a04000;
+    margin: 10px 0;
+}
+
+/* Right Column Zig-Zag Styling */
+.deals-zigzag-images-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.image-wrapper {
+    display: flex;
+    width: 100%;
+}
+
+/* Zig-Zag Logic: Aik left par aur aik right par */
+.move-left {
+    justify-content: flex-start;
+}
+
+.move-right {
+    justify-content: flex-end;
+}
+
+.deal-circle-img {
+    width: 160px; /* Thora size chota kiya taake zig-zag wazay ho */
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid white;
+    outline: 3px solid #e9c46a; /* Mustard outline */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.add-btn {
+    background: #a04000;
+    color: white;
     border: none;
-    border-radius: 20px;
-    margin-top: 15px;
+    padding: 8px 15px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s;
 }
-
-.add-deal-btn:hover {
-    background-color: #803300;
-}
-
-/* 7. Right Section: Circles (Bilkuk Picture Jaisa) */
-.deals-images-section {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Do columns circles ke liye */
-    grid-template-rows: repeat(2, 1fr); /* Do rows circles ke liye */
-    gap: 30px;
-    margin-top: -30px; /* Circles ko upar kheenchne ke liye taake wo line se match karen */
-}
-
-.deal-circle-wrapper {
+/* Signup,Login, ForgotPassword  Styling */
+.auth-container {
+    background-color: #666; /* Gray background jaisa login image mein hai */
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
-.deal-circle-pic {
-    width: 200px; /* Circles ka size control karne ke liye */
-    height: 200px;
-    border-radius: 50%; /* Image ko circular banane ke liye */
-    object-fit: cover; /* Image ko crop karne ke liye taake wo square ki bajaye circle mein sahi fit ho */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    border: 5px solid #fff; /* White border taake circle mazeed prominent ho */
+.auth-form {
+    background: white;
+    width: 360px;
+    padding: 35px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.auth-form h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+/* Input Fields Styling */
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box; /* Padding ko manage karne ke liye */
+    font-size: 15px;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #a04000;
+}
+
+/* Signup/Login Button Styling */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #a04000; /* Dastr-Khwan Brown/Red color */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+.auth-btn:hover {
+    background-color: #803300;
+}
+
+/* Bottom Text Link */
+.auth-form p {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.auth-form p a {
+    color: #a04000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-form p a:hover {
+    text-decoration: underline;
 }

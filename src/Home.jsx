@@ -71,54 +71,56 @@ const Home = () => {
         },
     ],
         'maincourse': [
-            { id: 6, name: 'Chicken Karahi', price: 1200, img: 'maincourse.jpeg' },
-            { id: 7, name: 'Mutton Handi', price: 1800, img: 'maincourse.jpeg' },
-            { id: 8, name: 'Daal Makhni', price: 600, img: 'maincourse.jpeg' },
-            { id: 9, name: 'Mix Veg', price: 550, img: 'maincourse.jpeg' },
-            { id: 10, name: 'Palak Paneer', price: 700, img: 'maincourse.jpeg' },
+            { id: 6, name: 'Chicken Karahi(per kg.)', price: '800/1600', img: 'chikenkarahi.jpeg',description:' Chicken cooked with tomatoes, green chilies, ginger, and spices' },
+            { id: 7, name: 'Mutton Karahi (per kg.)', price: '2750/4500', img: 'muttonkarahi.jpeg',description:'Same style but with mutton (more rich and tender' },
+            { id: 8, name: 'Beef Karahi (per kg.)', price: '1500/3000', img: 'beefkarahi.jpeg',description:'Same style but with beef(more rich and tender) ' },
+            { id: 9, name: ' White Karahi (per kg.)', price: '900/1800', img: 'whitekarahi.jpeg',description:'Creamy version without tomatoes' },
+            { id: 10, name: 'Butter Chicken (per kg.)', price: '950/1900', img: 'butterchiken.jpeg',description:'Creamy, mildly spiced tomato-based curry ' },
+            { id: 11, name: 'Chicken Korma (per kg.)', price: '900/1800', img: 'chikenkorma.jpeg',description:' Rich, nutty gravy with yogurt and spices ' },
+            { id: 12, name: 'DALEEM', price: 300, img: 'daleem.jpeg',description:'Thick, blended dish of meat, lentils, and wheat' },
         ],
         'bfm': [
-            { id: 11, name: 'Paya', price: 500, img: 'paya.jpeg', description:'Traditional slow-cooked trotters with naan' },
-            { id: 12, name: 'Aloo Paratha ', price: 200, img: 'aloparatha.jpeg', description:'Paratha served with Raita' },
-            { id: 13, name: 'Plain Paratha', price: 120, img: 'plainparatha.jpeg',description:'----'},
-            { id: 14, name: 'Anda Paratha ', price: 180, img: 'andaparatha.jpeg', description:'Paratha with omelette' },
-            { id: 15, name: 'Channy Kofty', price: 250, img: 'kofty.jpeg', description:'Traditionally cooked served along meat balls for classic taste' },
+            { id: 13, name: 'Paya', price: 500, img: 'paya.jpeg', description:'Traditional slow-cooked trotters with naan' },
+            { id: 14, name: 'Aloo Paratha ', price: 200, img: 'aloparatha.jpeg', description:'Paratha served with Raita' },
+            { id: 15, name: 'Plain Paratha', price: 120, img: 'plainparatha.jpeg',description:'---------'},
+            { id: 16, name: 'Anda Paratha ', price: 180, img: 'andaparatha.jpeg', description:'Paratha with omelette' },
+            { id: 17, name: 'Channy Kofty', price: 250, img: 'kofty.jpeg', description:'Traditionally cooked served along meat balls for classic taste' },
         ],
         'rice': [
-            { id: 16, name: 'Chicken Biryani', price: 500, img: 'biryani.jpeg',description: 'A rich and flavorful spiced chicken and layered basmati rice.'},
-            { id: 17, name: 'Egg Fried Rice', price: 550, img: 'eggrice.jpeg',description: 'Basmati rice with scrambled eggs, vegetables, and seasonings.' },
-            { id: 18, name: 'Beef Pulao', price: 500, img: 'beefpulao.jpeg',description: 'Tender beef with aromatic spices and basmati rice for a traditional taste.' },
-            { id: 19, name: 'Mutton Pulao', price: 500, img: 'muttonpulao.jpeg',description: 'Mutton cooked with fragrant rice in mild spices.' },
-            { id: 20, name: 'Chicken Pulao', price: 400, img: 'chikenpulao.jpeg',description: 'Lightly spiced rice cooked with tender chicken.' },
+            { id: 18, name: 'Chicken Biryani', price: 500, img: 'biryani.jpeg',description: 'A rich and flavorful spiced chicken and layered basmati rice.'},
+            { id: 19, name: 'Egg Fried Rice', price: 550, img: 'eggrice.jpeg',description: 'Basmati rice with scrambled eggs, vegetables, and seasonings.' },
+            { id: 20, name: 'Beef Pulao', price: 500, img: 'beefpulao.jpeg',description: 'Tender beef with aromatic spices and basmati rice for a traditional taste.' },
+            { id: 21, name: 'Mutton Pulao', price: 500, img: 'muttonpulao.jpeg',description: 'Mutton cooked with fragrant rice in mild spices.' },
+            { id: 22, name: 'Chicken Pulao', price: 400, img: 'chikenpulao.jpeg',description: 'Lightly spiced rice cooked with tender chicken.' },
         ],
         'deals': [
-            { id: 21, name: 'Single Value Deal', price: 400, img: 'karahi.jpg' ,description:'Chicken Biryani + Raita + Salad + Soft Drink'},
-            { id: 22, name: 'Family Deal', price: 0.00, img: 'karahi.jpg',description:'Chicken Karahi  + Beef Pulao (2 plates) + 4 Naan + Salad + 1.5L Drink' },
-            { id: 23, name: 'Friends Combo', price: 0.00, img: 'karahi.jpg',description:'Chicken Biryani (2 plates) + Chicken Handi (Half) + 3 Naan + Raita' },
-            { id: 24, name: 'Biryani Lover', price: 1100, img: 'karahi.jpg',description:'Chicken Biryani (2 plates) + Raita + Salad + 2 Drinks' },
-            { id: 25, name: 'Economy Deal', price: 500, img: 'karahi.jpg',description:'Chicken Pulao (1 plate) + Raita + Drink(1L)' },
-            { id: 26, name: 'Student Deal', price: 350, img: 'milkshake.jpeg',description:'Egg Fried Rice (Half plate)+ Drink' },
-            { id: 27, name: 'Mini Family Deal', price: 1999, img: 'milkshake.jpeg',description:'Chicken Karahi (Half) + Chicken Biryani (2 plates) + 3 Naan + 1.5L Drink' },
-            { id: 28, name: 'Desi Combo', price: 1299, img: 'milkshake.jpeg',description:'Chicken Qorma + Zeera Rice + 2 Naan + Salad+Raita+1L Drink' },
+            { id: 23, name: 'Single Value Deal', price: 400, img: 'deal1.jpeg' ,description:'Chicken Biryani + Raita + Salad + Soft Drink'},
+            { id: 24, name: 'Family Deal', price: 2800, img: 'deal2.jpeg',description:'Chicken Karahi  + Beef Pulao (2 plates) + 4 Naan + Salad + 1.5L Drink' },
+            { id: 25, name: 'Friends Combo', price: 1100, img: 'deal3.jpeg',description:'Chicken Biryani (2 plates) + Chicken Handi (Half) + 3 Naan + Raita' },
+            { id: 26, name: 'Biryani Lover', price: 1100, img: 'deal4.jpeg',description:'Chicken Biryani (2 plates) + Raita + Salad + 2 Drinks' },
+            { id: 27, name: 'Economy Deal', price: 500, img: 'deal5.jpeg',description:'Chicken Pulao (1 plate) + Raita + Drink(1L)' },
+            { id: 28, name: 'Student Deal', price: 350, img: 'deal6.jpeg',description:'Egg Fried Rice (Half plate)+ Drink' },
+            { id: 29, name: 'Mini Family Deal', price: 1999, img: 'deal7.jpeg',description:'Chicken Karahi (Half) + Chicken Biryani (2 plates) + 3 Naan + 1.5L Drink' },
+            { id: 30, name: 'Desi Combo', price: 2400, img: 'deal8.jpeg',description:'Chicken Qorma + Zeera Rice + 2 Naan + Salad+Raita+1L Drink' },
         ],
         'drinks': [
-            { id: 29, name: 'Lassi', price: 150, img: 'lassi.jpeg', description: 'Sweet / Salted'},
-            { id: 30, name: 'Cold Drink', price: '70/130/160', img: 'colddrink.jpeg',description:'----'},
-            { id: 31, name: 'Mineral Water', price: '60/120', img: 'water.jpeg',description:'----'},
-            { id: 32, name: 'Tea', price: 200, img: 'tea.jpeg',description:'----'},
+            { id: 31, name: 'Lassi', price: 150, img: 'lassi.jpeg', description: 'Sweet / Salted'},
+            { id: 32, name: 'Cold Drink', price: '70/130/160', img: 'colddrink.jpeg',description:'----'},
+            { id: 33, name: 'Mineral Water', price: '60/120', img: 'water.jpeg',description:'----'},
+            { id: 34, name: 'Tea', price: 200, img: 'tea.jpeg',description:'----'},
             
         ],
         'extra': [
-            { id: 33, name: 'Tndoori Naan', price: 30, img: 'naan.jpeg',description:'----' },
-            { id: 34, name: 'Chapati/Roti', price: 30, img: 'roti.jpeg',description:'----' },
-            { id: 35, name: 'Raita', price: 50, img: 'raita.jpeg',description:'----' },
-            { id: 36, name: 'Salad', price: 60, img: 'salad.jpeg',description:'----' },
-            { id: 37, name: 'Cold Drink', price: '70/130/170', img: 'colddrink.jpeg',description:'----' },
+            { id: 35, name: 'Tndoori Naan', price: 30, img: 'naan.jpeg',description:'----' },
+            { id: 36, name: 'Chapati/Roti', price: 30, img: 'roti.jpeg',description:'----' },
+            { id: 37, name: 'Raita', price: 50, img: 'raita.jpeg',description:'----' },
+            { id: 38, name: 'Salad', price: 60, img: 'salad.jpeg',description:'----' },
+            { id: 39, name: 'Cold Drink', price: '70/130/170', img: 'colddrink.jpeg',description:'----' },
         ],
         'desserts': [
-            { id: 38, name: 'Gulab Jamun', price: 150, img: 'gulabjamun.jpeg',description:'----' },
-            { id: 39, name: 'Kheer', price: 200, img: 'kheer.jpeg',description:'----' },
-            { id: 40, name: 'Zarda Rice', price: 200, img: 'zarda.jpeg',description:'----' },
+            { id: 40, name: 'Gulab Jamun', price: 150, img: 'gulabjamun.jpeg',description:'----' },
+            { id: 41, name: 'Kheer', price: 200, img: 'kheer.jpeg',description:'----' },
+            { id: 42, name: 'Zarda Rice', price: 200, img: 'zarda.jpeg',description:'----' },
         ]
     };
 
@@ -161,11 +163,13 @@ const Home = () => {
 
             <header className="slider-container">
                 <div className="slides">
-                    <div className="slide"><img src="ss1.jpeg" alt="S1" /></div>
+                    <div className="slide"><img src="s1.jpeg" alt="S1" /></div>
                     <div className="slide"><img src="s2.jpeg" alt="S2" /></div>
-                    <div className="slide"><img src="ss3.jpeg" alt="S3" /></div>
-                    <div className="slide"><img src="ss4.jpeg" alt="S4" /></div>
-                    <div className="slide"><img src="ss1.jpeg" alt="S1" /></div>
+                    <div className="slide"><img src="s3.jpeg" alt="S3" /></div>
+                    <div className="slide"><img src="s4.jpeg" alt="S4" /></div>
+                    <div className="slide"><img src="s5.jpeg" alt="S1" /></div>
+                    <div className="slide"><img src="s6.jpeg" alt="S1" /></div>
+                    <div className="slide"><img src="s7.jpeg" alt="S1" /></div>
                 </div>
             </header>
 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './Style.css'; // Wahi main CSS file link karein
 
 const ForgotPassword = () => {
     const [step, setStep] = useState(1);
-    const [otp, setOtp] = useState('');
     const navigate = useNavigate();
 
     const sendOTP = () => {
@@ -13,22 +13,49 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div style={{background:'rgba(0,0,0,0.7)', height:'100vh', display:'flex', justifyContent:'center', alignItems:'center'}}>
-            <div className="popup" style={{width:'360px', background:'#fff', padding:'30px', borderRadius:'15px', textAlign:'center'}}>
+        <div className="auth-container">
+            <div className="auth-form">
                 <h2>Forgot Password</h2>
+                
                 {step === 1 ? (
                     <div>
-                        <p>Enter email to get OTP</p>
-                        <input type="email" placeholder="Email" style={{width:'100%', padding:'12px', margin:'10px 0'}} />
-                        <button onClick={sendOTP} style={{width:'100%', padding:'12px', background:'#000', color:'#fff'}}>Send OTP</button>
+                        <p style={{marginBottom: '15px', color: '#666', fontSize: '14px'}}>
+                            Enter email to get OTP
+                        </p>
+                        <div className="input-group">
+                            <label>Email Address</label>
+                            <input 
+                                type="email" 
+                                placeholder="Enter email" 
+                                required 
+                            />
+                        </div>
+                        <button onClick={sendOTP} className="auth-btn">
+                            SEND OTP
+                        </button>
                     </div>
                 ) : (
                     <div>
-                        <input type="text" placeholder="Enter OTP" style={{width:'100%', padding:'12px', margin:'10px 0'}} />
-                        <button onClick={() => navigate('/')} style={{width:'100%', padding:'12px', background:'#000', color:'#fff'}}>Verify & Home</button>
+                        <p style={{marginBottom: '15px', color: '#666', fontSize: '14px'}}>
+                            OTP has been sent to your email
+                        </p>
+                        <div className="input-group">
+                            <label>Enter OTP</label>
+                            <input 
+                                type="text" 
+                                placeholder="6-digit code" 
+                                required 
+                            />
+                        </div>
+                        <button onClick={() => navigate('/')} className="auth-btn">
+                            VERIFY & HOME
+                        </button>
                     </div>
                 )}
-                <Link to="/login" style={{display:'block', marginTop:'20px', color:'#000', fontWeight:'bold'}}>Back to Login</Link>
+
+                <p className="auth-switch">
+                    Remember your password? <Link to="/">Login here</Link>
+                </p>
             </div>
         </div>
     );

@@ -21,57 +21,60 @@ const FullMenu = () => {
         {
             category: "Main Course",
             items: [
-                { id: 6, name: 'Chicken Karahi', price: 1200, img: 'maincourse.jpeg' },
-                { id: 7, name: 'Mutton Handi', price: 1800, img: 'maincourse.jpeg' },
-                { id: 8, name: 'Daal Makhni', price: 600, img: 'maincourse.jpeg' },
+                { id: 6, name: 'Chicken Karahi(per kg.)', price: '800/1600', img: 'chikenkarahi.jpeg'},
+            { id: 7, name: 'Mutton Karahi (per kg.)', price: '2750/4500', img: 'muttonkarahi.jpeg'},
+            { id: 8, name: 'Beef Karahi (per kg.)', price: '1500/3000', img: 'beefkarahi.jpeg'},
+            { id: 9, name: ' White Karahi (per kg.)', price: '900/1800', img: 'whitekarahi.jpeg'},
+            { id: 10, name: 'Butter Chicken (per kg.)', price: '950/1900', img: 'butterchiken.jpeg'},
                 
             ]
         },
         {
             category: "Rice & Biryani",
             items: [
-                { id: 9, name: 'Chicken Biryani', price: 500, img: 'biryani.jpeg' },
-                { id: 10, name: 'Egg Fried Rice', price: 550, img: 'eggrice.jpeg'},
-                { id: 11, name: 'Beef Pulao', price: 500, img: 'beefpulao.jpeg'},
-                { id: 12, name: 'Mutton Pulao', price: 500, img: 'muttonpulao.jpeg'},
-                { id: 13, name: 'Chicken Pulao', price: 400, img: 'chikenpulao.jpeg'},
-            ]
-        },
-        {
-            category: "Breakfast Menu",
-            items: [
-                { id: 14, name: 'Aloo Paratha ', price: 200, img: 'aloparatha.jpeg'},
-                { id: 15, name: 'Plain Paratha', price: 120, img: 'plainparatha.jpeg'},
-                { id: 16, name: 'Anda Paratha ', price: 180, img: 'andaparatha.jpeg'},
-                { id: 17, name: 'Channy Kofty', price: 250, img: 'kofty.jpeg' },
-                { id: 18, name: 'Paya', price: 500, img: 'paya.jpeg'},
+                { id: 11, name: 'Chicken Biryani', price: 500, img: 'biryani.jpeg' },
+                { id: 12, name: 'Egg Fried Rice', price: 550, img: 'eggrice.jpeg'},
+                { id: 13, name: 'Beef Pulao', price: 500, img: 'beefpulao.jpeg'},
+                { id: 14, name: 'Mutton Pulao', price: 500, img: 'muttonpulao.jpeg'},
+                { id: 15, name: 'Chicken Pulao', price: 400, img: 'chikenpulao.jpeg'},
             ]
         },
         {
             category: "Drinks",
             items: [
-                { id: 19, name: 'Lassi', price: 150, img: 'lassi.jpeg'},
-                { id: 20, name: 'Cold Drink', price: '70/130/160', img: 'colddrink.jpeg'},
-                { id: 21, name: 'Mineral Water', price: '60/120', img: 'water.jpeg'},
-                { id: 22, name: 'Tea', price: 200, img: 'tea.jpeg'},
+                { id: 16, name: 'Lassi', price: 150, img: 'lassi.jpeg'},
+                { id: 17, name: 'Cold Drink', price: '70/130/160', img: 'colddrink.jpeg'},
+                { id: 18, name: 'Mineral Water', price: '60/120', img: 'water.jpeg'},
+                { id: 19, name: 'Tea', price: 200, img: 'tea.jpeg'},
+                { id: 20, name: 'Mango Shake', price: 350, img: 'mango.jpeg'},
+            ]
+        },
+        {
+            category: "Breakfast Menu",
+            items: [
+                { id: 21, name: 'Aloo Paratha ', price: 200, img: 'aloparatha.jpeg'},
+                { id: 22, name: 'Plain Paratha', price: 120, img: 'plainparatha.jpeg'},
+                { id: 23, name: 'Anda Paratha ', price: 180, img: 'andaparatha.jpeg'},
+                { id: 24, name: 'Channy Kofty', price: 250, img: 'kofty.jpeg' },
+                { id: 25, name: 'Paya', price: 500, img: 'paya.jpeg'},
             ]
         },
         {
             category: "Extras",
             items: [
-                { id: 23, name: 'Tndoori Naan', price: 30, img: 'naan.jpeg' },
-                { id: 24, name: 'Chapati/Roti', price: 30, img: 'roti.jpeg' },
-                { id: 25, name: 'Raita', price: 50, img: 'raita.jpeg' },
-                { id: 26, name: 'Salad', price: 60, img: 'salad.jpeg' },
-                { id: 27, name: 'Cold Drink', price: '70/130/170', img: 'colddrink.jpeg' },
+                { id: 26, name: 'Tndoori Naan', price: 30, img: 'naan.jpeg' },
+                { id: 27, name: 'Chapati/Roti', price: 30, img: 'roti.jpeg' },
+                { id: 28, name: 'Raita', price: 50, img: 'raita.jpeg' },
+                { id: 29, name: 'Salad', price: 60, img: 'salad.jpeg' },
+                { id: 30, name: 'Cold Drink', price: '70/130/170', img: 'colddrink.jpeg' },
             ]
         },
         {
             category: "Desserts",
             items: [
-            { id: 28, name: 'Gulab Jamun', price: 150, img: 'gulabjamun.jpeg' },
-            { id: 29, name: 'Kheer', price: 200, img: 'kheer.jpeg' },
-            { id: 30, name: 'Zarda Rice', price: 200, img: 'zarda.jpeg' },
+            { id: 31, name: 'Gulab Jamun', price: 150, img: 'gulabjamun.jpeg' },
+            { id: 32, name: 'Kheer', price: 200, img: 'kheer.jpeg' },
+            { id: 33, name: 'Zarda Rice', price: 200, img: 'zarda.jpeg' },
             ]
         }
         // Add extra items here
