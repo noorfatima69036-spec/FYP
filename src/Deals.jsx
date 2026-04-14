@@ -1,10 +1,22 @@
 import React from 'react';
 import { useCart } from './CartContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Style.css';
 
 const Deals = () => {
-    const { addToCart } = useCart();
+    const { addToCart, cartItems, totalPrice } = useCart();
+    const navigate = useNavigate();
+
+const handleDealAdd = (deal) => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+        console.log("Is User Logged In?", isLoggedIn);
+        if (isLoggedIn === 'true') {
+            addToCart(deal); 
+        } else {
+            alert("Please login first! You cannot place an order without logging in.");
+            navigate('/login');
+        }
+};
 
     const dealsData = [
         { id: 101, name: "Deal 1: Single Value Deal", price: 499, description: "Chicken Biryani + Raita + Salad + Soft Drink", img: "/deal1.jpeg" },
@@ -34,10 +46,9 @@ const Deals = () => {
                             <p>{deal.description}</p>
                             <span className="price-tag">Rs. {deal.price}</span>
                             <button 
-                                onClick={() => {
-                                    addToCart(deal);
-                                    alert(`${deal.name} added to cart!`); // Feedback ke liye
-                                }} 
+                                onClick={() => 
+                                    handleDealAdd(deal) // Feedback ke liye
+                                }
                                 className="home-style-btn"
                             >
                                 Add to Cart
@@ -54,8 +65,19 @@ const Deals = () => {
                         </div>
                     ))}
                 </div>
+                </div>
+        <div className="sticky-checkout-bar">
+                <div className="checkout-info">
+                    🛒 Items: {cartItems.length} | Total: Rs. {totalPrice}
+                </div>
+                <button className="checkout-btn" onClick={() => navigate('/checkout')}>
+                    CHECKOUT NOW
+                </button>
             </div>
-        </div>
+            </div>
+            
+
+        
     );
 };
 

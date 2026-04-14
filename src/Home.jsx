@@ -1,25 +1,57 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useCart } from './CartContext'; // Cart context import karein
 import './Style.css';
 
 const Home = () => {
-    const [showModal, setShowModal] = useState(true);
+    // For chacking localStorage
+    const [showModal, setShowModal] = useState(false);
+
+
     const [selectedCategory, setSelectedCategory] = useState(null);
     const itemsRef = useRef(null); // Scroll karne ke liye ref
     const navigate = useNavigate();
+    
+    // --- YE LINE ADD KAREIN ---
+    const { addToCart, cartItems, totalPrice } = useCart(); 
+
+    const handleAddToCart = (item) => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        console.log("Is User Logged In?", isLoggedIn);
+        if (isLoggedIn === 'true') {
+            addToCart(item); 
+        } else {
+            alert("Please login first! You cannot place an order without logging in.");
+            navigate('/login');
+        }
+};
 
     // Jab user "Confirm & Continue" dabaye to ye function chalay ga
     const handleConfirm = () => {
-        alert("Preferences saved. Welcome to Dastr-Khwan!"); // Ye wahi alert hai jo aapne screenshot mein dikhaya
-        setShowModal(false); // Alert ke baad modal band ho jaye ga
+        localStorage.setItem('orderTypeSelected', 'true');
+        setShowModal(false);// after alert the model close
+        alert("Preferences saved. Welcome to Dastr-Khwan!"); 
+        
+         
     };
 
-    // Jaise hi category select ho, niche scroll kar jaye
+    // when categories are selected ,scroll down
     useEffect(() => {
-        if (selectedCategory && itemsRef.current) {
-            itemsRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [selectedCategory]);
+    const isSelected = localStorage.getItem('orderTypeSelected') === 'true';
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    // Modal logic
+    if (isLoggedIn && !isSelected) {
+        setShowModal(true);
+    } else {
+        setShowModal(false);
+    }
+
+    // Scroll logic (jo aapka pehle se tha)
+    if (selectedCategory && itemsRef.current) {
+        itemsRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+}, [selectedCategory]);
 
     const categories = [
         { id: 'appetizers', name: 'Appetizers', img: 'appet.jpeg', count: '5 Items Available' },
@@ -71,12 +103,12 @@ const Home = () => {
         },
     ],
         'maincourse': [
-            { id: 6, name: 'Chicken Karahi(per kg.)', price: '800/1600', img: 'chikenkarahi.jpeg',description:' Chicken cooked with tomatoes, green chilies, ginger, and spices' },
-            { id: 7, name: 'Mutton Karahi (per kg.)', price: '2750/4500', img: 'muttonkarahi.jpeg',description:'Same style but with mutton (more rich and tender' },
-            { id: 8, name: 'Beef Karahi (per kg.)', price: '1500/3000', img: 'beefkarahi.jpeg',description:'Same style but with beef(more rich and tender) ' },
-            { id: 9, name: ' White Karahi (per kg.)', price: '900/1800', img: 'whitekarahi.jpeg',description:'Creamy version without tomatoes' },
-            { id: 10, name: 'Butter Chicken (per kg.)', price: '950/1900', img: 'butterchiken.jpeg',description:'Creamy, mildly spiced tomato-based curry ' },
-            { id: 11, name: 'Chicken Korma (per kg.)', price: '900/1800', img: 'chikenkorma.jpeg',description:' Rich, nutty gravy with yogurt and spices ' },
+            { id: 6, name: 'Chicken Karahi(per kg.)', price: 800, img: 'chikenkarahi.jpeg',description:' Chicken cooked with tomatoes, green chilies, ginger, and spices' },
+            { id: 7, name: 'Mutton Karahi (per kg.)', price: 2750, img: 'muttonkarahi.jpeg',description:'Same style but with mutton (more rich and tender' },
+            { id: 8, name: 'Beef Karahi (per kg.)', price: 1500, img: 'beefkarahi.jpeg',description:'Same style but with beef(more rich and tender) ' },
+            { id: 9, name: ' White Karahi (per kg.)', price: 900, img: 'whitekarahi.jpeg',description:'Creamy version without tomatoes' },
+            { id: 10, name: 'Butter Chicken (per kg.)', price: 950, img: 'butterchiken.jpeg',description:'Creamy, mildly spiced tomato-based curry ' },
+            { id: 11, name: 'Chicken Korma (per kg.)', price: 900, img: 'chikenkorma.jpeg',description:' Rich, nutty gravy with yogurt and spices ' },
             { id: 12, name: 'DALEEM', price: 300, img: 'daleem.jpeg',description:'Thick, blended dish of meat, lentils, and wheat' },
         ],
         'bfm': [
@@ -105,8 +137,8 @@ const Home = () => {
         ],
         'drinks': [
             { id: 31, name: 'Lassi', price: 150, img: 'lassi.jpeg', description: 'Sweet / Salted'},
-            { id: 32, name: 'Cold Drink', price: '70/130/160', img: 'colddrink.jpeg',description:'----'},
-            { id: 33, name: 'Mineral Water', price: '60/120', img: 'water.jpeg',description:'----'},
+            { id: 32, name: 'Cold Drink', price: 70, img: 'colddrink.jpeg',description:'----'},
+            { id: 33, name: 'Mineral Water', price: 60, img: 'water.jpeg',description:'----'},
             { id: 34, name: 'Tea', price: 200, img: 'tea.jpeg',description:'----'},
             
         ],
@@ -115,7 +147,7 @@ const Home = () => {
             { id: 36, name: 'Chapati/Roti', price: 30, img: 'roti.jpeg',description:'----' },
             { id: 37, name: 'Raita', price: 50, img: 'raita.jpeg',description:'----' },
             { id: 38, name: 'Salad', price: 60, img: 'salad.jpeg',description:'----' },
-            { id: 39, name: 'Cold Drink', price: '70/130/170', img: 'colddrink.jpeg',description:'----' },
+            { id: 39, name: 'Cold Drink', price: 70, img: 'colddrink.jpeg',description:'----' },
         ],
         'desserts': [
             { id: 40, name: 'Gulab Jamun', price: 150, img: 'gulabjamun.jpeg',description:'----' },
@@ -207,7 +239,7 @@ const Home = () => {
                                         </p>
                                     )}
             
-                                    <button className="add-cart-btn">Add to Cart</button>
+                                    <button className="add-cart-btn" onClick={() => handleAddToCart(item)}>Add to Cart</button>
                                 </div>
                             ))}
                         </div>
@@ -219,8 +251,8 @@ const Home = () => {
             </div>
 
             <div className="sticky-checkout-bar">
-                <div className="checkout-info">🛒 Items: 0 | Total: Rs. 0</div>
-                <button className="checkout-btn">CHECKOUT NOW</button>
+                <div className="checkout-info">🛒 Items: {cartItems.length} | Total: Rs. {totalPrice}</div>
+                <button className="checkout-btn" onClick={() => navigate('/checkout')}>CHECKOUT NOW</button>
             </div>
         </div>
     );

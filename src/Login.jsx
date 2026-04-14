@@ -10,6 +10,7 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         if (email && password) {
+            localStorage.setItem('isLoggedIn', 'true');
             alert("Login Successful! Welcome to Dastr-Khwan.");
             navigate('/home'); 
         } else {
@@ -19,7 +20,22 @@ const Login = () => {
 
     return (
         <div className="auth-container">
-            <form onSubmit={handleLogin} className="auth-form">
+            
+            <form onSubmit={handleLogin} className="auth-form" style={{ position: 'relative' }}>
+                
+                {/* --- CORNER CROSS BUTTON --- */}
+                <button 
+                    type="button"
+                    className="close-modal" 
+                    onClick={() => navigate('/home')} // Guest wapis menu par chala jaye
+                    style={{
+                        position: 'absolute', top: '15px', right: '15px',
+                        border: 'none', background: 'none', fontSize: '20px',
+                        cursor: 'pointer', color: '#666'
+                    }}
+                >
+                    ✖
+                </button>
                 <h2>Welcome!</h2>
                 
                 {/* Tabs design same like signup page logic */}

@@ -1,11 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Style.css';
 import { useCart } from './CartContext';
 
 const FullMenu = () => {
              const { cartItems, totalPrice, addToCart } = useCart();
+             const navigate = useNavigate();
     // This is the same data that was on the Home screen, but here all categories will be shown together.
+    const handleMenuAdd = (item) => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+        console.log("Is User Logged In?", isLoggedIn);
+        if (isLoggedIn === 'true') {
+            addToCart(item); 
+        } else {
+            alert("Please login first! You cannot place an order without logging in.");
+            navigate('/login');
+        }
+};
 
     const fullMenuData = [
         {
@@ -21,11 +32,11 @@ const FullMenu = () => {
         {
             category: "Main Course",
             items: [
-                { id: 6, name: 'Chicken Karahi(per kg.)', price: '800/1600', img: 'chikenkarahi.jpeg'},
-            { id: 7, name: 'Mutton Karahi (per kg.)', price: '2750/4500', img: 'muttonkarahi.jpeg'},
-            { id: 8, name: 'Beef Karahi (per kg.)', price: '1500/3000', img: 'beefkarahi.jpeg'},
-            { id: 9, name: ' White Karahi (per kg.)', price: '900/1800', img: 'whitekarahi.jpeg'},
-            { id: 10, name: 'Butter Chicken (per kg.)', price: '950/1900', img: 'butterchiken.jpeg'},
+                { id: 6, name: 'Chicken Karahi(per kg.)', price: 800, img: 'chikenkarahi.jpeg'},
+            { id: 7, name: 'Mutton Karahi (per kg.)', price: 2750, img: 'muttonkarahi.jpeg'},
+            { id: 8, name: 'Beef Karahi (per kg.)', price: 1500, img: 'beefkarahi.jpeg'},
+            { id: 9, name: ' White Karahi (per kg.)', price: 900, img: 'whitekarahi.jpeg'},
+            { id: 10, name: 'Butter Chicken (per kg.)', price: 950, img: 'butterchiken.jpeg'},
                 
             ]
         },
@@ -43,8 +54,8 @@ const FullMenu = () => {
             category: "Drinks",
             items: [
                 { id: 16, name: 'Lassi', price: 150, img: 'lassi.jpeg'},
-                { id: 17, name: 'Cold Drink', price: '70/130/160', img: 'colddrink.jpeg'},
-                { id: 18, name: 'Mineral Water', price: '60/120', img: 'water.jpeg'},
+                { id: 17, name: 'Cold Drink', price: 70, img: 'colddrink.jpeg'},
+                { id: 18, name: 'Mineral Water', price: 60, img: 'water.jpeg'},
                 { id: 19, name: 'Tea', price: 200, img: 'tea.jpeg'},
                 { id: 20, name: 'Mango Shake', price: 350, img: 'mango.jpeg'},
             ]
@@ -66,7 +77,7 @@ const FullMenu = () => {
                 { id: 27, name: 'Chapati/Roti', price: 30, img: 'roti.jpeg' },
                 { id: 28, name: 'Raita', price: 50, img: 'raita.jpeg' },
                 { id: 29, name: 'Salad', price: 60, img: 'salad.jpeg' },
-                { id: 30, name: 'Cold Drink', price: '70/130/170', img: 'colddrink.jpeg' },
+                { id: 30, name: 'Cold Drink', price: 70, img: 'colddrink.jpeg' },
             ]
         },
         {
@@ -105,7 +116,7 @@ const FullMenu = () => {
                                         {/* ---For DESCRIPTION--- */}
                                         <p className="description">{item.description}</p>
                                         
-                                        <button className="add-btn-small" onClick={() => addToCart(item)}>Add to Cart</button>
+                                        <button className="add-btn-small" onClick={() => handleMenuAdd(item)}>Add to Cart</button>
                                     </div>
                                 </div>
                             ))}
