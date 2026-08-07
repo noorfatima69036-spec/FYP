@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from './CartContext'; // Cart context import karein
+import { useCart } from './CartContext'; 
 import './Style.css';
 
 const Home = () => {
@@ -9,10 +9,9 @@ const Home = () => {
 
 
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const itemsRef = useRef(null); // Scroll karne ke liye ref
+    const itemsRef = useRef(null); 
     const navigate = useNavigate();
     
-    // --- YE LINE ADD KAREIN ---
     const { addToCart, cartItems, totalPrice } = useCart(); 
 
     const handleAddToCart = (item) => {
@@ -26,7 +25,7 @@ const Home = () => {
         }
 };
 
-    // Jab user "Confirm & Continue" dabaye to ye function chalay ga
+    // when user "Confirm & Continue" 
     const handleConfirm = () => {
         localStorage.setItem('orderTypeSelected', 'true');
         setShowModal(false);// after alert the model close
@@ -47,7 +46,7 @@ const Home = () => {
         setShowModal(false);
     }
 
-    // Scroll logic (jo aapka pehle se tha)
+    // Scroll logic 
     if (selectedCategory && itemsRef.current) {
         itemsRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -160,8 +159,18 @@ const Home = () => {
         <div className="home-container">
             {showModal && (
                 <div className="modal-overlay">
-                    <div className="modal-content">
-                        <button className="close-modal" onClick={() => setShowModal(false)}>✖</button>
+                    <div className="modal-content" style={{ position: 'relative', padding: '40px 20px 20px 20px' }}>
+                        <button className="close-modal" onClick={() => setShowModal(false)} style={{
+                position: 'absolute',
+                top: '10px',
+                right: '15px',
+                background: 'none',
+                border: 'none',
+                fontSize: '22px',
+                cursor: 'pointer',
+                color: '#333',
+                fontWeight: 'bold'
+            }}>✖</button>
                         <div className="logo-circle-modal"><img src="logo2.jpeg" alt="Logo" /></div>
                         <h3>Select your order type</h3>
                         <div className="order-type-tabs">
@@ -169,7 +178,7 @@ const Home = () => {
                             <button>PICK-UP</button>
                         </div>
                         <input type="text" className="modal-input" placeholder="Enter Street / Colony / Area" />
-                       {/* Yahan Alert wala function call ho raha hai */}
+                       {/* here Alert is function call ho raha hai */}
                         <button className="confirm-btn" onClick={handleConfirm}>
                             Confirm & Continue
                         </button>
@@ -188,7 +197,7 @@ const Home = () => {
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/full-menu">Menu</Link></li>
                     <li><Link to="/deals">Deals</Link></li>
-                    <li><Link to="/contact">Contact</Link></li>
+                    <Link to="/articles">About Us</Link>
                     <li><Link to="/login">Login</Link></li>
                 </ul>
             </nav>
@@ -218,7 +227,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Ye wo section hai jo click par nazar aayega */}
+            
             <div ref={itemsRef}>
                 {selectedCategory && (
                     <section className="further-items">

@@ -1,6 +1,7 @@
 :root {
     --mustard: #E9C46A;
     --red: #a04000;
+    --dark-red: #803300;
 }
 
 body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; overflow-x: hidden; }
@@ -12,7 +13,7 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
     display: flex; justify-content: center; align-items: center; z-index: 2000;
 }
 .modal-content {
-    background: white; width: 360px; padding: 25px; border-radius: 15px;
+    background: white; width:      360px; padding: 25px; border-radius: 15px;
     text-align: center; position: relative;
 }
 .logo-circle-modal { width: 70px; height: 70px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 2px solid var(--mustard); }
@@ -40,11 +41,11 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 
 
 
- .slider-text {
+ /* .slider-text {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     text-align: center; color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
     width: 100%;
-}
+} */
 
 @keyframes slideAnim {
     0%, 15% { transform: translateX(0); }
@@ -295,8 +296,10 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 /* Checkout Page Styles */
 .checkout-page {
     padding: 40px 20px;
+    width: 100%;
     max-width: 1000px;
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .checkout-title {
@@ -307,8 +310,14 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 
 .checkout-container {
     display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 30px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
     flex-wrap: wrap;
+    box-sizing: border-box;
 }
 
 .checkout-form-section, .order-summary-section {
@@ -330,10 +339,11 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 .checkout-input {
     width: 100%;
     padding: 12px;
-    margin: 10px 0;
+    margin: 10px 0 ;
     border: 1px solid #ddd;
     border-radius: 6px;
     font-family: inherit;
+    box-sizing: border-box;
 }
 
 .checkout-input.textarea {
@@ -588,7 +598,7 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 .deals-zigzag-images-column {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 130px;
 }
 
 .image-wrapper {
@@ -715,4 +725,196 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 
 .auth-form p a:hover {
     text-decoration: underline;
+}
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 50px 0 20px;
+    margin-top: 50px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    gap: 30px;
+}
+
+.footer-col {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-col h3 {
+    color: #a04000; /* Aapki theme ka color */
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-col ul li a:hover {
+    color: white;
+    padding-left: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    font-size: 24px;
+}
+
+.social-links a {
+    color: white;
+    transition: 0.3s;
+}
+
+.social-links a:hover {
+    color: #a04000;
+    transform: translateY(-5px);
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid #444;
+    margin-top: 40px;
+    padding-top: 20px;
+    font-size: 14px;
+    color: #888;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .social-links {
+        justify-content: center;
+    }
+}
+/* styling for about us  */
+.about-container {
+    padding: 40px 10%;
+    font-family: 'Times New Roman', serif; /* Image 1 wala font */
+    color: #333;
+    line-height: 1.6;
+}
+.center-intro-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Horizontally center */
+    justify-content: center;
+    text-align: center; /* Center the text inside */
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.main-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-decoration: underline; /* Image 0 ka style */
+}
+.image-side {
+    flex: 1; /* Text side aur image side ko barabar jagah dene ke liye */
+    display: flex;
+    justify-content: center; /* Image ko box ke center mein rakhne ke liye */
+    align-items: center;
+    padding: 20px;
+}
+
+.content-section {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.content-section.reverse {
+    flex-direction: row-reverse;
+}
+
+.section-subtitle {
+    font-size: 2rem;
+    color: #000;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.description-text {
+    font-size: 1.2rem;
+    text-align: justify;
+}
+.moto-text {
+    font-weight: bold;
+    font-style: italic;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.framed-image {
+    width: 400px;
+    height: 400px;
+    border: 8px solid #FFD700; /* Golden Frame - Image 2 ki tarah */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.image-grid-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    gap: 15px;
+}
+
+.grid-item-img {
+    width: 32%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.rounded-img {
+    border-radius: 30px; /* Special rounded corners like the 3rd image in your photo 4 */
+}
+.full-section {
+    margin-bottom: 50px;
+}
+
+.order-now-btn {
+    background-color: #f38332; /* Orange color - Image 5 */
+    color: white;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.menu-link-red {
+    color: red !important; /* Force red color */
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.menu-link-red:hover {
+    color: #f38332 !important; /* Orange hover effect */
+    transition: 0.3s;
 }

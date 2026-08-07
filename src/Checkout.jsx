@@ -24,21 +24,32 @@ const Checkout = () => {
 
     const handleOrder = (e) => {
         e.preventDefault();
-
-        // check karna k instructions save ho rahi hain ya ni
-        console.log("Special Instructions for Kitchen:", instructions);
-
-        setOrderDone(true);
-        // Order hone ke baad cart khali karne ke liye:
-        setCartItems([]); 
-    };
+        console.log("Processing Order...");
+localStorage.clear();
+     // 4. Cart ko khali karna
+        
+  
+    // 3. true order status ,for showing success screen
+    setOrderDone(true);
+    
+   
+      setCartItems([]);
+    alert("🎉 Order Placed! You have been logged out for security.");
+};
 
     if (orderDone) {
         return (
             <div className="order-success-container">
                 <h2>🎉 Order Placed Successfully!</h2>
                 <p>Thank you for ordering from Dastr-Khwan.</p>
-                <Link to="/home" className="back-home-btn">Go Back to Home</Link>
+                <p style={{color: '#666', fontSize: '14px'}}>You have been logged out safely.</p>
+                <button 
+                onClick={() => window.location.href = "/login"} 
+                className="back-home-btn"
+                style={{cursor: 'pointer', border: 'none', padding: '10px 20px', backgroundColor: '#a04000', color: 'white', borderRadius: '5px'}}
+            >
+                Login Again to Order More
+            </button>
             </div>
         );
     }
@@ -92,10 +103,11 @@ const Checkout = () => {
                             <div className="online-details-box">
                                 <p><strong>Transfer to one of these:</strong></p>
                                 <ul style={{listStyle: 'none', padding: '10px', background: '#fef9e7', borderRadius: '8px', fontSize: '14px'}}>
-                                    <li>📱 <strong>EasyPaisa:</strong> 0300-1234567</li>
-                                    <li>📱 <strong>JazzCash:</strong> 0310-7654321</li>
-                                    <li>💳 <strong>Raast ID:</strong> 03001234567</li>
-                                    <li>🏦 <strong>Bank:</strong> HBL 1234-5678-9012</li>
+                                    <li>📱 <strong>EasyPaisa:</strong> 03701733304</li>
+                                    <li>📱 <strong>JazzCash:</strong>  03137929390</li>
+                                    <li>💳 <strong>Raast ID:</strong> not available</li>
+                                    <li>🏦 <strong>Bank:</strong> Meezan Bank 09060112775184</li>
+                                    
                                 </ul>
                                 <input type="text" className="checkout-input" placeholder="Enter Transaction ID (TID)" required />
                             </div>
