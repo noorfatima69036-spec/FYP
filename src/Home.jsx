@@ -197,7 +197,8 @@ const Home = () => {
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/full-menu">Menu</Link></li>
                     <li><Link to="/deals">Deals</Link></li>
-                    <Link to="/articles">About Us</Link>
+                   <li> <Link to="/articles">About Us</Link></li>
+                   <li> <Link to="/live-kitchen">🍳 Kitchen</Link></li>
                     <li><Link to="/login">Login</Link></li>
                 </ul>
             </nav>
