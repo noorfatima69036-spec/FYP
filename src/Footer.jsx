@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaInstagram, FaTiktok, FaWhatsapp, FaEnvelope } from 'react-icons/fa'; // Icons ke liye
+import { FaInstagram, FaTiktok, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 
 const Footer = () => {
     return (
@@ -30,6 +30,17 @@ const Footer = () => {
                     <p>📍 Shop #4, Hafizabad Road, Gujranwala</p>
                     <p>📞 +92 320 5811056</p>
                     <p><FaEnvelope /> send us message: info@dastrkhwan.com</p>
+                </div>
+
+                {/* Column: Big Orders / Events */}
+                <div className="footer-col">
+                    <h3>Big Orders / Events</h3>
+                    <p>
+                        Planning a wedding, party, or office event? <Link to="/bulk-order" style={{ color: '#e8a33d', fontWeight: '600' }}>Book here</Link>
+                    </p>
+                    <p style={{ fontSize: '13px', marginTop: '8px' }}>
+                        ⚠️ Please contact us at least 1–2 days in advance. We do not accept urgent/same-day bulk orders.
+                    </p>
                 </div>
 
                 {/* Column 4: Social Media */}

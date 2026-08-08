@@ -1052,4 +1052,74 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
   color: #a0522d;
   font-weight: 700;
 }
+/* ===== Feature Container Base Styles (shared by Live Kitchen, Membership, etc.) ===== */
+
+.feature-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.feature-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #a0522d;
+  margin-bottom: 10px;
+}
+
+.feature-subtitle {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.feature-form input,
+.feature-form textarea,
+.feature-form select {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.feature-form label {
+  display: block;
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.feature-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #a0522d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.feature-btn:hover {
+  background-color: #7c3f21;
+}
+
+.feature-message {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #a0522d;
+  font-weight: 500;
+}
 

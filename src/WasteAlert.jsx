@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Style.css";
 
 // ============ SETTINGS ============
-const ALERT_HOUR = 16;      // 20 = 8 PM (24-hour format)
+const ALERT_HOUR = 20;      // 20 = 8 PM (24-hour format)
 const ALERT_MINUTE = 0;
 const CONTACT_NUMBER = "+92 320 5811056";
 // ===================================

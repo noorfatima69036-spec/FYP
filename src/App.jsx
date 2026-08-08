@@ -16,6 +16,8 @@ import ForgotPassword from './ForgotPassword';
 import Blogs from './Blogs';
 import './Style.css'; 
 import LiveKitchen from "./LiveKitchen";
+import OfficeMembership from './OfficeMembership';
+import BulkOrder from './BulkOrder';
 
 
 function App() {
@@ -38,6 +40,9 @@ function App() {
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/full-menu" element={<FullMenu />} />
           <Route path="/live-kitchen" element={<LiveKitchen />} />
+          <Route path="/membership" element={<OfficeMembership />} />
+          <Route path="/bulk-order" element={<BulkOrder />} />
+          
           
           
         </Routes>

@@ -1,12 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext'; 
+import { fetchCurrentAddress } from './locationHelper';
 import './Style.css';
 
 const Home = () => {
     // For chacking localStorage
     const [showModal, setShowModal] = useState(false);
+    const [address, setAddress] = useState('');
+const [locationLoading, setLocationLoading] = useState(false);
+const [locationFailed, setLocationFailed] = useState(false);
+const [selectedCity, setSelectedCity] = useState('');
 
+const cityAreas = [
+    'Hafizabad Road',
+    'Model Town',
+    'Satellite Town',
+    'Peoples Colony',
+    'Gulshan Colony',
+    'Civil Lines',
+    'Wapda Town',
+    'Khalid Colony',
+];
 
     const [selectedCategory, setSelectedCategory] = useState(null);
     const itemsRef = useRef(null); 
@@ -33,6 +48,22 @@ const Home = () => {
         
          
     };
+
+    const handleUseMyLocation = () => {
+    setLocationFailed(false);
+    fetchCurrentAddress(
+        (fullAddress) => {
+            setAddress(fullAddress);
+            setLocationFailed(false);
+        },
+        () => {
+            setLocationFailed(true);
+        },
+        (loading) => {
+            setLocationLoading(loading);
+        }
+    );
+};
 
     // when categories are selected ,scroll down
     useEffect(() => {
@@ -177,7 +208,70 @@ const Home = () => {
                             <button className="active">DELIVERY</button>
                             <button>PICK-UP</button>
                         </div>
-                        <input type="text" className="modal-input" placeholder="Enter Street / Colony / Area" />
+                        <button
+    type="button"
+    onClick={handleUseMyLocation}
+    disabled={locationLoading}
+    style={{
+        width: '100%',
+        marginTop: '8px',
+        marginBottom: '10px',
+        padding: '10px',
+        background: '#fff',
+        border: '1px solid #a0522d',
+        color: '#a0522d',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        fontWeight: '600',
+        fontSize: '13px'
+    }}
+>
+    {locationLoading ? '📍 Fetching location...' : '📍 Use My Current Location'}
+</button>
+
+{locationFailed && (
+    <div style={{
+        background: '#e7f3ff',
+        border: '1px solid #a8d4ff',
+        borderRadius: '8px',
+        padding: '12px',
+        marginBottom: '12px',
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: '8px'
+    }}>
+        <span style={{ fontSize: '16px' }}>ℹ️</span>
+        <p style={{ margin: 0, fontSize: '13px', color: '#0c5aa6', lineHeight: '1.4' }}>
+            Sorry, hum aap ki delivery area detect nahi kar sakay. Neeche list mein se select kar lein.
+        </p>
+    </div>
+)}
+
+<label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '6px', color: '#444' }}>
+    Select City / Region
+</label>
+<select
+    value={selectedCity}
+    onChange={(e) => {
+        setSelectedCity(e.target.value);
+        setAddress(e.target.value);
+    }}
+    className="modal-input"
+    style={{ marginBottom: '10px' }}
+>
+    <option value="">Select City / Region</option>
+    {cityAreas.map((area) => (
+        <option key={area} value={area}>{area}</option>
+    ))}
+</select>
+
+<input
+    type="text"
+    className="modal-input"
+    placeholder="Ya manually Street / Colony / Area likhein"
+    value={address}
+    onChange={(e) => setAddress(e.target.value)}
+/>
                        {/* here Alert is function call ho raha hai */}
                         <button className="confirm-btn" onClick={handleConfirm}>
                             Confirm & Continue
@@ -197,6 +291,7 @@ const Home = () => {
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/full-menu">Menu</Link></li>
                     <li><Link to="/deals">Deals</Link></li>
+                    <li><Link to="/membership">Office Membership</Link></li>
                    <li> <Link to="/articles">About Us</Link></li>
                    <li> <Link to="/live-kitchen">🍳 Kitchen</Link></li>
                     <li><Link to="/login">Login</Link></li>
