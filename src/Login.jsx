@@ -1,22 +1,52 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Style.css'; // Aapki main CSS file link ho gayi
+const API_BASE = "http://localhost/dastr-khwan-backend";
 
 const Login = () => {
     const navigate = useNavigate(); 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        if (email && password) {
+    const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleLogin = async (e) => {
+    e.preventDefault();
+    setMessage('');
+
+    if (!email || !password) {
+        setMessage("Please enter email and password.");
+        return;
+    }
+
+    setLoading(true);
+
+    try {
+        const res = await fetch(`${API_BASE}/login.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
             localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userId', data.user.id);
+            localStorage.setItem('username', data.user.username);
+            localStorage.setItem('userEmail', data.user.email);
             alert("Login Successful! Welcome to Dastr-Khwan.");
-            navigate('/home'); 
+            navigate('/home');
         } else {
-            alert("Please enter email and password.");
+            setMessage(data.message);
         }
-    };
+    } catch (err) {
+        setMessage("Server se connect nahi ho saka. XAMPP chal raha hai check karein.");
+    }
+
+    setLoading(false);
+};
 
     return (
         <div className="auth-container">
@@ -76,9 +106,15 @@ const Login = () => {
                     </Link>
                 </div>
                 
-                <button type="submit" className="auth-btn">
-                    LOGIN
-                </button>
+                <button type="submit" className="auth-btn" disabled={loading}>
+    {loading ? 'Logging in...' : 'LOGIN'}
+</button>
+
+{message && (
+    <p style={{ color: 'red', textAlign: 'center', fontSize: '14px', marginTop: '10px' }}>
+        {message}
+    </p>
+)}
 
                 <p className="auth-switch">
                     Don't have an account? <Link to="/signup">Sign up here</Link>

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext'; 
 import { fetchCurrentAddress } from './locationHelper';
 import './Style.css';
+const API_BASE = "http://localhost/dastr-khwan-backend";
 
 const Home = () => {
     // For chacking localStorage
@@ -11,6 +12,9 @@ const Home = () => {
 const [locationLoading, setLocationLoading] = useState(false);
 const [locationFailed, setLocationFailed] = useState(false);
 const [selectedCity, setSelectedCity] = useState('');
+
+const [menuItems, setMenuItems] = useState({});
+const [menuLoading, setMenuLoading] = useState(true);
 
 const cityAreas = [
     'Hafizabad Road',
@@ -83,6 +87,29 @@ const cityAreas = [
     }
 }, [selectedCategory]);
 
+useEffect(() => {
+        fetch(`${API_BASE}/get_menu_items.php`)
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success) {
+                    const grouped = {};
+                    data.items.forEach((item) => {
+                        if (!grouped[item.category]) {
+                            grouped[item.category] = [];
+                        }
+                        grouped[item.category].push(item);
+                    });
+                    setMenuItems(grouped);
+                }
+                setMenuLoading(false);
+            })
+            .catch((err) => {
+                console.error("Menu fetch error:", err);
+                setMenuLoading(false);
+            });
+    }, []);
+
+
     const categories = [
         { id: 'appetizers', name: 'Appetizers', img: 'appet.jpeg', count: '5 Items Available' },
         { id: 'maincourse', name: 'Main Course', img: 'maincourse.jpeg', count: 'Karahi & Handi & more' },
@@ -94,98 +121,7 @@ const cityAreas = [
         { id: 'desserts', name: 'Desserts', img: 'dessert.jpeg', count: 'Sweet Endings' }
     ];
 
-    const categoryDetails = {
-        'appetizers': [
-        { 
-            id: 1, 
-            name: 'Chicken Nuggets', 
-            price: 650, 
-            description: 'Crispy golden bites of tender chicken.', 
-            img: 'nuggets.jpeg' 
-        },
-        { 
-            id: 2, 
-            name: 'Chicken Pakora', 
-            price: 399, 
-            description: 'Juicy chicken pieces coated in spiced gram flour.', 
-            img: 'chikenpkora.jpeg' 
-        },
-        { 
-            id: 3, 
-            name: 'Vegetable Pakora', 
-            price: 299, 
-            description: 'Mixed vegetables dipped in seasoned batter and fried to perfection.', 
-            img: 'vegpakora.jpeg' 
-        },
-        { 
-            id: 4, 
-            name: 'Chicken Spring Rolls', 
-            price: 350, 
-            description: 'Crunchy rolls filled with flavorful chicken and fresh vegetables.', 
-            img: 'roll.jpeg' 
-        },
-        { 
-            id: 5, 
-            name: 'Vegetable Spring Rolls', 
-            price: 300, 
-            description: 'Light and crispy rolls stuffed with seasoned vegetables.', 
-            img: 'vegroll.jpeg' 
-        },
-    ],
-        'maincourse': [
-            { id: 6, name: 'Chicken Karahi(per kg.)', price: 800, img: 'chikenkarahi.jpeg',description:' Chicken cooked with tomatoes, green chilies, ginger, and spices' },
-            { id: 7, name: 'Mutton Karahi (per kg.)', price: 2750, img: 'muttonkarahi.jpeg',description:'Same style but with mutton (more rich and tender' },
-            { id: 8, name: 'Beef Karahi (per kg.)', price: 1500, img: 'beefkarahi.jpeg',description:'Same style but with beef(more rich and tender) ' },
-            { id: 9, name: ' White Karahi (per kg.)', price: 900, img: 'whitekarahi.jpeg',description:'Creamy version without tomatoes' },
-            { id: 10, name: 'Butter Chicken (per kg.)', price: 950, img: 'butterchiken.jpeg',description:'Creamy, mildly spiced tomato-based curry ' },
-            { id: 11, name: 'Chicken Korma (per kg.)', price: 900, img: 'chikenkorma.jpeg',description:' Rich, nutty gravy with yogurt and spices ' },
-            { id: 12, name: 'DALEEM', price: 300, img: 'daleem.jpeg',description:'Thick, blended dish of meat, lentils, and wheat' },
-        ],
-        'bfm': [
-            { id: 13, name: 'Paya', price: 500, img: 'paya.jpeg', description:'Traditional slow-cooked trotters with naan' },
-            { id: 14, name: 'Aloo Paratha ', price: 200, img: 'aloparatha.jpeg', description:'Paratha served with Raita' },
-            { id: 15, name: 'Plain Paratha', price: 120, img: 'plainparatha.jpeg',description:'---------'},
-            { id: 16, name: 'Anda Paratha ', price: 180, img: 'andaparatha.jpeg', description:'Paratha with omelette' },
-            { id: 17, name: 'Channy Kofty', price: 250, img: 'kofty.jpeg', description:'Traditionally cooked served along meat balls for classic taste' },
-        ],
-        'rice': [
-            { id: 18, name: 'Chicken Biryani', price: 500, img: 'biryani.jpeg',description: 'A rich and flavorful spiced chicken and layered basmati rice.'},
-            { id: 19, name: 'Egg Fried Rice', price: 550, img: 'eggrice.jpeg',description: 'Basmati rice with scrambled eggs, vegetables, and seasonings.' },
-            { id: 20, name: 'Beef Pulao', price: 500, img: 'beefpulao.jpeg',description: 'Tender beef with aromatic spices and basmati rice for a traditional taste.' },
-            { id: 21, name: 'Mutton Pulao', price: 500, img: 'muttonpulao.jpeg',description: 'Mutton cooked with fragrant rice in mild spices.' },
-            { id: 22, name: 'Chicken Pulao', price: 400, img: 'chikenpulao.jpeg',description: 'Lightly spiced rice cooked with tender chicken.' },
-        ],
-        'deals': [
-            { id: 23, name: 'Single Value Deal', price: 400, img: 'deal1.jpeg' ,description:'Chicken Biryani + Raita + Salad + Soft Drink'},
-            { id: 24, name: 'Family Deal', price: 2800, img: 'deal2.jpeg',description:'Chicken Karahi  + Beef Pulao (2 plates) + 4 Naan + Salad + 1.5L Drink' },
-            { id: 25, name: 'Friends Combo', price: 1100, img: 'deal3.jpeg',description:'Chicken Biryani (2 plates) + Chicken Handi (Half) + 3 Naan + Raita' },
-            { id: 26, name: 'Biryani Lover', price: 1100, img: 'deal4.jpeg',description:'Chicken Biryani (2 plates) + Raita + Salad + 2 Drinks' },
-            { id: 27, name: 'Economy Deal', price: 500, img: 'deal5.jpeg',description:'Chicken Pulao (1 plate) + Raita + Drink(1L)' },
-            { id: 28, name: 'Student Deal', price: 350, img: 'deal6.jpeg',description:'Egg Fried Rice (Half plate)+ Drink' },
-            { id: 29, name: 'Mini Family Deal', price: 1999, img: 'deal7.jpeg',description:'Chicken Karahi (Half) + Chicken Biryani (2 plates) + 3 Naan + 1.5L Drink' },
-            { id: 30, name: 'Desi Combo', price: 2400, img: 'deal8.jpeg',description:'Chicken Qorma + Zeera Rice + 2 Naan + Salad+Raita+1L Drink' },
-        ],
-        'drinks': [
-            { id: 31, name: 'Lassi', price: 150, img: 'lassi.jpeg', description: 'Sweet / Salted'},
-            { id: 32, name: 'Cold Drink', price: 70, img: 'colddrink.jpeg',description:'----'},
-            { id: 33, name: 'Mineral Water', price: 60, img: 'water.jpeg',description:'----'},
-            { id: 34, name: 'Tea', price: 200, img: 'tea.jpeg',description:'----'},
-            
-        ],
-        'extra': [
-            { id: 35, name: 'Tndoori Naan', price: 30, img: 'naan.jpeg',description:'----' },
-            { id: 36, name: 'Chapati/Roti', price: 30, img: 'roti.jpeg',description:'----' },
-            { id: 37, name: 'Raita', price: 50, img: 'raita.jpeg',description:'----' },
-            { id: 38, name: 'Salad', price: 60, img: 'salad.jpeg',description:'----' },
-            { id: 39, name: 'Cold Drink', price: 70, img: 'colddrink.jpeg',description:'----' },
-        ],
-        'desserts': [
-            { id: 40, name: 'Gulab Jamun', price: 150, img: 'gulabjamun.jpeg',description:'----' },
-            { id: 41, name: 'Kheer', price: 200, img: 'kheer.jpeg',description:'----' },
-            { id: 42, name: 'Zarda Rice', price: 200, img: 'zarda.jpeg',description:'----' },
-        ]
-    };
-
+    
     return (
         <div className="home-container">
             {showModal && (
@@ -331,9 +267,9 @@ const cityAreas = [
                             Top 5 {categories.find(c => c.id === selectedCategory)?.name}
                         </h2>
                         <div className="items-row">
-                            {(categoryDetails[selectedCategory] || []).map((item) => (
+                             {(menuItems[selectedCategory] || []).map((item) => (
                                 <div key={item.id} className="item-card">
-                                    <img src={item.img} alt={item.name} />
+                                    <img src={item.image_name} alt={item.name} />
                                     <h4>{item.name}</h4>
                                     <p>Rs. {item.price}</p>
 

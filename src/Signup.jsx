@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Style.css'; // Aapki CSS file
+const API_BASE = "http://localhost/dastr-khwan-backend";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -10,17 +11,39 @@ const Signup = () => {
     password: '',
   });
 
+const [message, setMessage] = useState('');
+const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Signup Data:", formData);
-    // Signup ke baad login page par bhejne ke liye
-    alert("Signup Successful! Ab login karein.");
-    navigate('/'); 
-  };
+    setMessage('');
+    setLoading(true);
+
+    try {
+        const res = await fetch(`${API_BASE}/signup.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            alert("Signup Successful! Now please login.");
+            navigate('/');
+        } else {
+            setMessage(data.message);
+        }
+    } catch (err) {
+        setMessage("Could not connect to the server. Please check if XAMPP is running.");
+    }
+
+    setLoading(false);
+};
 
   return (
     <div className="auth-container">
@@ -54,7 +77,15 @@ const Signup = () => {
           />
         </div>
 
-        <button type="submit" className="auth-btn">Sign Up</button>
+        <button type="submit" className="auth-btn" disabled={loading}>
+    {loading ? 'Signing up...' : 'Sign Up'}
+</button>
+
+{message && (
+    <p style={{ color: 'red', textAlign: 'center', fontSize: '14px', marginTop: '10px' }}>
+        {message}
+    </p>
+)}
         
         <p>
           Already have an account? <Link to="/">Login here</Link>

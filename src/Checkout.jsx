@@ -8,6 +8,14 @@ const Checkout = () => {
     const [orderDone, setOrderDone] = useState(false);
     const [instructions, setInstructions] = useState("");
     const [paymentMethod, setPaymentMethod] = useState('cod');// Payment method state
+
+const [fullName, setFullName] = useState('');
+const [phone, setPhone] = useState('');
+const [address, setAddress] = useState('');
+const [loading, setLoading] = useState(false);
+const [errorMsg, setErrorMsg] = useState('');
+
+const API_BASE = "http://localhost/dastr-khwan-backend";
     
     const navigate = useNavigate();
 
@@ -22,19 +30,50 @@ const Checkout = () => {
     }, [navigate]);
     
 
-    const handleOrder = (e) => {
-        e.preventDefault();
-        console.log("Processing Order...");
-localStorage.clear();
-     // 4. Cart ko khali karna
-        
-  
-    // 3. true order status ,for showing success screen
-    setOrderDone(true);
-    
-   
-      setCartItems([]);
-    alert("🎉 Order Placed! You have been logged out for security.");
+    const handleOrder = async (e) => {
+    e.preventDefault();
+    setErrorMsg('');
+    setLoading(true);
+
+    const user_id = localStorage.getItem('userId');
+
+    const orderData = {
+        user_id: user_id,
+        order_type: 'delivery',
+        full_name: fullName,
+        phone: phone,
+        address: address,
+        special_instructions: instructions,
+        total_amount: totalPrice,
+        items: cartItems.map((item) => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+        })),
+    };
+
+    try {
+        const res = await fetch(`${API_BASE}/place_order.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            localStorage.clear();
+            setOrderDone(true);
+            setCartItems([]);
+            alert("🎉 Order Placed! You have been logged out for security.");
+        } else {
+            setErrorMsg(data.message || "Order place nahi ho saka");
+        }
+    } catch (err) {
+        setErrorMsg("Server se connect nahi ho saka. XAMPP chal raha hai check karein.");
+    }
+
+    setLoading(false);
 };
 
     if (orderDone) {
@@ -63,9 +102,29 @@ localStorage.clear();
                 <div className="checkout-form-section">
                     <h3>Delivery Details</h3>
                     <form onSubmit={handleOrder}>
-                        <input type="text" className="checkout-input" placeholder="Full Name" required />
-                        <input type="text" className="checkout-input" placeholder="Phone Number" required />
-                        <textarea className="checkout-input textarea" placeholder="Delivery Address" required></textarea>
+                        <input 
+    type="text" 
+    className="checkout-input" 
+    placeholder="Full Name" 
+    value={fullName}
+    onChange={(e) => setFullName(e.target.value)}
+    required 
+/>
+<input 
+    type="text" 
+    className="checkout-input" 
+    placeholder="Phone Number" 
+    value={phone}
+    onChange={(e) => setPhone(e.target.value)}
+    required 
+/>
+<textarea 
+    className="checkout-input textarea" 
+    placeholder="Delivery Address" 
+    value={address}
+    onChange={(e) => setAddress(e.target.value)}
+    required
+></textarea>
 
                         <h3 style={{marginTop: '20px'}}>Special Instructions</h3>
                         <textarea 
@@ -113,9 +172,15 @@ localStorage.clear();
                             </div>
                         )}
 
-                        <button type="submit" className="confirm-order-btn">
-                            CONFIRM ORDER
-                        </button>
+                        <button type="submit" className="confirm-order-btn" disabled={loading}>
+    {loading ? 'Placing Order...' : 'CONFIRM ORDER'}
+</button>
+
+{errorMsg && (
+    <p style={{ color: 'red', textAlign: 'center', fontSize: '14px', marginTop: '10px' }}>
+        {errorMsg}
+    </p>
+)}
                     </form>
                 </div>
 
