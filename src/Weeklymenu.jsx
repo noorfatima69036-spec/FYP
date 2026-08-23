@@ -1,19 +1,29 @@
+import { useEffect, useState } from "react";
 import "./Style.css";
 
-// Admin/Chef decides the menu for each day here.
-// Office members can view this before subscribing to see what they'll get.
-
-const weeklyMenu = {
-    Monday: { main: "Chicken Karahi + Roti", extra: "Salad + Raita" },
-    Tuesday: { main: "Chicken Biryani", extra: "Raita + Salad" },
-    Wednesday: { main: "Beef Pulao", extra: "Salad" },
-    Thursday: { main: "Butter Chicken + Naan", extra: "Salad" },
-    Friday: { main: "Mutton Karahi + Roti", extra: "Raita" },
-    Saturday: { main: "Chicken Korma + Rice", extra: "Salad + Raita" },
-    Sunday: { main: "Special Deal (Biryani + Drink)", extra: "Dessert" },
-};
+const API_BASE = "http://localhost/dastr-khwan-backend";
 
 export default function WeeklyMenu() {
+    const [weeklyMenu, setWeeklyMenu] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch(`${API_BASE}/get_weekly_menu.php`)
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success) {
+                    setWeeklyMenu(data.weekly_menu);
+                }
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error("Weekly menu fetch error:", err);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) return <p className="admin-loading-text">Loading weekly menu...</p>;
+
     return (
         <div className="feature-container" style={{ maxWidth: "700px" }}>
             <h2 className="feature-title">Weekly Office Menu</h2>
@@ -22,12 +32,12 @@ export default function WeeklyMenu() {
             </p>
 
             <div className="weekly-menu-list">
-                {Object.entries(weeklyMenu).map(([day, meal]) => (
-                    <div key={day} className="weekly-menu-row">
-                        <div className="weekly-menu-day">{day}</div>
+                {weeklyMenu.map((day) => (
+                    <div key={day.id} className="weekly-menu-row">
+                        <div className="weekly-menu-day">{day.day_name}</div>
                         <div className="weekly-menu-details">
-                            <p className="weekly-menu-main">{meal.main}</p>
-                            <p className="weekly-menu-extra">+ {meal.extra}</p>
+                            <p className="weekly-menu-main">{day.main_item}</p>
+                            <p className="weekly-menu-extra">+ {day.extra_item}</p>
                         </div>
                     </div>
                 ))}

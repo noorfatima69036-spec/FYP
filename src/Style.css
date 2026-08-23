@@ -35,8 +35,8 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 
 /* Slider Styling */
  .slider-container { width: 100%; height: 500px; overflow: hidden; position: relative;}
-.slides { display: flex; width: 600%; height: 100%; animation: slideAnim 20s infinite ease-in-out; }
-.slide { width: 16.66%; height: 100%; flex-shrink: 0; }
+.slides { display: flex; width: 700%; height: 100%; animation: slideAnim 28s infinite ease-in-out; }
+.slide { width: 14.28%; height: 100%; flex-shrink: 0; }
 .slide img { width: 100%; height: 100%; object-fit: cover;display: flex;background: center no-repeat center/cover;  } 
 
 
@@ -48,13 +48,14 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 } */
 
 @keyframes slideAnim {
-    0%, 15% { transform: translateX(0); }
-    20%, 35% { transform: translateX(-16.66%); }
-    40%, 55% { transform: translateX(-33.32%); }
-    60%, 75% { transform: translateX(-49.98%); }
-    80%, 95% { transform: translateX(-66.64%); }
+    0%, 11% { transform: translateX(0); }
+    14%, 25% { transform: translateX(-14.28%); }
+    28%, 39% { transform: translateX(-28.56%); }
+    42%, 53% { transform: translateX(-42.84%); }
+    56%, 67% { transform: translateX(-57.12%); }
+    70%, 81% { transform: translateX(-71.4%); }
+    84%, 95% { transform: translateX(-85.68%); }
     100% { transform: translateX(0); }
-
 }
 /* Menu Grid Styling */
 .section-title { text-align: center; margin-top: 30px; font-size: 22px; }
@@ -876,6 +877,16 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
+.hero-image-wrapper {
+    width: 100%;
+}
+
+.hero-image {
+    width: 92%;
+    max-width: 1100px;
+    height: 480px;
+    object-fit: cover;
+}
 
 .image-grid-container {
     display: flex;
@@ -1121,5 +1132,152 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
   font-size: 14px;
   color: #a0522d;
   font-weight: 500;
+}
+.plan-options {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.plan-card {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.plan-card:hover {
+    border-color: #a0522d;
+    transform: translateY(-2px);
+}
+
+.plan-card.selected {
+    background-color: #fdf5e6; /* Soft cream/brownish background */
+    border: 2px solid #a0522d;   /* Solid brown border like Image 2 */
+}
+
+.plan-card h4 {
+    margin: 0 0 6px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #333333;
+}
+
+.plan-card p {
+    margin: 0;
+    font-size: 12px;
+    color: #666666;
+    line-height: 1.3;
+}
+/* ===== Admin Login ===== */
+.admin-login-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.admin-login-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.admin-form-group {
+  margin-bottom: 15px;
+}
+
+.admin-form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.admin-form-group input {
+  width: 100%;
+  padding: 8px;
+}
+
+.admin-login-btn {
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.admin-error-text {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.admin-loading-text {
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* ===== Admin Dashboard ===== */
+.admin-dashboard-container {
+  padding: 30px;
+}
+
+.admin-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.admin-logout-btn {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.admin-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-orders-table th,
+.admin-orders-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.admin-status-select {
+  padding: 5px;
+}
+/* ===== Admin Menu Management ===== */
+.admin-menu-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.admin-menu-form input,
+.admin-menu-form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.admin-menu-form button {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.admin-orders-table button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 

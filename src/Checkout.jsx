@@ -8,6 +8,7 @@ const Checkout = () => {
     const [orderDone, setOrderDone] = useState(false);
     const [instructions, setInstructions] = useState("");
     const [paymentMethod, setPaymentMethod] = useState('cod');// Payment method state
+    const [transactionId, setTransactionId] = useState('');
 
 const [fullName, setFullName] = useState('');
 const [phone, setPhone] = useState('');
@@ -24,7 +25,7 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
         const userStatus = localStorage.getItem('isLoggedIn');
         if (userStatus !== 'true') {
             // Agar login nahi hai toh alert dikha kar login page bhej do
-            alert("Order place karne ke liye pehle Login karein.");
+            alert("Please sign in before placing an order.");
             navigate('/login');
         }
     }, [navigate]);
@@ -37,21 +38,22 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
 
     const user_id = localStorage.getItem('userId');
 
-    const orderData = {
-        user_id: user_id,
-        order_type: 'delivery',
-        full_name: fullName,
-        phone: phone,
-        address: address,
-        special_instructions: instructions,
-        total_amount: totalPrice,
-        items: cartItems.map((item) => ({
-            name: item.name,
-            quantity: item.quantity,
-            price: item.price,
-        })),
-    };
-
+   const orderData = {
+    user_id: user_id,
+    order_type: 'delivery',
+    full_name: fullName,
+    phone: phone,
+    address: address,
+    special_instructions: instructions,
+    total_amount: totalPrice,
+    payment_method: paymentMethod,
+    transaction_id: paymentMethod === 'online' ? transactionId : '',
+    items: cartItems.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+    })),
+};
     try {
         const res = await fetch(`${API_BASE}/place_order.php`, {
             method: 'POST',
@@ -62,15 +64,15 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
         const data = await res.json();
 
         if (data.success) {
-            localStorage.clear();
-            setOrderDone(true);
-            setCartItems([]);
-            alert("🎉 Order Placed! You have been logged out for security.");
-        } else {
-            setErrorMsg(data.message || "Order place nahi ho saka");
+    const placedOrderId = data.order_id;
+    localStorage.clear();
+    setCartItems([]);
+    navigate(`/live-kitchen/${placedOrderId}`);
+} else {
+            setErrorMsg(data.message || "The order could not be placed.");
         }
     } catch (err) {
-        setErrorMsg("Server se connect nahi ho saka. XAMPP chal raha hai check karein.");
+        setErrorMsg("Could not connect to the server. Please check if XAMPP is running.");
     }
 
     setLoading(false);
@@ -168,7 +170,14 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
                                     <li>🏦 <strong>Bank:</strong> Meezan Bank 09060112775184</li>
                                     
                                 </ul>
-                                <input type="text" className="checkout-input" placeholder="Enter Transaction ID (TID)" required />
+                                <input 
+    type="text" 
+    className="checkout-input" 
+    placeholder="Enter Transaction ID (TID)" 
+    value={transactionId}
+    onChange={(e) => setTransactionId(e.target.value)}
+    required 
+/>
                             </div>
                         )}
 

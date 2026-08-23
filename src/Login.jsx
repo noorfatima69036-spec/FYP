@@ -42,7 +42,7 @@ const Login = () => {
             setMessage(data.message);
         }
     } catch (err) {
-        setMessage("Server se connect nahi ho saka. XAMPP chal raha hai check karein.");
+        setMessage("Could not connect to the server. Please check if XAMPP is running.");
     }
 
     setLoading(false);

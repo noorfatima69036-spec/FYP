@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Style.css";
+const API_BASE = "http://localhost/dastr-khwan-backend";
 
 const plans = [
     { key: "daily", label: "Daily", desc: "Food delivered every day at a fixed time" },
@@ -18,32 +19,47 @@ export default function OfficeMembership() {
     });
     const [selectedPlan, setSelectedPlan] = useState("weekly");
     const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const memberships = JSON.parse(localStorage.getItem("memberships") || "[]");
-        const newMembership = {
-            ...form,
-            plan_type: selectedPlan,
-            id: Date.now(),
-            status: "active",
-            created_at: new Date().toLocaleString(),
-        };
-        memberships.push(newMembership);
-        localStorage.setItem("memberships", JSON.stringify(memberships));
-        setMessage("Your membership request has been submitted! We will contact you soon.");
-        setForm({
-            office_name: "",
-            office_address: "",
-            delivery_time: "",
-            meal_preference: "",
-            contact_number: "",
-        });
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setLoading(true);
+
+    const membershipData = {
+        ...form,
+        plan_type: selectedPlan,
     };
+
+    try {
+        const res = await fetch(`${API_BASE}/add_membership.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(membershipData),
+        });
+        const data = await res.json();
+
+        setMessage(data.message);
+
+        if (data.success) {
+            setForm({
+                office_name: "",
+                office_address: "",
+                delivery_time: "",
+                meal_preference: "",
+                contact_number: "",
+            });
+        }
+    } catch (err) {
+        setMessage("Could not connect to the server. Please check if XAMPP is running.");
+    }
+
+    setLoading(false);
+};
 
     return (
         <div className="feature-container">
@@ -110,9 +126,9 @@ export default function OfficeMembership() {
                     onChange={handleChange}
                     required
                 />
-                <button type="submit" className="feature-btn">
-                    Subscribe Now
-                </button>
+                <button type="submit" className="feature-btn" disabled={loading}>
+    {loading ? 'Submitting...' : 'Subscribe Now'}
+</button>
                 {message && <p className="feature-message">{message}</p>}
             </form>
         </div>

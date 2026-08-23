@@ -27,9 +27,9 @@ const Blogs = () => {
                 <h1 className="main-title">Dastr_khwan – A Legacy of Pure Taste Since 1984</h1>
                 <div className="title-underline"></div>
             </div>
-            <div className="image-side">
-                    <img src="a1.jpeg" alt="Healthy Food" className="framed-image" />
-                </div>
+            <div className="image-side hero-image-wrapper">
+    <img src="a1.jpeg" alt="Healthy Food" className="framed-image hero-image" />
+</div>
 
             {/* Introduction Section */}
             <div className="content-section">

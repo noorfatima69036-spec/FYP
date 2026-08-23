@@ -4,7 +4,7 @@ import { CartProvider } from "./CartContext";
 import Checkout from './Checkout';// Checkout page ko import karna taake App ko pata ho ye kahan hai
 import Contact from './Contact'; // for contact
 import Deals from './Deals';
-import WasteAlert from './WasteAlert';
+import WasteAlert from './wasteAlert';
 import Footer from './Footer';
 
 // Kyunke App.jsx khud src folder mein hai, isliye sirf ./ likhein
@@ -18,6 +18,13 @@ import './Style.css';
 import LiveKitchen from "./LiveKitchen";
 import OfficeMembership from './OfficeMembership';
 import BulkOrder from './BulkOrder';
+import WeeklyMenu from './WeeklyMenu';
+import AdminLogin from './AdminLogin';
+import AdminDashboard from './AdminDashboard';
+import AdminMenu from './AdminMenu';
+import AdminWasteAlert from './AdminWasteAlert';
+import AdminWeeklyMenu from './AdminWeeklyMenu';
+
 
 
 function App() {
@@ -39,9 +46,15 @@ function App() {
           <Route path="/deals" element={<Deals />} />
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/full-menu" element={<FullMenu />} />
-          <Route path="/live-kitchen" element={<LiveKitchen />} />
+          <Route path="/live-kitchen/:orderId" element={<LiveKitchen />} />
           <Route path="/membership" element={<OfficeMembership />} />
           <Route path="/bulk-order" element={<BulkOrder />} />
+          <Route path="/weekly-menu" element={<WeeklyMenu />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/menu" element={<AdminMenu />} />
+          <Route path="/admin/waste-alert" element={<AdminWasteAlert />} />
+          <Route path="/admin/weekly-menu" element={<AdminWeeklyMenu />} />
           
           
           

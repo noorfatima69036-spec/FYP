@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Style.css";
+const API_BASE = "http://localhost/dastr-khwan-backend";
 
 export default function BulkOrder() {
     const [form, setForm] = useState({
@@ -12,6 +13,7 @@ export default function BulkOrder() {
     });
     const [message, setMessage] = useState("");
     const [isError, setIsError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -32,7 +34,7 @@ export default function BulkOrder() {
         return diff < oneDayInMs; // agar 1 din se kam hai to true (bohat jaldi hai)
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage("");
         setIsError(false);
@@ -45,26 +47,35 @@ export default function BulkOrder() {
             return;
         }
 
-        const bulkOrders = JSON.parse(localStorage.getItem("bulkOrders") || "[]");
-        const newOrder = {
-            ...form,
-            id: Date.now(),
-            status: "requested",
-            created_at: new Date().toLocaleString(),
-        };
-        bulkOrders.push(newOrder);
-        localStorage.setItem("bulkOrders", JSON.stringify(bulkOrders));
+        setLoading(true);
 
-        setIsError(false);
-        setMessage("Your bulk order request has been sent! We will confirm shortly.");
-        setForm({
-            event_type: "",
-            guest_count: "",
-            event_date: "",
-            event_time: "",
-            menu_requirements: "",
-            contact_number: "",
-        });
+        try {
+            const res = await fetch(`${API_BASE}/add_bulk_order.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(form),
+            });
+            const data = await res.json();
+
+            setIsError(!data.success);
+            setMessage(data.message);
+
+            if (data.success) {
+                setForm({
+                    event_type: "",
+                    guest_count: "",
+                    event_date: "",
+                    event_time: "",
+                    menu_requirements: "",
+                    contact_number: "",
+                });
+            }
+        } catch (err) {
+            setIsError(true);
+            setMessage("Could not connect to the server. Please check if XAMPP is running.");
+        }
+
+        setLoading(false);
     };
 
     // Minimum date jo user select kar sakta hai (kal ki date)
@@ -127,9 +138,9 @@ export default function BulkOrder() {
                     onChange={handleChange}
                     required
                 />
-                <button type="submit" className="feature-btn">
-                    Submit Request
-                </button>
+                <button type="submit" className="feature-btn" disabled={loading}>
+    {loading ? 'Submitting...' : 'Submit Request'}
+</button>
 
                 {message && (
                     <p
