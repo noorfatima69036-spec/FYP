@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AdminLayout from "./AdminLayout";
 
 const CATEGORIES = ['appetizers', 'maincourse', 'bfm', 'rice', 'deals', 'drinks', 'extra', 'desserts'];
 
@@ -102,10 +103,10 @@ function AdminMenu() {
     }
   };
 
-  if (loading) return <p className="admin-loading-text">Loading menu...</p>;
+   if (loading) return <AdminLayout pageTitle="Menu"><p className="admin-loading-text">Loading menu...</p></AdminLayout>;
 
   return (
-    <div className="admin-dashboard-container">
+    <AdminLayout pageTitle="Menu">
       <h2>Manage Menu</h2>
 
       {/* Add / Edit Form */}
@@ -151,7 +152,7 @@ function AdminMenu() {
           ))}
         </tbody>
       </table>
-    </div>
+    </AdminLayout>
   );
 }
 

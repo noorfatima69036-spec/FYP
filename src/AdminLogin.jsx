@@ -28,39 +28,43 @@ function AdminLogin() {
         setError(data.message || "Login failed");
       }
     } catch (err) {
-      setError("Could not connect to the server. Please check if the backend is running.");
+      setError("Could not connect to the server. Please check if the backend is running");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="admin-login-container">
-      <h2 className="admin-login-title">Admin Login</h2>
-      <form onSubmit={handleLogin} className="admin-login-form">
-        <div className="admin-form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="admin-form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && <p className="admin-error-text">{error}</p>}
-        <button type="submit" disabled={loading} className="admin-login-btn">
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+    <div className="delivery-login-page">
+      <div className="delivery-login-card">
+        <div className="delivery-login-icon">👑</div>
+        <h2 className="delivery-login-title">Admin Login</h2>
+        <p className="delivery-login-subtitle">Dastr-Khwan Management Panel</p>
+        <form onSubmit={handleLogin}>
+          <div className="admin-form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="admin-form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          {error && <p className="admin-error-text">{error}</p>}
+          <button type="submit" disabled={loading} className="delivery-login-btn">
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -24,6 +24,12 @@ import AdminDashboard from './AdminDashboard';
 import AdminMenu from './AdminMenu';
 import AdminWasteAlert from './AdminWasteAlert';
 import AdminWeeklyMenu from './AdminWeeklyMenu';
+import AdminDeliveryBoys from './AdminDeliveryBoys';
+import DeliveryLogin from './DeliveryLogin';
+import DeliveryDashboard from './DeliveryDashboard';
+import AdminHome from './AdminHome';
+import AdminBulkOrders from './AdminBulkOrders';
+import AdminMemberships from './AdminMemberships';
 
 
 
@@ -55,6 +61,12 @@ function App() {
           <Route path="/admin/menu" element={<AdminMenu />} />
           <Route path="/admin/waste-alert" element={<AdminWasteAlert />} />
           <Route path="/admin/weekly-menu" element={<AdminWeeklyMenu />} />
+          <Route path="/admin/delivery-boys" element={<AdminDeliveryBoys />} />
+          <Route path="/delivery/login" element={<DeliveryLogin />} />
+          <Route path="/delivery/dashboard" element={<DeliveryDashboard />} />
+          <Route path="/admin/dashboard-home" element={<AdminHome />} />
+          <Route path="/admin/bulk-orders" element={<AdminBulkOrders />} />
+          <Route path="/admin/memberships" element={<AdminMemberships />} />
           
           
           

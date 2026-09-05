@@ -1280,4 +1280,476 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
   padding: 5px 10px;
   cursor: pointer;
 }
+/* ===== Bulk Order — Category Tabs ===== */
+.bulk-category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
 
+.bulk-category-tab {
+    padding: 10px 18px;
+    border: 1px solid #a0522d;
+    background: #fff;
+    color: #a0522d;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.bulk-category-tab.active {
+    background: #a0522d;
+    color: #fff;
+}
+
+/* ===== Bulk Order — Items List ===== */
+.bulk-items-list {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #fffaf5;
+}
+
+.bulk-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0e6db;
+}
+
+.bulk-item-row:last-child {
+    border-bottom: none;
+}
+
+.bulk-item-name {
+    flex: 1;
+    font-weight: 500;
+}
+
+.bulk-qty-input {
+    width: 80px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.bulk-add-btn {
+    background: #a0522d;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ===== Bulk Order — Cart / Selected Items ===== */
+.bulk-cart-box {
+    border: 2px solid #a0522d;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    background: #fef9f5;
+}
+
+.bulk-cart-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+}
+
+.bulk-remove-btn {
+    background: none;
+    border: none;
+    color: #c0392b;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.bulk-cart-running-total {
+    text-align: right;
+    margin-top: 10px;
+    color: #a0522d;
+}
+
+/* ===== Bulk Order — Summary / Checkout Screen ===== */
+.bulk-summary-box {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px 25px;
+    background: #fffaf5;
+    margin-bottom: 15px;
+}
+
+.bulk-summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+}
+
+.bulk-summary-total {
+    font-weight: 700;
+    font-size: 18px;
+    color: #a0522d;
+}
+.bulk-section-box {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.bulk-section-title {
+    color: #a0522d;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #f0e6db;
+    padding-bottom: 10px;
+}
+/* ===== Delivery Dashboard — Professional Styling ===== */
+.delivery-header-banner {
+    background: linear-gradient(135deg, #a0522d, #c9702a);
+    color: #fff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(160, 82, 45, 0.25);
+}
+
+.delivery-header-banner h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.delivery-header-banner .admin-logout-btn {
+    background: #fff;
+    color: #a0522d;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.delivery-section-box {
+    background: #fffaf5;
+    border: 1px solid #f0e0d0;
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.delivery-available-box {
+    border: 2px dashed #a0522d;
+    background: #fff;
+}
+
+.delivery-section-title {
+    color: #a0522d;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0e0d0;
+}
+
+/* Delivery table override for nicer look */
+.delivery-section-box .admin-orders-table {
+    border: none;
+}
+
+.delivery-section-box .admin-orders-table th {
+    background: #a0522d;
+    color: #fff;
+    padding: 10px;
+}
+
+.delivery-section-box .admin-orders-table td {
+    padding: 10px;
+    background: #fff;
+}
+
+.delivery-section-box .admin-orders-table tr:nth-child(even) td {
+    background: #fdf6f0;
+}
+
+.delivery-section-box button {
+    background: #a0522d;
+    color: #fff;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.delivery-section-box button:hover {
+    background: #8a4526;
+}
+/* ===== Delivery Login Page ===== */
+.delivery-login-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fff8f2, #fdeee0);
+}
+
+.delivery-login-card {
+    background: #fff;
+    padding: 40px 35px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(160, 82, 45, 0.15);
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+}
+
+.delivery-login-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.delivery-login-title {
+    color: #a0522d;
+    margin-bottom: 5px;
+}
+
+.delivery-login-subtitle {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.delivery-login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #a0522d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.2s;
+}
+
+.delivery-login-btn:hover {
+    background: #8a4526;
+}
+/* ===== Admin Layout — Sidebar + Topbar ===== */
+.admin-layout-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    width: 220px;
+    background: #2c1810;
+    color: #f5ede4;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 12px;
+    flex-shrink: 0;
+}
+
+.admin-sidebar-logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #f0c199;
+    padding: 0 10px;
+    margin-bottom: 25px;
+}
+
+.admin-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.admin-sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #f5ede4;
+    text-decoration: none;
+    font-size: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    opacity: 0.85;
+    transition: 0.2s;
+}
+
+.admin-sidebar-link:hover {
+    background: rgba(255,255,255,0.08);
+    opacity: 1;
+}
+
+.admin-sidebar-link.active {
+    background: #a0522d;
+    opacity: 1;
+    font-weight: 600;
+}
+
+.admin-sidebar-icon {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.admin-sidebar-footer {
+    margin-top: auto;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 12px;
+}
+
+.admin-main-area {
+    flex: 1;
+    background: #f7f5f2;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.admin-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 14px 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-topbar-title {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.admin-profile-menu-wrapper {
+    position: relative;
+}
+
+.admin-profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+.admin-profile-trigger:hover {
+    background: #f5f0ea;
+}
+
+.admin-profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #a0522d;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.admin-profile-caret {
+    font-size: 11px;
+    color: #888;
+}
+
+.admin-profile-dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-width: 160px;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.admin-profile-dropdown button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.admin-profile-dropdown button:hover {
+    background: #f7f2ec;
+}
+
+.admin-page-content {
+    padding: 25px;
+    flex: 1;
+}
+
+/* ===== Stat Cards ===== */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.admin-stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.admin-stat-card-label {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 8px;
+}
+
+.admin-stat-card-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #a0522d;
+    margin: 0;
+}
+.admin-stat-card-clickable {
+    cursor: pointer;
+    transition: 0.2s;
+    border: 2px solid transparent;
+}
+
+.admin-stat-card-clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(160, 82, 45, 0.15);
+}
+
+.admin-stat-card-clickable.active {
+    border: 2px solid #a0522d;
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AdminLayout from "./AdminLayout";
 
 const STATUS_OPTIONS = ['pending', 'preparing', 'cooking', 'packing', 'ready', 'delivered', 'cancelled'];
 
@@ -80,16 +81,11 @@ const handleStatusChange = async (orderId, newStatus) => {
     navigate("/admin/login");
   };
 
-  if (loading) return <p className="admin-loading-text">Loading orders...</p>;
-  if (error) return <p className="admin-error-text">{error}</p>;
+ if (loading) return <AdminLayout pageTitle="Orders"><p className="admin-loading-text">Loading orders...</p></AdminLayout>;
+  if (error) return <AdminLayout pageTitle="Orders"><p className="admin-error-text">{error}</p></AdminLayout>;
 
   return (
-    <div className="admin-dashboard-container">
-      <div className="admin-dashboard-header">
-        <h2>Admin Dashboard — Orders</h2>
-        <button onClick={handleLogout} className="admin-logout-btn">Logout</button>
-      </div>
-
+    <AdminLayout pageTitle="Orders">
       <table className="admin-orders-table">
         <thead>
     <tr>
@@ -101,6 +97,7 @@ const handleStatusChange = async (orderId, newStatus) => {
         <th>Total</th>
         <th>Payment</th>
         <th>Status</th>
+        <th>Delivery</th>
         <th>Date</th>
     </tr>
 </thead>
@@ -148,12 +145,21 @@ const handleStatusChange = async (orderId, newStatus) => {
         ))}
     </select>
 </td>
-              <td>{order.created_at}</td>
+              <td>
+    {order.delivery_status === 'delivered' ? (
+        <span style={{ color: 'green', fontWeight: 'bold' }}>✅ Delivered</span>
+    ) : order.delivery_status === 'accepted' ? (
+        <span style={{ color: '#a0522d', fontWeight: 'bold' }}>🚴 {order.delivery_boy_name}</span>
+    ) : (
+        <span style={{ color: '#888' }}>⏳ Not accepted yet</span>
+    )}
+</td>
+<td>{order.created_at}</td>
             </tr>
           ))}
-        </tbody>
+           </tbody>
       </table>
-    </div>
+    </AdminLayout>
   );
 }
 

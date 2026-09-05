@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import AdminLayout from "./AdminLayout";
 
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
@@ -58,11 +59,11 @@ function AdminWeeklyMenu() {
         }
     };
 
-    if (loading) return <p className="admin-loading-text">Loading...</p>;
+      if (loading) return <AdminLayout pageTitle="Weekly Menu"><p className="admin-loading-text">Loading...</p></AdminLayout>;
 
-    return (
-        <div className="admin-dashboard-container">
-            <h2>Manage Weekly Menu</h2>
+  return (
+    <AdminLayout pageTitle="Weekly Menu">
+      <h2>Manage Weekly Menu</h2>
 
             {statusMsg && <p style={{ marginBottom: "15px" }}>{statusMsg}</p>}
 
@@ -101,9 +102,9 @@ function AdminWeeklyMenu() {
                         </tr>
                     ))}
                 </tbody>
-            </table>
-        </div>
-    );
+             </table>
+    </AdminLayout>
+  );
 }
 
 export default AdminWeeklyMenu;

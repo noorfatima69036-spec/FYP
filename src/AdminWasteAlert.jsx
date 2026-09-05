@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import AdminLayout from "./AdminLayout";
 
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
@@ -67,8 +68,8 @@ function AdminWasteAlert() {
     }
   };
 
-  return (
-    <div className="admin-dashboard-container">
+   return (
+    <AdminLayout pageTitle="Waste Alert">
       <h2>Waste Alert</h2>
 
       <div style={{ marginBottom: "20px", padding: "12px", border: "1px solid #ccc", borderRadius: "8px" }}>
@@ -107,8 +108,8 @@ function AdminWasteAlert() {
         </div>
       </form>
 
-      {statusMsg && <p style={{ marginTop: "10px" }}>{statusMsg}</p>}
-    </div>
+       {statusMsg && <p style={{ marginTop: "10px" }}>{statusMsg}</p>}
+    </AdminLayout>
   );
 }
 
