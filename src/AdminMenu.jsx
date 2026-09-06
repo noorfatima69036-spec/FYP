@@ -10,7 +10,17 @@ function AdminMenu() {
   const [editingId, setEditingId] = useState(null);
   const navigate = useNavigate();
 
-  const emptyForm = { category: "appetizers", name: "", description: "", price: "", image_name: "" };
+  // price_half, price_per_box, price_per_kg sab optional hain - jo dish pe applicable ho wahi bharo
+  const emptyForm = {
+    category: "appetizers",
+    name: "",
+    description: "",
+    price_full: "",
+    price_half: "",
+    price_per_box: "",
+    price_per_kg: "",
+    image_name: "",
+  };
   const [form, setForm] = useState(emptyForm);
 
   useEffect(() => {
@@ -73,7 +83,10 @@ function AdminMenu() {
       category: item.category,
       name: item.name,
       description: item.description || "",
-      price: item.price,
+      price_full: item.price_full,
+      price_half: item.price_half || "",
+      price_per_box: item.price_per_box || "",
+      price_per_kg: item.price_per_kg || "",
       image_name: item.image_name || "",
     });
     setEditingId(item.id);
@@ -118,7 +131,15 @@ function AdminMenu() {
         </select>
         <input type="text" name="name" placeholder="Item name" value={form.name} onChange={handleChange} required />
         <input type="text" name="description" placeholder="Description (optional)" value={form.description} onChange={handleChange} />
-        <input type="number" name="price" placeholder="Price" value={form.price} onChange={handleChange} required />
+
+        <p style={{ width: "100%", margin: "10px 0 2px", fontWeight: 600, fontSize: "13px", color: "#a0522d" }}>Normal Menu Pricing</p>
+        <input type="number" name="price_full" placeholder="Full Price" value={form.price_full} onChange={handleChange} required />
+        <input type="number" name="price_half" placeholder="Half Price (leave empty if not applicable)" value={form.price_half} onChange={handleChange} />
+
+        <p style={{ width: "100%", margin: "10px 0 2px", fontWeight: 600, fontSize: "13px", color: "#a0522d" }}>Bulk Order Pricing (optional)</p>
+        <input type="number" name="price_per_box" placeholder="Price per Box (leave empty if not applicable)" value={form.price_per_box} onChange={handleChange} />
+        <input type="number" name="price_per_kg" placeholder="Price per KG (leave empty if not applicable)" value={form.price_per_kg} onChange={handleChange} />
+
         <input type="text" name="image_name" placeholder="Image filename (e.g. nuggets.jpeg)" value={form.image_name} onChange={handleChange} />
         <button type="submit">{editingId ? "Update Item" : "Add Item"}</button>
         {editingId && <button type="button" onClick={handleCancelEdit}>Cancel</button>}
@@ -131,7 +152,10 @@ function AdminMenu() {
             <th>ID</th>
             <th>Category</th>
             <th>Name</th>
-            <th>Price</th>
+            <th>Full</th>
+            <th>Half</th>
+            <th>Per Box</th>
+            <th>Per KG</th>
             <th>Image</th>
             <th>Actions</th>
           </tr>
@@ -142,7 +166,10 @@ function AdminMenu() {
               <td>{item.id}</td>
               <td>{item.category}</td>
               <td>{item.name}</td>
-              <td>Rs. {item.price}</td>
+              <td>Rs. {item.price_full}</td>
+              <td>{item.price_half ? `Rs. ${item.price_half}` : "-"}</td>
+              <td>{item.price_per_box ? `Rs. ${item.price_per_box}` : "-"}</td>
+              <td>{item.price_per_kg ? `Rs. ${item.price_per_kg}` : "-"}</td>
               <td>{item.image_name}</td>
               <td>
                 <button onClick={() => handleEdit(item)}>Edit</button>

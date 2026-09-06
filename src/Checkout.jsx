@@ -52,6 +52,7 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
         name: item.name,
         quantity: item.quantity,
         price: item.price,
+        portion_type: item.portion_type || 'full', // Full ya Half - backend order_items mein save hoga
     })),
 };
     try {
@@ -198,8 +199,12 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
                     <h3>Order Summary</h3>
                     <div className="summary-items">
                         {cartItems.map((item) => (
-                            <div key={item.id} className="summary-item">
-                                <span>{item.name} (x{item.quantity})</span>
+                            <div key={`${item.id}-${item.portion_type}`} className="summary-item">
+                                <span>
+                                    {item.name}
+                                    {item.portion_type === 'half' ? ' (Half)' : ' (Full)'}
+                                    {' '}(x{item.quantity})
+                                </span>
                                 <span>Rs. {item.price * item.quantity}</span>
                             </div>
                         ))}

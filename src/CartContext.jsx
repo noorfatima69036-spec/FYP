@@ -29,16 +29,39 @@ export const CartProvider = ({ children }) => {
     }, [cartItems]); // Jab bhi cartItems change honge, total khud update hoga
 
     // Item add karne ka function
-    const addToCart = (product) => {
-        console.log("Items are being added:", product.name);
+    // portionType: 'full' ya 'half' - default 'full' rakha hai taake purani jagah se call ho to na toote
+    const addToCart = (product, portionType = 'full') => {
+        // Selected portion ke hisaab se sahi price nikal rahe hain
+        const unitPrice = portionType === 'half'
+            ? Number(product.price_half)
+            : Number(product.price_full);
+
+        console.log("Items are being added:", product.name, "-", portionType);
+
         setCartItems((prevItems) => {
-            const isItemInCart = prevItems.find((item) => item.id === product.id);
+            // Match ab id AND portion_type dono se hoga
+            // taake "Full" aur "Half" ek hi dish ke alag cart rows banein
+            const isItemInCart = prevItems.find(
+                (item) => item.id === product.id && item.portion_type === portionType
+            );
+
             if (isItemInCart) {
                 return prevItems.map((item) =>
-                    item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+                    (item.id === product.id && item.portion_type === portionType)
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
                 );
             }
-            return [...prevItems, { ...product, quantity: 1 }];
+
+            return [
+                ...prevItems,
+                {
+                    ...product,
+                    portion_type: portionType,
+                    price: unitPrice, // isi price se totalPrice calculate hota hai
+                    quantity: 1
+                }
+            ];
         });
     };
 

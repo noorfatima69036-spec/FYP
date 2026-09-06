@@ -18,6 +18,8 @@ export default function BulkOrder() {
     const [menuItems, setMenuItems] = useState({});
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [quantities, setQuantities] = useState({});
+    // Har item ke liye 'box' ya 'kg' - jo customer select kare
+    const [unitTypes, setUnitTypes] = useState({});
     const [cart, setCart] = useState([]);
     const [step, setStep] = useState("building");
 
@@ -57,24 +59,55 @@ export default function BulkOrder() {
         setQuantities({ ...quantities, [itemId]: value });
     };
 
+    const handleUnitChange = (itemId, unit) => {
+        setUnitTypes({ ...unitTypes, [itemId]: unit });
+    };
+
+    // Item ki default unit decide karta hai - jo bhi price set hai wahi use hoga,
+    // agar dono set hain to 'box' default rakha hai
+    const getDefaultUnit = (item) => {
+        if (item.price_per_box) return "box";
+        if (item.price_per_kg) return "kg";
+        return null;
+    };
+
+    const getUnitPrice = (item, unit) => {
+        return unit === "kg" ? Number(item.price_per_kg) : Number(item.price_per_box);
+    };
+
     const handleAddItem = (item) => {
         const qty = parseInt(quantities[item.id]);
         if (!qty || qty <= 0) {
             alert("Please enter a valid quantity for this dish");
             return;
         }
+
+        const unit = unitTypes[item.id] || getDefaultUnit(item);
+        if (!unit) {
+            alert("This dish has no bulk pricing set. Please contact admin.");
+            return;
+        }
+
+        const unitPrice = getUnitPrice(item, unit);
+
         setCart((prev) => {
-            const existing = prev.find((c) => c.id === item.id);
+            // Match ab id AND unit_type dono se - taake "Box" aur "KG" wali entries mix na hon
+            const existing = prev.find((c) => c.id === item.id && c.unit_type === unit);
             if (existing) {
-                return prev.map((c) => (c.id === item.id ? { ...c, quantity: qty } : c));
+                return prev.map((c) =>
+                    (c.id === item.id && c.unit_type === unit) ? { ...c, quantity: qty } : c
+                );
             }
-            return [...prev, { id: item.id, name: item.name, category: item.category, price: Number(item.price), quantity: qty }];
+            return [
+                ...prev,
+                { id: item.id, name: item.name, category: item.category, unit_type: unit, price: unitPrice, quantity: qty },
+            ];
         });
         setQuantities({ ...quantities, [item.id]: "" });
     };
 
-    const handleRemoveItem = (itemId) => {
-        setCart((prev) => prev.filter((c) => c.id !== itemId));
+    const handleRemoveItem = (itemId, unitType) => {
+        setCart((prev) => prev.filter((c) => !(c.id === itemId && c.unit_type === unitType)));
     };
 
     const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -112,6 +145,7 @@ export default function BulkOrder() {
                 category: item.category,
                 quantity: item.quantity,
                 price: item.price,
+                unit_type: item.unit_type,
             })),
             total_amount: cartTotal,
         };
@@ -158,8 +192,8 @@ export default function BulkOrder() {
                     <hr />
                     <h3>Selected Dishes</h3>
                     {cart.map((item) => (
-                        <div key={item.id} className="bulk-summary-row">
-                            <span>{item.name} (Qty: {item.quantity})</span>
+                        <div key={`${item.id}-${item.unit_type}`} className="bulk-summary-row">
+                            <span>{item.name} ({item.unit_type === "kg" ? `${item.quantity} KG` : `${item.quantity} Box(es)`})</span>
                             <span>Rs. {item.price * item.quantity}</span>
                         </div>
                     ))}
@@ -275,22 +309,58 @@ export default function BulkOrder() {
 
                 {selectedCategory && (
                     <div className="bulk-items-list">
-                        {menuItems[selectedCategory]?.map((item) => (
-                            <div key={item.id} className="bulk-item-row">
-                                <span className="bulk-item-name">{item.name} — Rs. {item.price}</span>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    placeholder="Quantity"
-                                    value={quantities[item.id] || ""}
-                                    onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                                    className="bulk-qty-input"
-                                />
-                                <button type="button" onClick={() => handleAddItem(item)} className="bulk-add-btn">
-                                    Add
-                                </button>
-                            </div>
-                        ))}
+                        {menuItems[selectedCategory]?.map((item) => {
+                            const hasBox = item.price_per_box !== null && Number(item.price_per_box) > 0;
+                            const hasKg = item.price_per_kg !== null && Number(item.price_per_kg) > 0;
+                            const currentUnit = unitTypes[item.id] || getDefaultUnit(item);
+
+                            // Agar dish ki koi bulk pricing hi set nahi hai to dish list mein hi na dikhao
+                            if (!hasBox && !hasKg) return null;
+
+                            return (
+                                <div key={item.id} className="bulk-item-row" style={{ flexWrap: "wrap" }}>
+                                    <span className="bulk-item-name">
+                                        {item.name}
+                                        {currentUnit === "kg"
+                                            ? ` — Rs. ${item.price_per_kg}/kg`
+                                            : ` — Rs. ${item.price_per_box}/box`}
+                                    </span>
+
+                                    {hasBox && hasKg && (
+                                        <div style={{ display: "flex", gap: "10px", margin: "4px 0" }}>
+                                            <label style={{ fontSize: "13px", cursor: "pointer" }}>
+                                                <input
+                                                    type="radio"
+                                                    name={`unit-${item.id}`}
+                                                    checked={currentUnit === "box"}
+                                                    onChange={() => handleUnitChange(item.id, "box")}
+                                                /> Boxes (Rs. {item.price_per_box}/box)
+                                            </label>
+                                            <label style={{ fontSize: "13px", cursor: "pointer" }}>
+                                                <input
+                                                    type="radio"
+                                                    name={`unit-${item.id}`}
+                                                    checked={currentUnit === "kg"}
+                                                    onChange={() => handleUnitChange(item.id, "kg")}
+                                                /> KG (Rs. {item.price_per_kg}/kg)
+                                            </label>
+                                        </div>
+                                    )}
+
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        placeholder={currentUnit === "kg" ? "Quantity (kg)" : "Quantity (boxes)"}
+                                        value={quantities[item.id] || ""}
+                                        onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                                        className="bulk-qty-input"
+                                    />
+                                    <button type="button" onClick={() => handleAddItem(item)} className="bulk-add-btn">
+                                        Add
+                                    </button>
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
 
@@ -298,9 +368,11 @@ export default function BulkOrder() {
                     <div className="bulk-cart-box">
                         <h4>Your Selected Dishes:</h4>
                         {cart.map((item) => (
-                            <div key={item.id} className="bulk-cart-row">
-                                <span>{item.name} — Qty: {item.quantity} (Rs. {item.price * item.quantity})</span>
-                                <button type="button" onClick={() => handleRemoveItem(item.id)} className="bulk-remove-btn">✖</button>
+                            <div key={`${item.id}-${item.unit_type}`} className="bulk-cart-row">
+                                <span>
+                                    {item.name} — Qty: {item.quantity} {item.unit_type === "kg" ? "KG" : "Box(es)"} (Rs. {item.price * item.quantity})
+                                </span>
+                                <button type="button" onClick={() => handleRemoveItem(item.id, item.unit_type)} className="bulk-remove-btn">✖</button>
                             </div>
                         ))}
                         <p className="bulk-cart-running-total"><strong>Running Total: Rs. {cartTotal}</strong></p>

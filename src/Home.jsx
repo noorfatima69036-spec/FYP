@@ -16,6 +16,10 @@ const [selectedCity, setSelectedCity] = useState('');
 const [menuItems, setMenuItems] = useState({});
 const [menuLoading, setMenuLoading] = useState(true);
 
+// Har item ke liye currently selected portion (full/half) track karta hai
+// key = item.id, value = 'full' ya 'half'
+const [selectedPortions, setSelectedPortions] = useState({});
+
 const cityAreas = [
     'Hafizabad Road',
     'Model Town',
@@ -33,11 +37,16 @@ const cityAreas = [
     
     const { addToCart, cartItems, totalPrice } = useCart(); 
 
+    const handlePortionChange = (itemId, portion) => {
+        setSelectedPortions((prev) => ({ ...prev, [itemId]: portion }));
+    };
+
     const handleAddToCart = (item) => {
         const isLoggedIn = localStorage.getItem('isLoggedIn');
         console.log("Is User Logged In?", isLoggedIn);
         if (isLoggedIn === 'true') {
-            addToCart(item); 
+            const portion = selectedPortions[item.id] || 'full';
+            addToCart(item, portion);
         } else {
             alert("Please login first! You cannot place an order without logging in.");
             navigate('/login');
@@ -267,11 +276,13 @@ useEffect(() => {
                             Top 5 {categories.find(c => c.id === selectedCategory)?.name}
                         </h2>
                         <div className="items-row">
-                             {(menuItems[selectedCategory] || []).map((item) => (
+                             {(menuItems[selectedCategory] || []).map((item) => {
+                                const hasHalf = item.price_half !== null && Number(item.price_half) > 0;
+                                const currentPortion = selectedPortions[item.id] || 'full';
+                                return (
                                 <div key={item.id} className="item-card">
                                     <img src={item.image_name} alt={item.name} />
                                     <h4>{item.name}</h4>
-                                    <p>Rs. {item.price}</p>
 
                                     {/* DESCRIPTION LOGIC: Agar khali hai ya ---- hai to hide ho jaye */}
                                     {item.description && item.description !== '----' && (
@@ -279,10 +290,35 @@ useEffect(() => {
                                             {item.description}
                                         </p>
                                     )}
-            
+
+                                    {hasHalf ? (
+                                        <>
+                                            <div className="portion-select" style={{ display: 'flex', gap: '10px', justifyContent: 'center', margin: '6px 0' }}>
+                                                <label style={{ fontSize: '13px', cursor: 'pointer' }}>
+                                                    <input
+                                                        type="radio"
+                                                        name={`portion-${item.id}`}
+                                                        checked={currentPortion === 'full'}
+                                                        onChange={() => handlePortionChange(item.id, 'full')}
+                                                    /> Full - Rs. {item.price_full}
+                                                </label>
+                                                <label style={{ fontSize: '13px', cursor: 'pointer' }}>
+                                                    <input
+                                                        type="radio"
+                                                        name={`portion-${item.id}`}
+                                                        checked={currentPortion === 'half'}
+                                                        onChange={() => handlePortionChange(item.id, 'half')}
+                                                    /> Half - Rs. {item.price_half}
+                                                </label>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <p>Rs. {item.price_full}</p>
+                                    )}
+
                                     <button className="add-cart-btn" onClick={() => handleAddToCart(item)}>Add to Cart</button>
                                 </div>
-                            ))}
+                            );})}
                         </div>
                         <div className="view-all-container">
                             <button className="view-all-btn" onClick={() => navigate('/full-menu')}>VIEW ALL MENU</button>
