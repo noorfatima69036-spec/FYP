@@ -17,7 +17,7 @@ function AdminBulkOrders() {
             navigate("/admin/login");
             return;
         }
-        fetch(`${API_BASE}/get_bulk_orders.php`)
+        fetch(`${API_BASE}/admin/get_bulk_orders.php`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) setOrders(data.bulk_orders);

@@ -22,7 +22,7 @@ function AdminDashboard() {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost/dastr-khwan-backend/get_all_orders.php");
+      const res = await fetch("http://localhost/dastr-khwan-backend/orders/get_all_orders.php");
       const data = await res.json();
       if (data.success) {
         setOrders(data.orders);
@@ -38,7 +38,7 @@ function AdminDashboard() {
 
 const handleStatusChange = async (orderId, newStatus) => {
     try {
-      const res = await fetch("http://localhost/dastr-khwan-backend/update_order_status.php", {
+      const res = await fetch("http://localhost/dastr-khwan-backend/orders/update_order_status.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ order_id: orderId, status: newStatus }),
@@ -58,7 +58,7 @@ const handleStatusChange = async (orderId, newStatus) => {
 
   const handleVerifyPayment = async (orderId) => {
     try {
-        const res = await fetch("http://localhost/dastr-khwan-backend/verify_payment.php", {
+        const res = await fetch("http://localhost/dastr-khwan-backend/auth/verify_payment.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ order_id: orderId }),

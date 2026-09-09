@@ -14,7 +14,7 @@ function AdminLogin() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost/dastr-khwan-backend/admin_login.php", {
+      const res = await fetch("http://localhost/dastr-khwan-backend/admin/admin_login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useCart } from './CartContext';
+import { useCart } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
-import './Style.css'; 
+ import "../Style.css"; 
 
 const Checkout = () => {
     const { cartItems, totalPrice, setCartItems } = useCart();
@@ -56,7 +56,7 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
     })),
 };
     try {
-        const res = await fetch(`${API_BASE}/place_order.php`, {
+        const res = await fetch(`${API_BASE}/orders/place_order.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orderData),

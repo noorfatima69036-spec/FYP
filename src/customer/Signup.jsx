@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Style.css'; // Aapki CSS file
+ import "../Style.css"; // Aapki CSS file
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
 const Signup = () => {
@@ -24,7 +24,7 @@ const [loading, setLoading] = useState(false);
     setLoading(true);
 
     try {
-        const res = await fetch(`${API_BASE}/signup.php`, {
+        const res = await fetch(`${API_BASE}/auth/signup.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData),

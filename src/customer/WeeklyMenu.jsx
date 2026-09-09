@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Style.css";
+import "../Style.css";
 
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
@@ -8,7 +8,7 @@ export default function WeeklyMenu() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${API_BASE}/get_weekly_menu.php`)
+        fetch(`${API_BASE}/admin/get_weekly_menu.php`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) {

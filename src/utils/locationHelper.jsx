@@ -4,7 +4,7 @@
 
 export function fetchCurrentAddress(onSuccess, onError, onLoading) {
   if (!navigator.geolocation) {
-    onError("Aap ka browser location support nahi karta");
+    onError("Your browser does not support location.");
     return;
   }
 

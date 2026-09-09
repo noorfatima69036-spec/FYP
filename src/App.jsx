@@ -1,35 +1,41 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { CartProvider } from "./CartContext";
-import Checkout from './Checkout';// Checkout page ko import karna taake App ko pata ho ye kahan hai
-import Contact from './Contact'; // for contact
-import Deals from './Deals';
-import WasteAlert from './wasteAlert';
-import Footer from './Footer';
+import { CartProvider } from "./context/CartContext";
 
-// Kyunke App.jsx khud src folder mein hai, isliye sirf ./ likhein
-import Login from './Login';
-import FullMenu from './FullMenu';
-import Signup from './Signup'; 
-import Home from './Home';
-import ForgotPassword from './ForgotPassword';
-import Blogs from './Blogs';
-import './Style.css'; 
-import LiveKitchen from "./LiveKitchen";
-import OfficeMembership from './OfficeMembership';
-import BulkOrder from './BulkOrder';
-import WeeklyMenu from './WeeklyMenu';
-import AdminLogin from './AdminLogin';
-import AdminDashboard from './AdminDashboard';
-import AdminMenu from './AdminMenu';
-import AdminWasteAlert from './AdminWasteAlert';
-import AdminWeeklyMenu from './AdminWeeklyMenu';
-import AdminDeliveryBoys from './AdminDeliveryBoys';
-import DeliveryLogin from './DeliveryLogin';
-import DeliveryDashboard from './DeliveryDashboard';
-import AdminHome from './AdminHome';
-import AdminBulkOrders from './AdminBulkOrders';
-import AdminMemberships from './AdminMemberships';
+// Customer pages
+import Checkout from './customer/Checkout';
+import Contact from './customer/Contact';
+import Deals from './customer/Deals';
+import WasteAlert from './customer/WasteAlert';
+import Login from './customer/Login';
+import FullMenu from './customer/FullMenu';
+import Signup from './customer/Signup';
+import Home from './customer/Home';
+import ForgotPassword from './customer/ForgotPassword';
+import Blogs from './customer/Blogs';
+import LiveKitchen from "./customer/LiveKitchen";
+import OfficeMembership from './customer/Officemembership';
+import BulkOrder from './customer/Bulkorder';
+import WeeklyMenu from './customer/WeeklyMenu';
+
+// Components
+import Footer from './components/Footer';
+ import "./Style.css";
+
+// Admin pages
+import AdminLogin from './admin/AdminLogin';
+import AdminDashboard from './admin/AdminDashboard';
+import AdminMenu from './admin/AdminMenu';
+import AdminWasteAlert from './admin/AdminWasteAlert';
+import AdminWeeklyMenu from './admin/AdminWeeklyMenu';
+import AdminDeliveryBoys from './admin/AdminDeliveryBoys';
+import AdminHome from './admin/AdminHome';
+import AdminBulkOrders from './admin/AdminBulkOrders';
+import AdminMemberships from './admin/AdminMemberships';
+
+// Delivery pages
+import DeliveryLogin from './delivery/DeliveryLogin';
+import DeliveryDashboard from './delivery/DeliveryDashboard';
 
 
 

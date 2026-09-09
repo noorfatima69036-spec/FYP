@@ -20,7 +20,7 @@ function AdminHome() {
     }, []);
 
     const fetchStats = () => {
-        fetch(`${API_BASE}/get_dashboard_stats.php`)
+        fetch(`${API_BASE}/admin/get_dashboard_stats.php`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) {

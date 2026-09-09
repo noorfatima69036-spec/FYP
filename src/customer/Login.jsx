@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Style.css'; // Aapki main CSS file link ho gayi
+ import "../Style.css"; // Aapki main CSS file link ho gayi
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
 const Login = () => {
@@ -23,7 +23,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-        const res = await fetch(`${API_BASE}/login.php`, {
+        const res = await fetch(`${API_BASE}/auth/login.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),

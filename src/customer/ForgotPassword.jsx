@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Style.css'; // Wahi main CSS file link karein
+ import "../Style.css"; // Wahi main CSS file link karein
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
 const ForgotPassword = () => {
@@ -23,7 +23,7 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-        const res = await fetch(`${API_BASE}/send_otp.php`, {
+        const res = await fetch(`${API_BASE}/auth/send_otp.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email }),
@@ -58,7 +58,7 @@ const resetPassword = async () => {
     setLoading(true);
 
     try {
-        const res = await fetch(`${API_BASE}/reset_password.php`, {
+        const res = await fetch(`${API_BASE}/auth/reset_password.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, otp, new_password: newPassword }),

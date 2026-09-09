@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./Style.css";
+import "../Style.css";
 
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
@@ -37,7 +37,7 @@ export default function BulkOrder() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        fetch(`${API_BASE}/get_menu_items.php`)
+        fetch(`${API_BASE}/admin/get_menu_items.php`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) {
@@ -151,7 +151,7 @@ export default function BulkOrder() {
         };
 
         try {
-            const res = await fetch(`${API_BASE}/add_bulk_order.php`, {
+            const res = await fetch(`${API_BASE}/admin/add_bulk_order.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),

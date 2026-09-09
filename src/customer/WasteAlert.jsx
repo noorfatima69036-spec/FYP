@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Style.css";
+import "../Style.css";
 
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
@@ -9,7 +9,7 @@ export default function WasteAlert() {
 
   useEffect(() => {
     const checkAlert = () => {
-      fetch(`${API_BASE}/get_active_waste_alert.php`)
+      fetch(`${API_BASE}/admin/get_active_waste_alert.php`)
         .then((res) => res.json())
         .then((data) => {
           if (data.success && data.active) {

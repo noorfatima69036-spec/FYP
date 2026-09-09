@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useCart } from './CartContext';
+import { useCart } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
-import './Style.css';
+ import "../Style.css";
 
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
@@ -22,7 +22,7 @@ const Deals = () => {
     };
 
     useEffect(() => {
-        fetch(`${API_BASE}/get_menu_items.php`)
+        fetch(`${API_BASE}/admin/get_menu_items.php`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) {

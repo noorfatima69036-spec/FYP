@@ -21,7 +21,7 @@ function AdminWasteAlert() {
   }, []);
 
   const checkCurrentAlert = () => {
-    fetch(`${API_BASE}/get_active_waste_alert.php`)
+    fetch(`${API_BASE}/admin/get_active_waste_alert.php`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.active) {
@@ -36,7 +36,7 @@ function AdminWasteAlert() {
     e.preventDefault();
     setStatusMsg("");
     try {
-      const res = await fetch(`${API_BASE}/post_waste_alert.php`, {
+      const res = await fetch(`${API_BASE}/admin/post_waste_alert.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message, phone }),
@@ -55,7 +55,7 @@ function AdminWasteAlert() {
 
   const handleDeactivate = async () => {
     try {
-      const res = await fetch(`${API_BASE}/deactivate_waste_alert.php`, {
+      const res = await fetch(`${API_BASE}/admin/deactivate_waste_alert.php`, {
         method: "POST",
       });
       const data = await res.json();

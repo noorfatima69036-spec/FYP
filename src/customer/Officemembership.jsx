@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Style.css";
+import "../Style.css";
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
 const plans = [

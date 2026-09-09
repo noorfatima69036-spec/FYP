@@ -16,7 +16,7 @@ function AdminMemberships() {
             navigate("/admin/login");
             return;
         }
-        fetch(`${API_BASE}/get_memberships.php`)
+        fetch(`${API_BASE}/admin/get_memberships.php`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) setMemberships(data.memberships);

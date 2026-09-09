@@ -20,7 +20,7 @@ function AdminWeeklyMenu() {
     }, []);
 
     const fetchMenu = () => {
-        fetch(`${API_BASE}/get_weekly_menu.php`)
+        fetch(`${API_BASE}/admin/get_weekly_menu.php`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) {
@@ -39,7 +39,7 @@ function AdminWeeklyMenu() {
     const handleSave = async (day) => {
         setStatusMsg("");
         try {
-            const res = await fetch(`${API_BASE}/update_weekly_menu.php`, {
+            const res = await fetch(`${API_BASE}/admin/update_weekly_menu.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

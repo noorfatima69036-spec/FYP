@@ -31,7 +31,7 @@ function DeliveryDashboard() {
     }, []);
 
     const fetchOrders = () => {
-        fetch(`${API_BASE}/get_ready_orders.php`)
+        fetch(`${API_BASE}/orders/get_ready_orders.php`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) setOrders(data.orders);
@@ -40,7 +40,7 @@ function DeliveryDashboard() {
     };
 
     const fetchStats = (boyId) => {
-        fetch(`${API_BASE}/get_delivery_stats.php?delivery_boy_id=${boyId}`)
+        fetch(`${API_BASE}/delivery/get_delivery_stats.php?delivery_boy_id=${boyId}`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) setStats(data.stats);
@@ -59,7 +59,7 @@ function DeliveryDashboard() {
     const handleAccept = async (orderId) => {
         const boy = JSON.parse(localStorage.getItem("deliveryBoy"));
         try {
-            const res = await fetch(`${API_BASE}/accept_order.php`, {
+            const res = await fetch(`${API_BASE}/orders/accept_order.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ order_id: orderId, delivery_boy_id: boy.id }),
@@ -80,7 +80,7 @@ function DeliveryDashboard() {
     const handleMarkDelivered = async (orderId) => {
         const boy = JSON.parse(localStorage.getItem("deliveryBoy"));
         try {
-            const res = await fetch(`${API_BASE}/mark_delivered.php`, {
+            const res = await fetch(`${API_BASE}/delivery/mark_delivered.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ order_id: orderId, delivery_boy_id: boy.id }),

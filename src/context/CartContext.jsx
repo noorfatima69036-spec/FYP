@@ -11,7 +11,7 @@ export const CartProvider = ({ children }) => {
     if (isLoggedIn === 'true') {
         navigate('/checkout');
     } else {
-        alert("Bagair login ke order place nahi ho sakta. Pehle login karein.");
+        alert("An order cannot be placed without logging in. Please log in first.");
         navigate('/login');
     }
 };

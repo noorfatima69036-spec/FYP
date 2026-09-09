@@ -21,7 +21,7 @@ function AdminDeliveryBoys() {
     }, []);
 
     const fetchBoys = () => {
-        fetch(`${API_BASE}/get_delivery_boys.php`)
+        fetch(`${API_BASE}/admin/get_delivery_boys.php`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) setBoys(data.delivery_boys);
@@ -37,7 +37,7 @@ function AdminDeliveryBoys() {
         setMessage("");
         setLoading(true);
         try {
-            const res = await fetch(`${API_BASE}/add_delivery_boy.php`, {
+            const res = await fetch(`${API_BASE}/admin/add_delivery_boy.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form),

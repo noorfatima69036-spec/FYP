@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import "./Style.css";
+import "../Style.css";
 
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
@@ -23,7 +23,7 @@ export default function LiveKitchen() {
 
   useEffect(() => {
     const fetchStatus = () => {
-      fetch(`${API_BASE}/get_order_status.php?order_id=${orderId}`)
+      fetch(`${API_BASE}/orders/get_order_status.php?order_id=${orderId}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {

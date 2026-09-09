@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from './CartContext'; 
-import { fetchCurrentAddress } from './LocationHelper';
-import './Style.css';
+import { useCart } from '../context/CartContext'; 
+import { fetchCurrentAddress } from '../utils/locationHelper';
+ import "../Style.css";
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
 const Home = () => {
@@ -12,6 +12,7 @@ const Home = () => {
 const [locationLoading, setLocationLoading] = useState(false);
 const [locationFailed, setLocationFailed] = useState(false);
 const [selectedCity, setSelectedCity] = useState('');
+const [orderType, setOrderType] = useState('delivery'); // 'delivery' ya 'pickup' - ab ye track hoga
 
 const [menuItems, setMenuItems] = useState({});
 const [menuLoading, setMenuLoading] = useState(true);
@@ -55,7 +56,14 @@ const cityAreas = [
 
     // when user "Confirm & Continue" 
     const handleConfirm = () => {
+        // Agar Delivery select ki hai to address zaroori hai, Pickup mein nahi
+        if (orderType === 'delivery' && !address.trim()) {
+            alert("Please select a city or enter your delivery address.");
+            return;
+        }
         localStorage.setItem('orderTypeSelected', 'true');
+        localStorage.setItem('orderType', orderType); // Checkout page isay use karega
+        localStorage.setItem('savedAddress', orderType === 'delivery' ? address : '');
         setShowModal(false);// after alert the model close
         alert("Preferences saved. Welcome to Dastr-Khwan!"); 
         
@@ -97,7 +105,7 @@ const cityAreas = [
 }, [selectedCategory]);
 
 useEffect(() => {
-        fetch(`${API_BASE}/get_menu_items.php`)
+        fetch(`${API_BASE}/admin/get_menu_items.php`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) {
@@ -150,9 +158,25 @@ useEffect(() => {
                         <div className="logo-circle-modal"><img src="logo2.jpeg" alt="Logo" /></div>
                         <h3>Select your order type</h3>
                         <div className="order-type-tabs">
-                            <button className="active">DELIVERY</button>
-                            <button>PICK-UP</button>
+                            <button
+                                type="button"
+                                className={orderType === 'delivery' ? 'active' : ''}
+                                onClick={() => setOrderType('delivery')}
+                            >
+                                DELIVERY
+                            </button>
+                            <button
+                                type="button"
+                                className={orderType === 'pickup' ? 'active' : ''}
+                                onClick={() => setOrderType('pickup')}
+                            >
+                                PICK-UP
+                            </button>
                         </div>
+
+                        {/* Ye sab (location button, city dropdown, address input) sirf Delivery ke liye chahiye */}
+                        {orderType === 'delivery' && (
+                        <>
                         <button
     type="button"
     onClick={handleUseMyLocation}
@@ -187,7 +211,7 @@ useEffect(() => {
     }}>
         <span style={{ fontSize: '16px' }}>ℹ️</span>
         <p style={{ margin: 0, fontSize: '13px', color: '#0c5aa6', lineHeight: '1.4' }}>
-            Sorry, hum aap ki delivery area detect nahi kar sakay. Neeche list mein se select kar lein.
+            Sorry, we could not detect your delivery area. Please select from the list below.
         </p>
     </div>
 )}
@@ -217,6 +241,23 @@ useEffect(() => {
     value={address}
     onChange={(e) => setAddress(e.target.value)}
 />
+                        </>
+                        )}
+
+                        {orderType === 'pickup' && (
+                            <div style={{
+                                background: '#fef9e7',
+                                border: '1px solid #f0d98c',
+                                borderRadius: '8px',
+                                padding: '12px',
+                                marginBottom: '12px',
+                                fontSize: '13px',
+                                color: '#7a5c00'
+                            }}>
+                                🏪You will collect the order yourself from Shop #4, Hafizabad Road, Gujranwala. Providing an address is not necessary.
+                            </div>
+                        )}
+
                        {/* here Alert is function call ho raha hai */}
                         <button className="confirm-btn" onClick={handleConfirm}>
                             Confirm & Continue
