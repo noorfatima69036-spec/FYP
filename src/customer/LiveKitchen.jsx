@@ -21,6 +21,12 @@ export default function LiveKitchen() {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
 
+const [rating, setRating] = useState(0);
+const [comment, setComment] = useState("");
+const [reviewSubmitted, setReviewSubmitted] = useState(false);
+const [reviewError, setReviewError] = useState("");
+const [reviewLoading, setReviewLoading] = useState(false);
+
   useEffect(() => {
     const fetchStatus = () => {
       fetch(`${API_BASE}/orders/get_order_status.php?order_id=${orderId}`)
@@ -46,6 +52,40 @@ export default function LiveKitchen() {
     const interval = setInterval(fetchStatus, 8000);
     return () => clearInterval(interval);
   }, [orderId]);
+
+  
+const handleSubmitReview = async () => {
+    setReviewError("");
+    if (rating === 0) {
+        setReviewError("Please select a star rating.");
+        return;
+    }
+
+    const user_id = localStorage.getItem('userId');
+    setReviewLoading(true);
+
+    try {
+        const res = await fetch(`${API_BASE}/orders/submit_review.php`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                order_id: orderId,
+                user_id: user_id,
+                rating: rating,
+                comment: comment,
+            }),
+        });
+        const data = await res.json();
+        if (data.success) {
+            setReviewSubmitted(true);
+        } else {
+            setReviewError(data.message);
+        }
+    } catch (err) {
+        setReviewError("Could not connect to the server.");
+    }
+    setReviewLoading(false);
+};
 
   if (loading) return <p className="admin-loading-text">Loading order status...</p>;
 
@@ -114,9 +154,59 @@ export default function LiveKitchen() {
           </div>
 
           <p style={{ textAlign: "center", marginTop: "30px", color: "#a0522d", fontWeight: 600 }}>
-            {status === "delivered"
-              ? "Your Food has been Delivered! 🎉"
-              : `Status: ${stages[currentStageIndex]?.label || status}...`}
+            {status === "delivered" ? (
+    <>
+        <p style={{ textAlign: "center", marginTop: "30px", color: "#a0522d", fontWeight: 600 }}>
+            Your Food has been Delivered! 🎉
+        </p>
+
+        {reviewSubmitted ? (
+            <p style={{ textAlign: "center", color: "green", fontWeight: 600, marginTop: "15px" }}>
+                ✅ Thank you for your feedback!
+            </p>
+        ) : (
+            <div style={{ maxWidth: "400px", margin: "20px auto", textAlign: "center" }}>
+                <h4 style={{ color: "#a0522d" }}>Rate Your Order</h4>
+                <div style={{ fontSize: "28px", margin: "10px 0" }}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <span
+                            key={star}
+                            onClick={() => setRating(star)}
+                            style={{
+                                cursor: "pointer",
+                                color: star <= rating ? "#f5a623" : "#ddd",
+                            }}
+                        >
+                            ★
+                        </span>
+                    ))}
+                </div>
+                <textarea
+                    className="checkout-input textarea"
+                    placeholder="Share your experience (optional)"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    style={{ width: "100%", minHeight: "70px" }}
+                />
+                {reviewError && (
+                    <p style={{ color: "red", fontSize: "13px", marginTop: "8px" }}>{reviewError}</p>
+                )}
+                <button
+                    onClick={handleSubmitReview}
+                    disabled={reviewLoading}
+                    className="confirm-order-btn"
+                    style={{ marginTop: "10px" }}
+                >
+                    {reviewLoading ? "Submitting..." : "Submit Review"}
+                </button>
+            </div>
+        )}
+    </>
+) : (
+    <p style={{ textAlign: "center", marginTop: "30px", color: "#a0522d", fontWeight: 600 }}>
+        Status: {stages[currentStageIndex]?.label || status}...
+    </p>
+)}
           </p>
         </>
       )}

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext'; 
 import { fetchCurrentAddress } from '../utils/locationHelper';
- import "../Style.css";
+import "../Style.css";
 const API_BASE = "http://localhost/dastr-khwan-backend";
 
 const Home = () => {

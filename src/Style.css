@@ -1201,7 +1201,11 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 
 .admin-form-group input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
 .admin-login-btn {

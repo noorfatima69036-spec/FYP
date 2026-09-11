@@ -15,6 +15,26 @@ const Contact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setStatusMsg('');
+
+        // --- VALIDATION CHECKS START ---
+        if (name.trim().length < 3) {
+            setIsError(true);
+            setStatusMsg("Please enter a valid name.");
+            return;
+        }
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            setIsError(true);
+            setStatusMsg("Please enter a valid email address.");
+            return;
+        }
+        if (message.trim().length < 10) {
+            setIsError(true);
+            setStatusMsg("Message must be at least 10 characters long.");
+            return;
+        }
+        // --- VALIDATION CHECKS END ---
+
         setLoading(true);
 
         try {
@@ -75,7 +95,7 @@ const Contact = () => {
                         placeholder="Your Name"
                         className="contact-input"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
                         required
                     />
                     <input
@@ -89,7 +109,7 @@ const Contact = () => {
                     
                     {/* Bari space wala input box message ke liye */}
                     <textarea
-                        placeholder="Your Message"
+                        placeholder="Your Message (must be at least 10 characters)"
                         className="contact-input textarea"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}

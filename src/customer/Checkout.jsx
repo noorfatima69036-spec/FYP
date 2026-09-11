@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
  import "../Style.css"; 
 
 const Checkout = () => {
-    const { cartItems, totalPrice, setCartItems } = useCart();
+    const { cartItems, totalPrice, setCartItems, removeFromCart } = useCart();
     const [orderDone, setOrderDone] = useState(false);
     const [instructions, setInstructions] = useState("");
     const [paymentMethod, setPaymentMethod] = useState('cod');// Payment method state
@@ -34,6 +34,22 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
     const handleOrder = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+
+    // --- VALIDATION CHECKS START ---
+    if (fullName.trim().length < 3) {
+        setErrorMsg("Please enter a valid full name.");
+        return;
+    }
+    if (phone.length !== 11) {
+        setErrorMsg("Phone number must be exactly 11 digits (e.g. 03001234567).");
+        return;
+    }
+    if (address.trim().length < 50) {
+        setErrorMsg("Please enter a complete address (at least 50 characters).");
+        return;
+    }
+    // --- VALIDATION CHECKS END ---
+
     setLoading(true);
 
     const user_id = localStorage.getItem('userId');
@@ -66,7 +82,7 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
 
         if (data.success) {
     const placedOrderId = data.order_id;
-    localStorage.clear();
+    localStorage.removeItem('orderTypeSelected'); // sirf ye specific cheez hatao
     setCartItems([]);
     navigate(`/live-kitchen/${placedOrderId}`);
 } else {
@@ -110,7 +126,7 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
     className="checkout-input" 
     placeholder="Full Name" 
     value={fullName}
-    onChange={(e) => setFullName(e.target.value)}
+    onChange={(e) => setFullName(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
     required 
 />
 <input 
@@ -118,16 +134,20 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
     className="checkout-input" 
     placeholder="Phone Number" 
     value={phone}
-    onChange={(e) => setPhone(e.target.value)}
+    onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 11))}
+    inputMode="numeric"
     required 
 />
 <textarea 
     className="checkout-input textarea" 
-    placeholder="Delivery Address" 
+    placeholder="Delivery Address (minimum 50 characters - please include house/street/area/city details)" 
     value={address}
     onChange={(e) => setAddress(e.target.value)}
     required
 ></textarea>
+<p style={{ fontSize: '12px', color: address.trim().length < 50 ? '#c0392b' : '#2e7d32', marginTop: '-8px' }}>
+    {address.trim().length}/50 characters minimum
+</p>
 
                         <h3 style={{marginTop: '20px'}}>Special Instructions</h3>
                         <textarea 
@@ -176,7 +196,7 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
     className="checkout-input" 
     placeholder="Enter Transaction ID (TID)" 
     value={transactionId}
-    onChange={(e) => setTransactionId(e.target.value)}
+    onChange={(e) => setTransactionId(e.target.value.replace(/\D/g, '').slice(0, 11))}
     required 
 />
                             </div>
@@ -198,17 +218,34 @@ const API_BASE = "http://localhost/dastr-khwan-backend";
                 <div className="order-summary-section">
                     <h3>Order Summary</h3>
                     <div className="summary-items">
-                        {cartItems.map((item) => (
-                            <div key={`${item.id}-${item.portion_type}`} className="summary-item">
-                                <span>
-                                    {item.name}
-                                    {item.portion_type === 'half' ? ' (Half)' : ' (Full)'}
-                                    {' '}(x{item.quantity})
-                                </span>
-                                <span>Rs. {item.price * item.quantity}</span>
-                            </div>
-                        ))}
-                    </div>
+    {cartItems.map((item) => (
+        <div key={`${item.id}-${item.portion_type}`} className="summary-item">
+            <span>
+                {item.name}
+                {item.portion_type === 'half' ? ' (Half)' : ' (Full)'}
+                {' '}(x{item.quantity})
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                Rs. {item.price * item.quantity}
+                <button
+                    type="button"
+                    onClick={() => removeFromCart(item.id, item.portion_type)}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#c0392b',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                        fontSize: '14px'
+                    }}
+                    title="Remove item"
+                >
+                    ✖
+                </button>
+            </span>
+        </div>
+    ))}
+</div>
                     <hr />
                     <div className="summary-total">
                         <span>Total:</span>

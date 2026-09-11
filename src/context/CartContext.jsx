@@ -64,12 +64,21 @@ export const CartProvider = ({ children }) => {
             ];
         });
     };
+    // Item ko cart se completely remove karne ka function
+const removeFromCart = (itemId, portionType) => {
+    setCartItems((prevItems) =>
+        prevItems.filter(
+            (item) => !(item.id === itemId && item.portion_type === portionType)
+        )
+    );
+};
+
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, totalPrice, setCartItems }}>
-            {children}
-        </CartContext.Provider>
-    );
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, totalPrice, setCartItems }}>
+        {children}
+    </CartContext.Provider>
+);
 };
 
 export const useCart = () => useContext(CartContext);
