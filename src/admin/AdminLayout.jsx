@@ -23,6 +23,7 @@ function AdminLayout({ children, pageTitle }) {
         { path: "/admin/bulk-orders", label: "Bulk Orders", icon: "👥" },
         { path: "/admin/memberships", label: "Memberships", icon: "🏢" },
         { path: "/admin/delivery-boys", label: "Delivery Boys", icon: "🚴" },
+        { path: "/admin/reviews", label: "Reviews", icon: "⭐" },
         { path: "/admin/waste-alert", label: "Waste Alert", icon: "⚠️" },
         { path: "/admin/weekly-menu", label: "Weekly Menu", icon: "📅" },
     ];

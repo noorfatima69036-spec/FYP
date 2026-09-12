@@ -36,6 +36,7 @@ import AdminMemberships from './admin/AdminMemberships';
 // Delivery pages
 import DeliveryLogin from './delivery/DeliveryLogin';
 import DeliveryDashboard from './delivery/DeliveryDashboard';
+import AdminReviews from "./admin/AdminReviews";
 
 
 
@@ -73,6 +74,7 @@ function App() {
           <Route path="/admin/dashboard-home" element={<AdminHome />} />
           <Route path="/admin/bulk-orders" element={<AdminBulkOrders />} />
           <Route path="/admin/memberships" element={<AdminMemberships />} />
+          <Route path="/admin/reviews" element={<AdminReviews />} />
           
           
           
