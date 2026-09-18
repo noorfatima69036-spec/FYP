@@ -31,10 +31,11 @@ const ForgotPassword = () => {
         const data = await res.json();
 
         if (data.success) {
-            alert("Your OTP is: " + data.demo_otp + " (This would normally be emailed to you)");
+            // Alert hata kar friendly message dikhayein
+            setMessage("OTP has been sent to your email address.");
             setStep(2);
         } else {
-            setMessage(data.message);
+            setMessage(data.message || "Failed to send OTP.");
         }
     } catch (err) {
         setMessage("Could not connect to the server. Please check if XAMPP is running.");

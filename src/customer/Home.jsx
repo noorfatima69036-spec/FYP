@@ -237,7 +237,7 @@ useEffect(() => {
 <input
     type="text"
     className="modal-input"
-    placeholder="Ya manually Street / Colony / Area likhein"
+    placeholder="Or write the Street / Colony / Area manually."
     value={address}
     onChange={(e) => setAddress(e.target.value)}
 />
