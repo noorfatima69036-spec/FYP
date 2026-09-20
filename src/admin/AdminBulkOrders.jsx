@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminLayout from "./AdminLayout";
 
-const API_BASE = "http://localhost/dastr-khwan-backend";
+ const API_BASE = "http://localhost/dastr-khwan-backend";
 
 // This page shows all bulk order requests submitted by customers,
 // including the dishes and quantities they selected.
