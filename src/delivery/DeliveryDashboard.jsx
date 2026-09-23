@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
 
 function DeliveryDashboard() {
     const [orders, setOrders] = useState([]);

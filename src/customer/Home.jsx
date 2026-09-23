@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext'; 
 import { fetchCurrentAddress } from '../utils/locationHelper';
 import "../Style.css";
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
 
 const Home = () => {
     // For chacking localStorage
@@ -12,15 +12,13 @@ const Home = () => {
 const [locationLoading, setLocationLoading] = useState(false);
 const [locationFailed, setLocationFailed] = useState(false);
 const [selectedCity, setSelectedCity] = useState('');
-const [orderType, setOrderType] = useState('delivery'); // 'delivery' ya 'pickup' - ab ye track hoga
+const [orderType, setOrderType] = useState('delivery'); // 'delivery' or 'pickup' - ab ye track hoga
 
 const [menuItems, setMenuItems] = useState({});
 const [menuLoading, setMenuLoading] = useState(true);
 
-// Har item ke liye currently selected portion (full/half) track karta hai
-// key = item.id, value = 'full' ya 'half'
 const [selectedPortions, setSelectedPortions] = useState({});
-
+// user select their area easily without manually type address
 const cityAreas = [
     'Hafizabad Road',
     'Model Town',
@@ -33,11 +31,11 @@ const cityAreas = [
 ];
 
     const [selectedCategory, setSelectedCategory] = useState(null);
+    // point item section
     const itemsRef = useRef(null); 
     const navigate = useNavigate();
     
     const { addToCart, cartItems, totalPrice } = useCart(); 
-
     const handlePortionChange = (itemId, portion) => {
         setSelectedPortions((prev) => ({ ...prev, [itemId]: portion }));
     };
@@ -56,13 +54,12 @@ const cityAreas = [
 
     // when user "Confirm & Continue" 
     const handleConfirm = () => {
-        // Agar Delivery select ki hai to address zaroori hai, Pickup mein nahi
         if (orderType === 'delivery' && !address.trim()) {
             alert("Please select a city or enter your delivery address.");
             return;
         }
         localStorage.setItem('orderTypeSelected', 'true');
-        localStorage.setItem('orderType', orderType); // Checkout page isay use karega
+        localStorage.setItem('orderType', orderType);
         localStorage.setItem('savedAddress', orderType === 'delivery' ? address : '');
         setShowModal(false);// after alert the model close
         alert("Preferences saved. Welcome to Dastr-Khwan!"); 

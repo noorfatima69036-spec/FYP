@@ -35,7 +35,7 @@ function AdminMenu() {
   const fetchItems = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost/dastr-khwan-backend/admin/get_menu_items.php");
+      const res = await fetch("https://api.dastrkhwan.site/admin/get_menu_items.php");
       const data = await res.json();
       if (data.success) {
         setItems(data.items || data.menu_items || []);
@@ -54,8 +54,8 @@ function AdminMenu() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = editingId
-      ? "http://localhost/dastr-khwan-backend/admin/update_menu_item.php"
-      : "http://localhost/dastr-khwan-backend/admin/add_menu_item.php";
+      ? "https://api.dastrkhwan.site/admin/update_menu_item.php"
+      : "https://api.dastrkhwan.site/admin/add_menu_item.php";
 
     const payload = editingId ? { ...form, id: editingId } : form;
 
@@ -100,7 +100,7 @@ function AdminMenu() {
   const handleDelete = async (id) => {
     if (!window.confirm("Do you want to delete this item?")) return;
     try {
-      const res = await fetch("http://localhost/dastr-khwan-backend/admin/delete_menu_item.php", {
+      const res = await fetch("https://api.dastrkhwan.site/admin/delete_menu_item.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),

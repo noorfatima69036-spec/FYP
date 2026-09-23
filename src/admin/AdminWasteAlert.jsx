@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminLayout from "./AdminLayout";
 
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
 
 function AdminWasteAlert() {
   const [message, setMessage] = useState("Today's leftover food is available");

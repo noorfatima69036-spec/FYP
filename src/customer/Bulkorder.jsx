@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "../Style.css";
 
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
 
 const CATEGORY_LABELS = {
     appetizers: "Appetizers",

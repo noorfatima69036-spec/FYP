@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
  import "../Style.css"; // Aapki CSS file
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
 
 const Signup = () => {
   const navigate = useNavigate();

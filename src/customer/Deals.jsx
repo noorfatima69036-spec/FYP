@@ -3,7 +3,7 @@ import { useCart } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
  import "../Style.css";
 
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
 
 const Deals = () => {
     const { addToCart, cartItems, totalPrice } = useCart();
@@ -52,7 +52,7 @@ const Deals = () => {
                         <div key={deal.id} className="deal-list-item">
                             <h3>{deal.name}</h3>
                             <p>{deal.description}</p>
-                            <span className="price-tag">Rs. {deal.price}</span>
+                            <span className="price-tag">Rs. {deal.price_full}</span>
                             <button 
                                 onClick={() => handleDealAdd(deal)}
                                 className="home-style-btn"

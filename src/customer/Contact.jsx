@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
  import "../Style.css"; // Styling ke liye CSS file import ki
 
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
 
 const Contact = () => {
     const [name, setName] = useState('');

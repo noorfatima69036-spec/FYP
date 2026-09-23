@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../Style.css";
 
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
 
 export default function WasteAlert() {
   const [alert, setAlert] = useState(null);

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../Style.css";
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
 
 const plans = [
     { key: "daily", label: "Daily", desc: "Food delivered every day at a fixed time" },

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
  import "../Style.css";
 import { useCart } from '../context/CartContext';
 
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
 
 const CATEGORY_LABELS = {
     appetizers: "Appetizers",

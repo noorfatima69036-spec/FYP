@@ -16,7 +16,7 @@ const [address, setAddress] = useState('');
 const [loading, setLoading] = useState(false);
 const [errorMsg, setErrorMsg] = useState('');
 
-const API_BASE = "http://localhost/dastr-khwan-backend";
+const API_BASE = "https://api.dastrkhwan.site";
     
     const navigate = useNavigate();
 
