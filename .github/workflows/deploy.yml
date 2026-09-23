@@ -11,20 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Get latest code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
 
-    - name: Install Dependencies & Build
+    - name: Clean and Build
       run: |
+        rm -rf node_modules package-lock.json
         npm install
-        npm run build
+        npx vite build
 
     - name: Sync Files via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
