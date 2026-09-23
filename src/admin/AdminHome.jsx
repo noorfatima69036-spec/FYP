@@ -54,6 +54,7 @@ function AdminHome() {
         { label: "Bulk Order Requests", value: stats?.total_bulk_orders ?? 0, type: "bulk_orders" },
         { label: "Membership Offers", value: stats?.total_memberships ?? 0, type: "memberships" },
         { label: "Delivery Partners", value: stats?.total_delivery_boys ?? 0, type: "delivery_boys" },
+        { label: "Contact Messages", value: stats?.total_messages ?? 0, type: "contact_messages" },
         { label: "Total Revenue", value: `Rs. ${Number(stats?.total_revenue ?? 0).toLocaleString()}`, type: null },
     ];
 

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
-// This component wraps every admin page with a sidebar and top bar,
-// so all admin screens share the same consistent layout.
 function AdminLayout({ children, pageTitle }) {
     const navigate = useNavigate();
     const location = useLocation();
@@ -15,7 +13,7 @@ function AdminLayout({ children, pageTitle }) {
         navigate("/admin/login");
     };
 
-    // Navigation items shown in the sidebar
+    // Navigation items shown in the sidebar (Messages add kar diya gaya hai)
     const navItems = [
         { path: "/admin/dashboard-home", label: "Dashboard", icon: "📊" },
         { path: "/admin/dashboard", label: "Orders", icon: "🧾" },
@@ -26,6 +24,7 @@ function AdminLayout({ children, pageTitle }) {
         { path: "/admin/reviews", label: "Reviews", icon: "⭐" },
         { path: "/admin/waste-alert", label: "Waste Alert", icon: "⚠️" },
         { path: "/admin/weekly-menu", label: "Weekly Menu", icon: "📅" },
+        { path: "/admin/messages", label: "Messages", icon: "📩" },
     ];
 
     const isActive = (path) => location.pathname === path;

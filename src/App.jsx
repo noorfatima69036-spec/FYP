@@ -32,6 +32,7 @@ import AdminDeliveryBoys from './admin/AdminDeliveryBoys';
 import AdminHome from './admin/AdminHome';
 import AdminBulkOrders from './admin/AdminBulkOrders';
 import AdminMemberships from './admin/AdminMemberships';
+import Messages from "./admin/Messages";
 
 // Delivery pages
 import DeliveryLogin from './delivery/DeliveryLogin';
@@ -75,6 +76,7 @@ function App() {
           <Route path="/admin/bulk-orders" element={<AdminBulkOrders />} />
           <Route path="/admin/memberships" element={<AdminMemberships />} />
           <Route path="/admin/reviews" element={<AdminReviews />} />
+          <Route path="/admin/messages" element={<Messages />} />
           
           
           
