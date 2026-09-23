@@ -18,10 +18,11 @@ jobs:
       with:
         node-version: 18
 
-    - name: Install Dependencies & Build
+    - name: Install Dependencies & Fix Permissions
       run: |
-        npm install
-        npm run build
+        npm ci || npm install
+        chmod -R +x node_modules/.bin
+        npx vite build
 
     - name: Sync Files via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
