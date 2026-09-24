@@ -40,7 +40,7 @@ const [loading, setLoading] = useState(false);
             setMessage(data.message);
         }
     } catch (err) {
-        setMessage("Could not connect to the server. Please check if XAMPP is running.");
+        setMessage("Server connection failed. Please try again.");
     }
 
     setLoading(false);

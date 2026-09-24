@@ -18,7 +18,6 @@ export default function BulkOrder() {
     const [menuItems, setMenuItems] = useState({});
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [quantities, setQuantities] = useState({});
-    // Har item ke liye 'box' ya 'kg' - jo customer select kare
     const [unitTypes, setUnitTypes] = useState({});
     const [cart, setCart] = useState([]);
     const [step, setStep] = useState("building");
@@ -51,11 +50,32 @@ export default function BulkOrder() {
             });
     }, []);
 
+    // Handlers with input restrictions
     const handleFormChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+
+        // Restriction 1: Event Type (Only alphabets & spaces)
+        if (name === "event_type") {
+            const regex = /^[a-zA-Z\s]*$/;
+            if (!regex.test(value)) return;
+        }
+
+        // Restriction 2: Contact Number (Only numbers, max 11 digits)
+        if (name === "contact_number") {
+            const regex = /^[0-9]*$/;
+            if (!regex.test(value) || value.length > 11) return;
+        }
+
+        // Restriction 3: Guest Count (Positive integers only)
+        if (name === "guest_count") {
+            if (value !== "" && (Number(value) < 1 || value.includes("."))) return;
+        }
+
+        setForm({ ...form, [name]: value });
     };
 
     const handleQuantityChange = (itemId, value) => {
+        if (value !== "" && Number(value) <= 0) return;
         setQuantities({ ...quantities, [itemId]: value });
     };
 
@@ -63,8 +83,6 @@ export default function BulkOrder() {
         setUnitTypes({ ...unitTypes, [itemId]: unit });
     };
 
-    // Item ki default unit decide karta hai - jo bhi price set hai wahi use hoga,
-    // agar dono set hain to 'box' default rakha hai
     const getDefaultUnit = (item) => {
         if (item.price_per_box) return "box";
         if (item.price_per_kg) return "kg";
@@ -78,7 +96,7 @@ export default function BulkOrder() {
     const handleAddItem = (item) => {
         const qty = parseInt(quantities[item.id]);
         if (!qty || qty <= 0) {
-            alert("Please enter a valid quantity for this dish");
+            alert("Please enter a valid positive quantity for this dish.");
             return;
         }
 
@@ -91,11 +109,10 @@ export default function BulkOrder() {
         const unitPrice = getUnitPrice(item, unit);
 
         setCart((prev) => {
-            // Match ab id AND unit_type dono se - taake "Box" aur "KG" wali entries mix na hon
             const existing = prev.find((c) => c.id === item.id && c.unit_type === unit);
             if (existing) {
                 return prev.map((c) =>
-                    (c.id === item.id && c.unit_type === unit) ? { ...c, quantity: qty } : c
+                    c.id === item.id && c.unit_type === unit ? { ...c, quantity: qty } : c
                 );
             }
             return [
@@ -113,6 +130,7 @@ export default function BulkOrder() {
     const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     const isDateTooSoon = (selectedDate) => {
+        if (!selectedDate) return true;
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const chosenDate = new Date(selectedDate);
@@ -122,14 +140,46 @@ export default function BulkOrder() {
 
     const handleProceedToSummary = (e) => {
         e.preventDefault();
+
+        // Field Validation Checks
+        if (!form.event_type.trim()) {
+            alert("Please enter the Event Type.");
+            return;
+        }
+
+        const guestNum = Number(form.guest_count);
+        if (!form.guest_count || guestNum < 10) {
+            alert("Bulk orders require a minimum of 10 guests.");
+            return;
+        }
+
+        if (!form.event_date || isDateTooSoon(form.event_date)) {
+            alert("Orders must be placed at least 1 day in advance.");
+            return;
+        }
+
+        if (!form.event_time) {
+            alert("Please select Event Time.");
+            return;
+        }
+
+        if (!form.address.trim()) {
+            alert("Please enter the Event Address.");
+            return;
+        }
+
+        // Pakistani Mobile Number validation (03XXXXXXXXX)
+        const phoneRegex = /^03\d{9}$/;
+        if (!phoneRegex.test(form.contact_number)) {
+            alert("Please enter a valid 11-digit Pakistani contact number starting with 03 (e.g. 03001234567).");
+            return;
+        }
+
         if (cart.length === 0) {
-            alert("Please add at least one dish to your order before proceeding");
+            alert("Please select and add at least one dish to your order before proceeding.");
             return;
         }
-        if (isDateTooSoon(form.event_date)) {
-            alert("Sorry, we can't take urgent basis orders. Please choose a date at least 1 day in advance.");
-            return;
-        }
+
         setStep("summary");
     };
 
@@ -166,11 +216,12 @@ export default function BulkOrder() {
             }
         } catch (err) {
             setIsError(true);
-            setMessage("Could not connect to the server. Please check if XAMPP is running.");
+            setMessage("Could not connect to the server. Please check your internet connection.");
         }
         setLoading(false);
     };
 
+    // Min Date constraint: Tomorrow
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const minDate = tomorrow.toISOString().split("T")[0];
@@ -229,7 +280,7 @@ export default function BulkOrder() {
             {/* ===== SECTION 1: Event Details ===== */}
             <div className="bulk-section-box">
                 <h3 className="bulk-section-title">📋 Event Details</h3>
-                <form className="feature-form">
+                <form className="feature-form" onSubmit={(e) => e.preventDefault()}>
                     <input
                         type="text"
                         name="event_type"
@@ -241,7 +292,8 @@ export default function BulkOrder() {
                     <input
                         type="number"
                         name="guest_count"
-                        placeholder="Number of Guests"
+                        placeholder="Number of Guests (Min 10)"
+                        min="10"
                         value={form.guest_count}
                         onChange={handleFormChange}
                         required
@@ -279,9 +331,10 @@ export default function BulkOrder() {
                     <input
                         type="text"
                         name="contact_number"
-                        placeholder="Contact Number"
+                        placeholder="Contact Number (e.g. 03001234567)"
                         value={form.contact_number}
                         onChange={handleFormChange}
+                        maxLength={11}
                         required
                     />
                 </form>
@@ -298,15 +351,15 @@ export default function BulkOrder() {
                     {Object.keys(menuItems)
                         .filter((cat) => cat !== "deals" && cat !== "extra")
                         .map((cat) => (
-                        <button
-                            key={cat}
-                            type="button"
-                            className={`bulk-category-tab ${selectedCategory === cat ? "active" : ""}`}
-                            onClick={() => setSelectedCategory(cat)}
-                        >
-                            {CATEGORY_LABELS[cat] || cat}
-                        </button>
-                    ))}
+                            <button
+                                key={cat}
+                                type="button"
+                                className={`bulk-category-tab ${selectedCategory === cat ? "active" : ""}`}
+                                onClick={() => setSelectedCategory(cat)}
+                            >
+                                {CATEGORY_LABELS[cat] || cat}
+                            </button>
+                        ))}
                 </div>
 
                 {selectedCategory && (
@@ -315,9 +368,8 @@ export default function BulkOrder() {
                             const hasBox = item.price_per_box !== null && Number(item.price_per_box) > 0;
                             const hasKg = item.price_per_kg !== null && Number(item.price_per_kg) > 0;
                             const currentUnit = unitTypes[item.id] || getDefaultUnit(item);
-                            const isDrink = item.category === "drinks"; // Drinks ke liye Box/KG wording hide karni hai
+                            const isDrink = item.category === "drinks";
 
-                            // Agar dish ki koi bulk pricing hi set nahi hai to dish list mein hi na dikhao
                             if (!hasBox && !hasKg) return null;
 
                             return (

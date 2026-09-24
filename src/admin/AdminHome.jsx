@@ -24,21 +24,31 @@ function AdminHome() {
         fetch(`${API_BASE}/admin/get_dashboard_stats.php`)
             .then((res) => res.json())
             .then((data) => {
-                if (data.success) setStats(data.stats);
+               
+                if (data.success) setStats(data.data);
                 setLoading(false);
             })
             .catch(() => setLoading(false));
     };
 
     const handleCardClick = (type) => {
-        if (!type) return; // Total Revenue ke liye type null hoga
-        setSelectedType(type);
-        fetch(`${API_BASE}/admin/get_dashboard_details.php?type=${type}`)
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.success) setDetailData(data.data);
-            });
-    };
+    if (!type) return; 
+    setSelectedType(type);
+    
+    fetch(`${API_BASE}/admin/get_dashboard_details.php?type=${type}`)
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.success && Array.isArray(data.data)) {
+                setDetailData(data.data);
+            } else {
+                setDetailData([]);
+            }
+        })
+        .catch((err) => {
+            console.error("Error fetching details:", err);
+            setDetailData([]);
+        });
+};
 
     if (loading) {
         return (
@@ -50,11 +60,11 @@ function AdminHome() {
 
     const cards = [
         { label: "Total Orders", value: stats?.total_orders ?? 0, type: "total_orders" },
-        { label: "Total Deliveries", value: stats?.total_delivered ?? 0, type: "total_deliveries" },
-        { label: "Bulk Order Requests", value: stats?.total_bulk_orders ?? 0, type: "bulk_orders" },
-        { label: "Membership Offers", value: stats?.total_memberships ?? 0, type: "memberships" },
-        { label: "Delivery Partners", value: stats?.total_delivery_boys ?? 0, type: "delivery_boys" },
-        { label: "Contact Messages", value: stats?.total_messages ?? 0, type: "contact_messages" },
+        { label: "Total Deliveries", value: stats?.total_deliveries ?? 0, type: "total_deliveries" },
+        { label: "Bulk Order Requests", value: stats?.bulk_orders ?? 0, type: "bulk_orders" },
+        { label: "Membership Offers", value: stats?.membership_offers ?? 0, type: "memberships" },
+        { label: "Delivery Partners", value: stats?.delivery_boys ?? 0, type: "delivery_boys" },
+        { label: "Contact Messages", value: stats?.contact_messages ?? 0, type: "contact_messages" },
         { label: "Total Revenue", value: `Rs. ${Number(stats?.total_revenue ?? 0).toLocaleString()}`, type: null },
     ];
 
@@ -74,34 +84,34 @@ function AdminHome() {
             </div>
 
             {selectedType && (
-                <div style={{ marginTop: "20px" }}>
-                    <h4 style={{ color: "#a0522d" }}>
-                        {cards.find((c) => c.type === selectedType)?.label} — Details
-                    </h4>
-                    {detailData.length === 0 ? (
-                        <p style={{ color: "#888" }}>No records found.</p>
-                    ) : (
-                        <table className="admin-orders-table">
-                            <thead>
-                                <tr>
-                                    {Object.keys(detailData[0]).map((col) => (
-                                        <th key={col}>{col.replace(/_/g, " ").toUpperCase()}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {detailData.map((row, i) => (
-                                    <tr key={i}>
-                                        {Object.values(row).map((val, j) => (
-                                            <td key={j}>{val}</td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    )}
-                </div>
-            )}
+    <div style={{ marginTop: "20px" }}>
+        <h4 style={{ color: "#a0522d" }}>
+            {cards.find((c) => c.type === selectedType)?.label} — Details
+        </h4>
+        {!Array.isArray(detailData) || detailData.length === 0 || !detailData[0] ? (
+            <p style={{ color: "#888" }}>No records found.</p>
+        ) : (
+            <table className="admin-orders-table">
+                <thead>
+                    <tr>
+                        {Object.keys(detailData[0] || {}).map((col) => (
+                            <th key={col}>{col.replace(/_/g, " ").toUpperCase()}</th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {detailData.map((row, i) => (
+                        <tr key={i}>
+                            {Object.values(row || {}).map((val, j) => (
+                                <td key={j}>{val ?? "-"}</td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        )}
+    </div>
+)}
         </AdminLayout>
     );
 }
