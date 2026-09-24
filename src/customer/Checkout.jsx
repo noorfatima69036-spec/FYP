@@ -1,106 +1,99 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
-import "../Style.css"; 
+ import "../Style.css"; 
 
 const Checkout = () => {
     const { cartItems, totalPrice, setCartItems, removeFromCart } = useCart();
     const [orderDone, setOrderDone] = useState(false);
     const [instructions, setInstructions] = useState("");
-    const [paymentMethod, setPaymentMethod] = useState('cod');
+    const [paymentMethod, setPaymentMethod] = useState('cod');// Payment method state
     const [transactionId, setTransactionId] = useState('');
 
-    const [fullName, setFullName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState('');
+const [fullName, setFullName] = useState('');
+const [phone, setPhone] = useState('');
+const [address, setAddress] = useState('');
+const [loading, setLoading] = useState(false);
+const [errorMsg, setErrorMsg] = useState('');
 
-    const API_BASE = "https://api.dastrkhwan.site";
+const API_BASE = "https://api.dastrkhwan.site";
+    
     const navigate = useNavigate();
 
-    // --- STRICT LOGIN CHECK ---
+    // --- LOGIN CHECK LOGIC START ---
     useEffect(() => {
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
-        const userId = localStorage.getItem('userId');
-        
-        if (isLoggedIn !== 'true' || !userId) {
+        const userStatus = localStorage.getItem('isLoggedIn');
+        if (userStatus !== 'true') {
+            // Agar login nahi hai toh alert dikha kar login page bhej do
             alert("Please sign in before placing an order.");
             navigate('/login');
         }
     }, [navigate]);
+    
 
     const handleOrder = async (e) => {
-        e.preventDefault();
-        setErrorMsg('');
+    e.preventDefault();
+    setErrorMsg('');
 
-        // Double check login before submitting
-        const userId = localStorage.getItem('userId');
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
+    // --- VALIDATION CHECKS START ---
+    if (fullName.trim().length < 3) {
+    setErrorMsg("Please enter a valid full name.");
+    return;
+}
+if (phone.length !== 11) {
+    setErrorMsg("Phone number must be exactly 11 digits (e.g. 03001234567).");
+    return;
+}
+if (address.trim().length < 10) {
+    setErrorMsg("Please enter a valid delivery address.");
+    return;
+}
+    // --- VALIDATION CHECKS END ---
 
-        if (isLoggedIn !== 'true' || !userId) {
-            alert("Your session has expired. Please log in again.");
-            navigate('/login');
-            return;
+    setLoading(true);
+
+    const user_id = localStorage.getItem('userId');
+
+   const orderData = {
+    user_id: user_id,
+    order_type: 'delivery',
+    full_name: fullName,
+    phone: phone,
+    address: address,
+    special_instructions: instructions,
+    total_amount: totalPrice,
+    payment_method: paymentMethod,
+    transaction_id: paymentMethod === 'online' ? transactionId : '',
+    items: cartItems.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+        portion_type: item.portion_type || 'full', // Full ya Half - backend order_items mein save hoga
+    })),
+};
+    try {
+        const res = await fetch(`${API_BASE}/orders/place_order.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+    const placedOrderId = data.order_id;
+    localStorage.removeItem('orderTypeSelected'); // sirf ye specific cheez hatao
+    setCartItems([]);
+    navigate(`/live-kitchen/${placedOrderId}`);
+} else {
+            setErrorMsg(data.message || "The order could not be placed.");
         }
+    } catch (err) {
+        setErrorMsg("Could not connect to the server. Please check if XAMPP is running.");
+    }
 
-        // Validation Checks
-        if (fullName.trim().length < 3) {
-            setErrorMsg("Please enter a valid full name.");
-            return;
-        }
-        if (phone.length !== 11) {
-            setErrorMsg("Phone number must be exactly 11 digits (e.g. 03001234567).");
-            return;
-        }
-        if (address.trim().length < 10) {
-            setErrorMsg("Please enter a valid delivery address.");
-            return;
-        }
-
-        setLoading(true);
-
-        const orderData = {
-            user_id: parseInt(userId),
-            order_type: 'delivery',
-            full_name: fullName,
-            phone: phone,
-            address: address,
-            special_instructions: instructions,
-            total_amount: totalPrice,
-            payment_method: paymentMethod,
-            transaction_id: paymentMethod === 'online' ? transactionId : '',
-            items: cartItems.map((item) => ({
-                name: item.name,
-                quantity: item.quantity,
-                price: item.price,
-                portion_type: item.portion_type || 'full',
-            })),
-        };
-
-        try {
-            const res = await fetch(`${API_BASE}/orders/place_order.php`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(orderData),
-            });
-
-            const data = await res.json();
-
-            if (data.success) {
-                const placedOrderId = data.order_id;
-                localStorage.removeItem('orderTypeSelected');
-                setCartItems([]);
-                navigate(`/live-kitchen/${placedOrderId}`);
-            } else {
-                setErrorMsg(data.message || "The order could not be placed.");
-            }
-        } catch (err) {
-            setErrorMsg("Could not connect to the server. Please check your network.");
-        }
-
-        setLoading(false);
-    };
+    setLoading(false);
+};
 
     if (orderDone) {
         return (
@@ -109,12 +102,12 @@ const Checkout = () => {
                 <p>Thank you for ordering from Dastr-Khwan.</p>
                 <p style={{color: '#666', fontSize: '14px'}}>You have been logged out safely.</p>
                 <button 
-                    onClick={() => window.location.href = "/login"} 
-                    className="back-home-btn"
-                    style={{cursor: 'pointer', border: 'none', padding: '10px 20px', backgroundColor: '#a04000', color: 'white', borderRadius: '5px'}}
-                >
-                    Login Again to Order More
-                </button>
+                onClick={() => window.location.href = "/login"} 
+                className="back-home-btn"
+                style={{cursor: 'pointer', border: 'none', padding: '10px 20px', backgroundColor: '#a04000', color: 'white', borderRadius: '5px'}}
+            >
+                Login Again to Order More
+            </button>
             </div>
         );
     }
@@ -124,36 +117,37 @@ const Checkout = () => {
             <h1 className="checkout-title">Checkout</h1>
             
             <div className="checkout-container">
+                {/* Left Side: Form */}
                 <div className="checkout-form-section">
                     <h3>Delivery Details</h3>
                     <form onSubmit={handleOrder}>
                         <input 
-                            type="text" 
-                            className="checkout-input" 
-                            placeholder="Full Name" 
-                            value={fullName}
-                            onChange={(e) => setFullName(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
-                            required 
-                        />
-                        <input 
-                            type="text" 
-                            className="checkout-input" 
-                            placeholder="Phone Number" 
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 11))}
-                            inputMode="numeric"
-                            required 
-                        />
-                        <textarea 
-                            className="checkout-input textarea" 
-                            placeholder="Delivery Address (House no, Street, Area, City)" 
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            required
-                        ></textarea>
-                        <p style={{ fontSize: '12px', color: address.trim().length < 10 ? '#c0392b' : '#2e7d32', marginTop: '-8px' }}>
-                            {address.trim().length}/10 characters minimum
-                        </p>
+    type="text" 
+    className="checkout-input" 
+    placeholder="Full Name" 
+    value={fullName}
+    onChange={(e) => setFullName(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+    required 
+/>
+<input 
+    type="text" 
+    className="checkout-input" 
+    placeholder="Phone Number" 
+    value={phone}
+    onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 11))}
+    inputMode="numeric"
+    required 
+/>
+<textarea 
+    className="checkout-input textarea" 
+    placeholder="Delivery Address (House no, Street, Area, City)" 
+    value={address}
+    onChange={(e) => setAddress(e.target.value)}
+    required
+></textarea>
+<p style={{ fontSize: '12px', color: address.trim().length < 10 ? '#c0392b' : '#2e7d32', marginTop: '-8px' }}>
+    {address.trim().length}/10 characters minimum
+</p>
 
                         <h3 style={{marginTop: '20px'}}>Special Instructions</h3>
                         <textarea 
@@ -186,69 +180,72 @@ const Checkout = () => {
                             </label>
                         </div>
 
+                        {/* Online Payment Details Box */}
                         {paymentMethod === 'online' && (
                             <div className="online-details-box">
                                 <p><strong>Transfer to one of these:</strong></p>
                                 <ul style={{listStyle: 'none', padding: '10px', background: '#fef9e7', borderRadius: '8px', fontSize: '14px'}}>
                                     <li>📱 <strong>EasyPaisa:</strong> 03701733304</li>
-                                    <li>📱 <strong>JazzCash:</strong> 03137929390</li>
+                                    <li>📱 <strong>JazzCash:</strong>  03137929390</li>
                                     <li>💳 <strong>Raast ID:</strong> not available</li>
                                     <li>🏦 <strong>Bank:</strong> Meezan Bank 09060112775184</li>
+                                    
                                 </ul>
                                 <input 
-                                    type="text" 
-                                    className="checkout-input" 
-                                    placeholder="Enter Transaction ID (TID)" 
-                                    value={transactionId}
-                                    onChange={(e) => setTransactionId(e.target.value.replace(/\D/g, '').slice(0, 11))}
-                                    required 
-                                />
+    type="text" 
+    className="checkout-input" 
+    placeholder="Enter Transaction ID (TID)" 
+    value={transactionId}
+    onChange={(e) => setTransactionId(e.target.value.replace(/\D/g, '').slice(0, 11))}
+    required 
+/>
                             </div>
                         )}
 
                         <button type="submit" className="confirm-order-btn" disabled={loading}>
-                            {loading ? 'Placing Order...' : 'CONFIRM ORDER'}
-                        </button>
+    {loading ? 'Placing Order...' : 'CONFIRM ORDER'}
+</button>
 
-                        {errorMsg && (
-                            <p style={{ color: 'red', textAlign: 'center', fontSize: '14px', marginTop: '10px' }}>
-                                {errorMsg}
-                            </p>
-                        )}
+{errorMsg && (
+    <p style={{ color: 'red', textAlign: 'center', fontSize: '14px', marginTop: '10px' }}>
+        {errorMsg}
+    </p>
+)}
                     </form>
                 </div>
 
+                {/* Right Side: Order Summary */}
                 <div className="order-summary-section">
                     <h3>Order Summary</h3>
                     <div className="summary-items">
-                        {cartItems.map((item) => (
-                            <div key={`${item.id}-${item.portion_type}`} className="summary-item">
-                                <span>
-                                    {item.name}
-                                    {item.portion_type === 'half' ? ' (Half)' : ' (Full)'}
-                                    {' '}(x{item.quantity})
-                                </span>
-                                <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                    Rs. {item.price * item.quantity}
-                                    <button
-                                        type="button"
-                                        onClick={() => removeFromCart(item.id, item.portion_type)}
-                                        style={{
-                                            background: 'none',
-                                            border: 'none',
-                                            color: '#c0392b',
-                                            cursor: 'pointer',
-                                            fontWeight: 'bold',
-                                            fontSize: '14px'
-                                        }}
-                                        title="Remove item"
-                                    >
-                                        ✖
-                                    </button>
-                                </span>
-                            </div>
-                        ))}
-                    </div>
+    {cartItems.map((item) => (
+        <div key={`${item.id}-${item.portion_type}`} className="summary-item">
+            <span>
+                {item.name}
+                {item.portion_type === 'half' ? ' (Half)' : ' (Full)'}
+                {' '}(x{item.quantity})
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                Rs. {item.price * item.quantity}
+                <button
+                    type="button"
+                    onClick={() => removeFromCart(item.id, item.portion_type)}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#c0392b',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                        fontSize: '14px'
+                    }}
+                    title="Remove item"
+                >
+                    ✖
+                </button>
+            </span>
+        </div>
+    ))}
+</div>
                     <hr />
                     <div className="summary-total">
                         <span>Total:</span>

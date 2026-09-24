@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import "../Style.css";
-import Navbar from "../components/Navbar";
+ import "../Style.css"; // Styling ke liye CSS file import ki
 
 const API_BASE = "https://api.dastrkhwan.site";
 
@@ -56,7 +55,7 @@ const Contact = () => {
             }
         } catch (err) {
             setIsError(true);
-            setStatusMsg("Could not connect to the server. Please check if server is running.");
+            setStatusMsg("Could not connect to the server. Please check if XAMPP is running.");
         }
 
         setLoading(false);
@@ -64,16 +63,13 @@ const Contact = () => {
 
     return (
         <div className="contact-container">
-            
-            <Navbar />
-
-           
+            {/* Back Button: User ko wapis home par bhejne ke liye */}
             <Link to="/home" className="back-link">← Back to Home</Link>
             
             <h1 className="contact-title">Contact Us</h1>
             <p className="contact-subtitle">We'd love to hear from you about Dastr-Khwan!</p>
 
-            
+            {/* Information Cards Section */}
             <div className="info-grid">
                 <div className="info-card">
                     <h3>📍 Address</h3>
@@ -89,11 +85,11 @@ const Contact = () => {
                 </div>
             </div>
 
-           
+            {/* Message Form Section */}
             <div className="contact-form-wrapper">
                 <h3>Send us a Message</h3>
                 <form className="contact-form" onSubmit={handleSubmit}>
-                   
+                    {/* User se uska naam aur email lene ke liye inputs */}
                     <input
                         type="text"
                         placeholder="Your Name"
@@ -111,7 +107,7 @@ const Contact = () => {
                         required
                     />
                     
-                    
+                    {/* Bari space wala input box message ke liye */}
                     <textarea
                         placeholder="Your Message (must be at least 10 characters)"
                         className="contact-input textarea"
@@ -120,7 +116,7 @@ const Contact = () => {
                         required
                     ></textarea>
                     
-                
+                    {/* Form submit karne ka button */}
                     <button type="submit" className="send-msg-btn" disabled={loading}>
                         {loading ? 'Sending...' : 'Send Message'}
                     </button>

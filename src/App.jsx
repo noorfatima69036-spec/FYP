@@ -19,6 +19,7 @@ import BulkOrder from './customer/Bulkorder';
 import WeeklyMenu from './customer/WeeklyMenu';
 
 // Components
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
  import "./Style.css";
 

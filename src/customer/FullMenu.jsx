@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import "../Style.css";
+ import "../Style.css";
 import { useCart } from '../context/CartContext';
-import Navbar from '../components/Navbar'; 
 
 const API_BASE = "https://api.dastrkhwan.site";
 
@@ -23,7 +22,7 @@ const FullMenu = () => {
     const [menuItems, setMenuItems] = useState({});
     const [loading, setLoading] = useState(true);
 
-    
+    // Har item ke liye currently selected portion (full/half) track karta hai
     const [selectedPortions, setSelectedPortions] = useState({});
 
     const handlePortionChange = (itemId, portion) => {
@@ -67,9 +66,6 @@ const FullMenu = () => {
 
     return (
         <div className="full-menu-page">
-            {/* Standard Navbar component */}
-            <Navbar />
-
             <header className="full-menu-header">
                 <Link to="/home" className="back-to-home">← Back to Home</Link>
                 <h1>Our Complete Menu</h1>
