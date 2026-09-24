@@ -1758,3 +1758,84 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; over
 .admin-stat-card-clickable.active {
     border: 2px solid #a0522d;
 }
+/* Mobile Responsive Overrides */
+@media (max-width: 768px) {
+  /* 1. Body & Root Level Overflow Fix */
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  /* 2. Navbar Fix */
+  .navbar {
+    padding: 10px 15px !important; /* Extra padding reduce kar di */
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .nav-links {
+    gap: 10px !important;
+    font-size: 12px;
+  }
+
+  /* 3. Category Grid & Items Row Fix */
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr) !important; /* Mobile par 2 cards per row */
+    padding: 15px 4% !important;
+  }
+
+  /* 4. Sticky Checkout Bar Fix */
+  .sticky-checkout-bar {
+    padding: 12px 15px !important; /* Left/Right padding reduced */
+    width: 100% !important;
+    left: 0 !important;
+  }
+
+  /* 5. Deals Split Layout & Zigzag Fix */
+  .deals-split-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .deals-zigzag-images-column {
+    display: none !important; /* Mobile view par zigzag extra space block karta hai */
+  }
+
+  /* 6. Slider Height Adjustment */
+  .slider-container {
+    height: 250px !important;
+  }
+}
+@media (max-width: 768px) {
+  /* Top Banner Bar Fix */
+  div[style*="Shop #4"] {
+    font-size: 11px !important;
+    padding: 5px 10px !important;
+    text-align: center;
+  }
+
+  /* Logo & Title Alignment */
+  .navbar {
+    padding: 10px 15px !important;
+  }
+
+  /* Links Bar Horizontal Scroll */
+  .nav-links, ul.nav-links, div.nav-links {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding: 8px 5px !important;
+    gap: 15px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-links::-webkit-scrollbar {
+    display: none; /* Scrollbar hide karne ke liye */
+  }
+
+  .nav-links a, .nav-links li {
+    font-size: 13px !important;
+    flex-shrink: 0 !important;
+  }
+}

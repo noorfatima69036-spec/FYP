@@ -6,29 +6,33 @@ import "../Style.css";
 const API_BASE = "https://api.dastrkhwan.site";
 
 const Home = () => {
-    // For chacking localStorage
+    // Login State
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
+
+    // For checking localStorage
     const [showModal, setShowModal] = useState(false);
     const [address, setAddress] = useState('');
-const [locationLoading, setLocationLoading] = useState(false);
-const [locationFailed, setLocationFailed] = useState(false);
-const [selectedCity, setSelectedCity] = useState('');
-const [orderType, setOrderType] = useState('delivery'); // 'delivery' or 'pickup' - ab ye track hoga
+    const [locationLoading, setLocationLoading] = useState(false);
+    const [locationFailed, setLocationFailed] = useState(false);
+    const [selectedCity, setSelectedCity] = useState('');
+    const [orderType, setOrderType] = useState('delivery'); // 'delivery' or 'pickup'
 
-const [menuItems, setMenuItems] = useState({});
-const [menuLoading, setMenuLoading] = useState(true);
+    const [menuItems, setMenuItems] = useState({});
+    const [menuLoading, setMenuLoading] = useState(true);
 
-const [selectedPortions, setSelectedPortions] = useState({});
-// user select their area easily without manually type address
-const cityAreas = [
-    'Hafizabad Road',
-    'Model Town',
-    'Satellite Town',
-    'Peoples Colony',
-    'Gulshan Colony',
-    'Civil Lines',
-    'Wapda Town',
-    'Khalid Colony',
-];
+    const [selectedPortions, setSelectedPortions] = useState({});
+
+    // user select their area easily without manually type address
+    const cityAreas = [
+        'Hafizabad Road',
+        'Model Town',
+        'Satellite Town',
+        'Peoples Colony',
+        'Gulshan Colony',
+        'Civil Lines',
+        'Wapda Town',
+        'Khalid Colony',
+    ];
 
     const [selectedCategory, setSelectedCategory] = useState(null);
     // point item section
@@ -36,21 +40,43 @@ const cityAreas = [
     const navigate = useNavigate();
     
     const { addToCart, cartItems, totalPrice } = useCart(); 
+
     const handlePortionChange = (itemId, portion) => {
         setSelectedPortions((prev) => ({ ...prev, [itemId]: portion }));
     };
 
     const handleAddToCart = (item) => {
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
-        console.log("Is User Logged In?", isLoggedIn);
-        if (isLoggedIn === 'true') {
+        const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const userId = localStorage.getItem('userId');
+
+        if (loggedIn && userId) {
             const portion = selectedPortions[item.id] || 'full';
             addToCart(item, portion);
         } else {
-            alert("Please login first! You cannot place an order without logging in.");
+            alert("Please login first! You cannot add items to cart without logging in.");
             navigate('/login');
         }
-};
+    };
+
+    const handleCheckoutClick = () => {
+        const loggedIn = localStorage.getItem('isLoggedIn');
+        if (loggedIn === 'true') {
+            navigate('/checkout');
+        } else {
+            alert("Please login first! You cannot checkout without logging in.");
+            navigate('/login');
+        }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('orderTypeSelected');
+
+        setIsLoggedIn(false); // Instant UI refresh
+        alert("Logged out successfully!");
+        navigate('/login');
+    };
 
     // when user "Confirm & Continue" 
     const handleConfirm = () => {
@@ -61,47 +87,45 @@ const cityAreas = [
         localStorage.setItem('orderTypeSelected', 'true');
         localStorage.setItem('orderType', orderType);
         localStorage.setItem('savedAddress', orderType === 'delivery' ? address : '');
-        setShowModal(false);// after alert the model close
+        setShowModal(false);
         alert("Preferences saved. Welcome to Dastr-Khwan!"); 
-        
-         
     };
 
     const handleUseMyLocation = () => {
-    setLocationFailed(false);
-    fetchCurrentAddress(
-        (fullAddress) => {
-            setAddress(fullAddress);
-            setLocationFailed(false);
-        },
-        () => {
-            setLocationFailed(true);
-        },
-        (loading) => {
-            setLocationLoading(loading);
-        }
-    );
-};
+        setLocationFailed(false);
+        fetchCurrentAddress(
+            (fullAddress) => {
+                setAddress(fullAddress);
+                setLocationFailed(false);
+            },
+            () => {
+                setLocationFailed(true);
+            },
+            (loading) => {
+                setLocationLoading(loading);
+            }
+        );
+    };
 
-    // when categories are selected ,scroll down
+    // when categories are selected, scroll down
     useEffect(() => {
-    const isSelected = localStorage.getItem('orderTypeSelected') === 'true';
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const isSelected = localStorage.getItem('orderTypeSelected') === 'true';
+        const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-    // Modal logic
-    if (isLoggedIn && !isSelected) {
-        setShowModal(true);
-    } else {
-        setShowModal(false);
-    }
+        // Modal logic
+        if (loggedIn && !isSelected) {
+            setShowModal(true);
+        } else {
+            setShowModal(false);
+        }
 
-    // Scroll logic 
-    if (selectedCategory && itemsRef.current) {
-        itemsRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-}, [selectedCategory]);
+        // Scroll logic 
+        if (selectedCategory && itemsRef.current) {
+            itemsRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [selectedCategory]);
 
-useEffect(() => {
+    useEffect(() => {
         fetch(`${API_BASE}/admin/get_menu_items.php`)
             .then((res) => res.json())
             .then((data) => {
@@ -123,7 +147,6 @@ useEffect(() => {
             });
     }, []);
 
-
     const categories = [
         { id: 'appetizers', name: 'Appetizers', img: 'appet.jpeg', count: '5 Items Available' },
         { id: 'maincourse', name: 'Main Course', img: 'maincourse.jpeg', count: 'Karahi & Handi & more' },
@@ -135,23 +158,22 @@ useEffect(() => {
         { id: 'desserts', name: 'Desserts', img: 'dessert.jpeg', count: 'Sweet Endings' }
     ];
 
-    
     return (
         <div className="home-container">
             {showModal && (
                 <div className="modal-overlay">
                     <div className="modal-content" style={{ position: 'relative', padding: '40px 20px 20px 20px' }}>
                         <button className="close-modal" onClick={() => setShowModal(false)} style={{
-                position: 'absolute',
-                top: '10px',
-                right: '15px',
-                background: 'none',
-                border: 'none',
-                fontSize: '22px',
-                cursor: 'pointer',
-                color: '#333',
-                fontWeight: 'bold'
-            }}>✖</button>
+                            position: 'absolute',
+                            top: '10px',
+                            right: '15px',
+                            background: 'none',
+                            border: 'none',
+                            fontSize: '22px',
+                            cursor: 'pointer',
+                            color: '#333',
+                            fontWeight: 'bold'
+                        }}>✖</button>
                         <div className="logo-circle-modal"><img src="logo2.jpeg" alt="Logo" /></div>
                         <h3>Select your order type</h3>
                         <div className="order-type-tabs">
@@ -171,74 +193,73 @@ useEffect(() => {
                             </button>
                         </div>
 
-                        {/* Ye sab (location button, city dropdown, address input) sirf Delivery ke liye chahiye */}
                         {orderType === 'delivery' && (
-                        <>
-                        <button
-    type="button"
-    onClick={handleUseMyLocation}
-    disabled={locationLoading}
-    style={{
-        width: '100%',
-        marginTop: '8px',
-        marginBottom: '10px',
-        padding: '10px',
-        background: '#fff',
-        border: '1px solid #a0522d',
-        color: '#a0522d',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        fontWeight: '600',
-        fontSize: '13px'
-    }}
->
-    {locationLoading ? '📍 Fetching location...' : '📍 Use My Current Location'}
-</button>
+                            <>
+                                <button
+                                    type="button"
+                                    onClick={handleUseMyLocation}
+                                    disabled={locationLoading}
+                                    style={{
+                                        width: '100%',
+                                        marginTop: '8px',
+                                        marginBottom: '10px',
+                                        padding: '10px',
+                                        background: '#fff',
+                                        border: '1px solid #a0522d',
+                                        color: '#a0522d',
+                                        borderRadius: '8px',
+                                        cursor: 'pointer',
+                                        fontWeight: '600',
+                                        fontSize: '13px'
+                                    }}
+                                >
+                                    {locationLoading ? '📍 Fetching location...' : '📍 Use My Current Location'}
+                                </button>
 
-{locationFailed && (
-    <div style={{
-        background: '#e7f3ff',
-        border: '1px solid #a8d4ff',
-        borderRadius: '8px',
-        padding: '12px',
-        marginBottom: '12px',
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: '8px'
-    }}>
-        <span style={{ fontSize: '16px' }}>ℹ️</span>
-        <p style={{ margin: 0, fontSize: '13px', color: '#0c5aa6', lineHeight: '1.4' }}>
-            Sorry, we could not detect your delivery area. Please select from the list below.
-        </p>
-    </div>
-)}
+                                {locationFailed && (
+                                    <div style={{
+                                        background: '#e7f3ff',
+                                        border: '1px solid #a8d4ff',
+                                        borderRadius: '8px',
+                                        padding: '12px',
+                                        marginBottom: '12px',
+                                        display: 'flex',
+                                        alignItems: 'flex-start',
+                                        gap: '8px'
+                                    }}>
+                                        <span style={{ fontSize: '16px' }}>ℹ️</span>
+                                        <p style={{ margin: 0, fontSize: '13px', color: '#0c5aa6', lineHeight: '1.4' }}>
+                                            Sorry, we could not detect your delivery area. Please select from the list below.
+                                        </p>
+                                    </div>
+                                )}
 
-<label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '6px', color: '#444' }}>
-    Select City / Region
-</label>
-<select
-    value={selectedCity}
-    onChange={(e) => {
-        setSelectedCity(e.target.value);
-        setAddress(e.target.value);
-    }}
-    className="modal-input"
-    style={{ marginBottom: '10px' }}
->
-    <option value="">Select City / Region</option>
-    {cityAreas.map((area) => (
-        <option key={area} value={area}>{area}</option>
-    ))}
-</select>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '6px', color: '#444' }}>
+                                    Select City / Region
+                                </label>
+                                <select
+                                    value={selectedCity}
+                                    onChange={(e) => {
+                                        setSelectedCity(e.target.value);
+                                        setAddress(e.target.value);
+                                    }}
+                                    className="modal-input"
+                                    style={{ marginBottom: '10px' }}
+                                >
+                                    <option value="">Select City / Region</option>
+                                    {cityAreas.map((area) => (
+                                        <option key={area} value={area}>{area}</option>
+                                    ))}
+                                </select>
 
-<input
-    type="text"
-    className="modal-input"
-    placeholder="Or write the Street / Colony / Area manually."
-    value={address}
-    onChange={(e) => setAddress(e.target.value)}
-/>
-                        </>
+                                <input
+                                    type="text"
+                                    className="modal-input"
+                                    placeholder="Or write the Street / Colony / Area manually."
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                />
+                            </>
                         )}
 
                         {orderType === 'pickup' && (
@@ -255,7 +276,6 @@ useEffect(() => {
                             </div>
                         )}
 
-                       {/* here Alert is function call ho raha hai */}
                         <button className="confirm-btn" onClick={handleConfirm}>
                             Confirm & Continue
                         </button>
@@ -275,9 +295,27 @@ useEffect(() => {
                     <li><Link to="/full-menu">Menu</Link></li>
                     <li><Link to="/deals">Deals</Link></li>
                     <li><Link to="/membership">Office Membership</Link></li>
-                   <li> <Link to="/articles">About Us</Link></li>
-                   <li> <Link to="/live-kitchen">🍳 Kitchen</Link></li>
-                    <li><Link to="/login">Login</Link></li>
+                    <li><Link to="/articles">About Us</Link></li>
+                    <li><Link to="/live-kitchen">🍳 Kitchen</Link></li>
+                    
+                    {isLoggedIn ? (
+                        <li>
+                            <button 
+                                onClick={handleLogout} 
+                                style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    color: 'inherit',
+                                    cursor: 'pointer',
+                                    font: 'inherit'
+                                }}
+                            >
+                                Logout
+                            </button>
+                        </li>
+                    ) : (
+                        <li><Link to="/login">Login</Link></li>
+                    )}
                 </ul>
             </nav>
 
@@ -306,7 +344,6 @@ useEffect(() => {
                 </div>
             </section>
 
-            
             <div ref={itemsRef}>
                 {selectedCategory && (
                     <section className="further-items">
@@ -322,7 +359,6 @@ useEffect(() => {
                                     <img src={item.image_name} alt={item.name} />
                                     <h4>{item.name}</h4>
 
-                                    {/* DESCRIPTION LOGIC: Agar khali hai ya ---- hai to hide ho jaye */}
                                     {item.description && item.description !== '----' && (
                                         <p className="description" style={{fontSize: '12px', color: '#666', minHeight: '30px'}}>
                                             {item.description}
@@ -367,7 +403,7 @@ useEffect(() => {
 
             <div className="sticky-checkout-bar">
                 <div className="checkout-info">🛒 Items: {cartItems.length} | Total: Rs. {totalPrice}</div>
-                <button className="checkout-btn" onClick={() => navigate('/checkout')}>CHECKOUT NOW</button>
+                <button className="checkout-btn" onClick={handleCheckoutClick}>CHECKOUT NOW</button>
             </div>
         </div>
     );

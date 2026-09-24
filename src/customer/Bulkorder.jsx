@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "../Style.css";
+import Navbar from "../components/Navbar";
 
 const API_BASE = "https://api.dastrkhwan.site";
 
@@ -230,6 +231,7 @@ export default function BulkOrder() {
     if (step === "summary") {
         return (
             <div className="feature-container">
+                <Navbar />
                 <h2 className="feature-title">Review Your Bulk Order</h2>
                 <div className="bulk-summary-box">
                     <h3>Event Details</h3>
@@ -272,6 +274,7 @@ export default function BulkOrder() {
     // ===================== BUILDING SCREEN =====================
     return (
         <div className="feature-container">
+            <Navbar />
             <h2 className="feature-title">Big Orders / Event Booking</h2>
             <p className="feature-subtitle">
                 For weddings, parties, or office events — please book at least 1 day in advance

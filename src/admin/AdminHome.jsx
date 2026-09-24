@@ -63,7 +63,7 @@ function AdminHome() {
         { label: "Total Deliveries", value: stats?.total_deliveries ?? 0, type: "total_deliveries" },
         { label: "Bulk Order Requests", value: stats?.bulk_orders ?? 0, type: "bulk_orders" },
         { label: "Membership Offers", value: stats?.membership_offers ?? 0, type: "memberships" },
-        { label: "Delivery Partners", value: stats?.delivery_boys ?? 0, type: "delivery_boys" },
+        { label: "Delivery Boys", value: stats?.delivery_boys ?? 0, type: "delivery_boys" },
         { label: "Contact Messages", value: stats?.contact_messages ?? 0, type: "contact_messages" },
         { label: "Total Revenue", value: `Rs. ${Number(stats?.total_revenue ?? 0).toLocaleString()}`, type: null },
     ];

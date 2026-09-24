@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
- import "../Style.css";
+import "../Style.css";
+import Navbar from '../components/Navbar';
 
 const API_BASE = "https://api.dastrkhwan.site";
 
@@ -41,6 +42,8 @@ const Deals = () => {
 
     return (
         <div className="deals-page-container">
+            <Navbar />
+            
             <div className="deals-header-section">
                 <Link to="/home" className="back-home-link">← Back to Home</Link>
                 <h1 className="deals-main-title">Dastr-Khwan Special Deals</h1>

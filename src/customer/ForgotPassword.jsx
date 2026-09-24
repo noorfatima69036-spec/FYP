@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
- import "../Style.css"; // Wahi main CSS file link karein
+import "../Style.css"; 
+
 const API_BASE = "https://api.dastrkhwan.site";
 
 const ForgotPassword = () => {
@@ -14,98 +15,116 @@ const ForgotPassword = () => {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
-   const sendOTP = async () => {
-    setMessage('');
-    if (!email) {
-        setMessage("Please enter your email");
-        return;
-    }
-    setLoading(true);
-
-    try {
-        const res = await fetch(`${API_BASE}/auth/send_otp.php`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }),
-        });
-        const data = await res.json();
-
-        if (data.success) {
-            // Alert hata kar friendly message dikhayein
-            setMessage("OTP has been sent to your email address.");
-            setStep(2);
-        } else {
-            setMessage(data.message || "Failed to send OTP.");
+    const sendOTP = async () => {
+        setMessage('');
+        if (!email) {
+            setMessage("Please enter your email");
+            return;
         }
-    } catch (err) {
-        setMessage("Could not connect to the server. Please check if XAMPP is running.");
-    }
+        setLoading(true);
 
-    setLoading(false);
-};
+        try {
+            const res = await fetch(`${API_BASE}/auth/send_otp.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+            const data = await res.json();
 
-const resetPassword = async () => {
-    setMessage('');
-
-    if (!otp || !newPassword || !confirmPassword) {
-        setMessage("Please fill all fields");
-        return;
-    }
-    if (newPassword !== confirmPassword) {
-        setMessage("Passwords do not match");
-        return;
-    }
-
-    setLoading(true);
-
-    try {
-        const res = await fetch(`${API_BASE}/auth/reset_password.php`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, otp, new_password: newPassword }),
-        });
-        const data = await res.json();
-
-        if (data.success) {
-            alert("Password reset successfully! Please login with your new password.");
-            navigate('/');
-        } else {
-            setMessage(data.message);
+            if (data.success) {
+                setMessage("OTP has been sent to your email address.");
+                setStep(2);
+            } else {
+                setMessage(data.message || "Failed to send OTP.");
+            }
+        } catch (err) {
+            setMessage("Could not connect to the server. Please check server connection.");
         }
-    } catch (err) {
-        setMessage("Could not connect to the server. Please check if XAMPP is running.");
-    }
 
-    setLoading(false);
-};
+        setLoading(false);
+    };
+
+    const resetPassword = async () => {
+        setMessage('');
+
+        if (!otp || !newPassword || !confirmPassword) {
+            setMessage("Please fill all fields");
+            return;
+        }
+        if (newPassword !== confirmPassword) {
+            setMessage("Passwords do not match");
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const res = await fetch(`${API_BASE}/auth/reset_password.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, otp, new_password: newPassword }),
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                alert("Password reset successfully! Please login with your new password.");
+                navigate('/');
+            } else {
+                setMessage(data.message);
+            }
+        } catch (err) {
+            setMessage("Could not connect to the server. Please check server connection.");
+        }
+
+        setLoading(false);
+    };
 
     return (
         <div className="auth-container">
-            <div className="auth-form">
+           
+            <div className="auth-navbar" style={{
+                width: '100%',
+                padding: '15px 30px',
+                display: 'flex',
+                justify: 'space-between',
+                alignItems: 'center',
+                position: 'absolute',
+                top: 0,
+                left: 0
+            }}>
+                <h2 style={{ margin: 0, fontSize: '20px', color: '#a0522d', fontWeight: 'bold' }}>
+                    Dastr-Khwan
+                </h2>
+                <Link to="/" style={{ textDecoration: 'none', color: '#a0522d', fontWeight: '600', fontSize: '14px' }}>
+                    ← Back to Login
+                </Link>
+            </div>
+
+            <div className="auth-form" style={{ marginTop: '60px' }}>
                 <h2>Forgot Password</h2>
                 
                 {step === 1 ? (
                     <div>
-                        <p style={{marginBottom: '15px', color: '#666', fontSize: '14px'}}>
+                        <p style={{ marginBottom: '15px', color: '#666', fontSize: '14px' }}>
                             Enter email to get OTP
                         </p>
                         <div className="input-group">
                             <label>Email Address</label>
                             <input 
-    type="email" 
-    placeholder="Enter email" 
-    value={email}
-    onChange={(e) => setEmail(e.target.value)}
-    required 
-/>
+                                type="email" 
+                                placeholder="Enter email" 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required 
+                            />
                         </div>
-                        <button onClick={sendOTP} className="auth-btn">
-                            SEND OTP
+                        <button onClick={sendOTP} className="auth-btn" disabled={loading}>
+                            {loading ? 'SENDING...' : 'SEND OTP'}
                         </button>
                     </div>
                 ) : (
                     <div>
-                        <p style={{marginBottom: '15px', color: '#666', fontSize: '14px'}}>
+                        <p style={{ marginBottom: '15px', color: '#666', fontSize: '14px' }}>
                             OTP has been sent to your email
                         </p>
                         <div className="input-group">
@@ -139,7 +158,7 @@ const resetPassword = async () => {
                             />
                         </div>
                         <button onClick={resetPassword} className="auth-btn" disabled={loading}>
-                            {loading ? 'Resetting...' : 'RESET PASSWORD'}
+                            {loading ? 'RESETTING...' : 'RESET PASSWORD'}
                         </button>
                     </div>
                 )}
